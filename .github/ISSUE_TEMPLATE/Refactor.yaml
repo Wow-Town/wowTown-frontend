@@ -1,5 +1,5 @@
 name: Refactor
-description: 빌드 프로세스 등 기타 유틸리티의 변경을 정의합니다.
+description: 리팩터링할 기능 정의합니다.
 labels: [refactor]
 body:
   - type: textarea
