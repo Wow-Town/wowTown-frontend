@@ -4,7 +4,6 @@ import Button from '../components/Button';
 import './Join.css';
 import React, {useState} from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
 import {Link} from 'react-router-dom';
 export default function Join(){
     const[email,setEmail]=useState("");
@@ -18,27 +17,34 @@ export default function Join(){
     const[checkPasswordError,setCheckPasswordError]=useState(false);
 
     function onEmailHandler(e){
-        if( !e.target.value){ setEmailError(true);
-        }else{ setEmailError(true); }
+        if( e.target.value.length ===0 ){ setEmailError(true);
+        }else{ setEmailError(false); }
         setEmail(e.target.value); 
         console.log(email);
     }
 
     function onNameHandler(e){
+        
+        if(!e.target.value){setNameError(true);}
+        else{ setNameError(false); }
         setName(e.target.value);
-        if(name ===""){setNameError(true);}
     }
 
     function onPasswordHandler(e){
-        setPassword(e.target.value);
-        if(8>password.length && password.length > 15){
+        
+        if(8 > e.target.value.length || e.target.value.length > 15){
             setPasswordError(true);
+        }else{
+            setPasswordError(false);
         }
+        setPassword(e.target.value);
     }
 
     function onCheckPasswordHandler(e){
+        
+        if(password.length !==0 && e.target.value !== password ){ setCheckPasswordError(true); }
+        else{ setCheckPasswordError(false);}
         setCheckPassword(e.target.value);
-        if(password !== checkpassword){ setCheckPasswordError(true); }
     }
 
     function onAgreeingHandler(e){
@@ -47,15 +53,27 @@ export default function Join(){
 
     function checkJoinFormValidation(){
         //error false이고 agreeing 은 true면 true 리턴 
-  
+        if(!emailError && !nameError && !passwordError && !checkPasswordError && agreeing
+            && email.length !==0 && name.length !==0 && passwordError.length !==0 && checkPasswordError.length !==0){
+            
+            return true;
+        }else{
+            return false;
+        }
     }
 
     function onSubmit(e){
         e.preventDefault(); 
-       
+        if(checkJoinFormValidation()){
         // vali 조건에 맞으면 
         // 이메일 조건에 맞으면 
         // 유저정보 저장
+            console.log("제출조건 맞음")
+        }else{
+            alert("형식에 맞게 입력해주세요");
+        }
+       
+        
     }
     
 
@@ -65,17 +83,17 @@ export default function Join(){
         <form className="loginForm" onSubmit={onSubmit}>
             <InputInfo label="이메일 주소" inputType="email" value={email} onChange={onEmailHandler}/>
             {
-                emailError && email===""? <div className="errorMessage">이메일을 입력해주세요.</div> : <div className="errorMessage"/>    
+                emailError && email.length===0? <div className="errorMessage">이메일을 입력해주세요.</div> : <div className="errorMessage"/>    
             }
             <InputInfo label="이름" inputType="text" value={name} onChange={onNameHandler} maxLength='10' />
             {
-                nameError && name===""? <div className="errorMessage">이름을 입력해주세요.</div> : <div className="errorMessage"/>    
+                nameError &&name.length ===0 ? <div className="errorMessage">이름을 입력해주세요.</div> : <div className="errorMessage"/>    
             }
             
             <InputInfo label="비밀번호(8~15자)" inputType="password" value={password} onChange={onPasswordHandler} maxLength='15' />
             {
-               passwordError && password !== ""
-               ? <div className="errorMessage">비밀번호를 입력하세요</div>
+               passwordError && password.length===0
+               ? <div className="errorMessage">비밀번호를 입력하세요.</div>
                : ( passwordError && password.length<8
                 ?<div className="errorMessage">비밀번호를 8~15자로 입력해주세요.</div>
                 :<div className="errorMessage"/>

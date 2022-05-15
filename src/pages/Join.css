@@ -52,11 +52,19 @@ h2 {
     font-size: 16px;
     font-weight: 600;
     line-height: 18.75px;
-    width:265px;
+    width:280px;
     padding-left: 83px;
     padding-bottom:50px;
     accent-color: black;
 }
+
+input[type=checkbox] {
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    padding: 10px;
+    margin-right: 10px;
+ 
+    }
+    
 .a {
     font-size: 16px;
     font-weight: 600;

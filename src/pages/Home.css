@@ -1,0 +1,12 @@
+.contentsFrame{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.buttonFrame{
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+}
+

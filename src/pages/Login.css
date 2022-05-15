@@ -54,6 +54,7 @@ a {
     line-height: 18.75px;
     width:70px;
     color:#F98B00;
+    text-decoration: none;
 
 }
 
@@ -63,4 +64,14 @@ a {
     justify-content: flex-end;
     padding-right: 83px;
     padding-top: 30px;
+}
+
+.errorMessage{
+    padding-left: 83px;
+    height: 42px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 500px;
+    line-height:20px; 
+    color: red;
 }
