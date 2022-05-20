@@ -1,0 +1,96 @@
+
+
+.contentsFrame{
+    display:flex;
+    flex-direction: column;
+    height:100%;
+    width:670px;
+    
+}
+
+.contentsHeader{
+    padding-top: 10%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;   
+    
+
+}
+
+.loginForm{
+    display:flex;
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+
+h2 {
+    font-style:normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 20px;
+    width:670px;
+    text-align: left;
+    padding-left: 83px;
+    padding-bottom: 64px;
+}
+.noAccount {
+    display:flex;
+    flex-direction: row;  
+    text-align: left;
+    padding-left: 83px;
+}
+.questionNoAccount {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    width:180px;
+    padding-right: 13px;
+
+}
+.agreeCheckBox{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    width:280px;
+    padding-left: 83px;
+    padding-bottom:50px;
+    accent-color: black;
+}
+
+input[type=checkbox] {
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    padding: 10px;
+    margin-right: 10px;
+ 
+    }
+    
+.a {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    width:70px;
+    color:#F98B00;
+    text-decoration: none;
+    margin: 0px 0px 0px 0px;
+    
+
+}
+
+.buttonLogin{
+    display:flex;
+    flex-direction: row; 
+    justify-content: flex-end;
+    padding-right: 83px;
+    padding-top: 30px;
+}
+
+.errorMessage{
+    padding-left: 83px;
+    height: 42px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 500px;
+    line-height:20px; 
+    color: red;
+}
