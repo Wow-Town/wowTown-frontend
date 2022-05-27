@@ -11,6 +11,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/users/signup" element={<Join/>} />
         <Route path="/users/login" element={<Login/>} />
+        <Route path="/channellist" element={<ChannelList/>} />
       </Routes>
     </BrowserRouter>
   );

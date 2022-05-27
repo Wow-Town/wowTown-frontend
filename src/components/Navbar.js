@@ -1,8 +1,8 @@
 
-// export default Navbar(){
-//     return(
-//         <div>
-//             <
-//         </div>
-//     );
-// }
+export default Navbar(){
+    return(
+        <nav>
+        
+        </nav>
+    );
+}
