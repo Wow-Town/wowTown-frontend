@@ -3,7 +3,7 @@ import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
 import './Join.css';
 import React, {useState} from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import {Link} from 'react-router-dom';
 export default function Join(){
     const[email,setEmail]=useState("");
@@ -101,7 +101,7 @@ export default function Join(){
             }
             <InputInfo label="비밀번호 확인" inputType="password" value={checkpassword} onChange={onCheckPasswordHandler} maxLength='15'/>
             {
-                checkPasswordError && checkpassword =="" && password !==""? <div className="errorMessage">비밀번호 확인을 입력해주세요.</div> 
+                checkPasswordError && checkpassword ==="" && password !==""? <div className="errorMessage">비밀번호 확인을 입력해주세요.</div> 
                 : ( password !== checkpassword && checkpassword !==""
                     ?<div className="errorMessage">비밀번호와 비밀번호 확인이 일치하지 않습니다.</div>
                     :<div className="errorMessage"/>
