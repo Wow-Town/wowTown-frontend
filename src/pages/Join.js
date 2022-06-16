@@ -1,10 +1,11 @@
 import Header from '../components/Header';
 import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
+import Popup from '../components/Popup';
 import './Join.css';
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Link, useNavigate } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export default function Join(){
     const[email,setEmail]=useState("");
@@ -16,7 +17,7 @@ export default function Join(){
     const[nameError,setNameError]=useState(false);
     const[passwordError,setPasswordError]=useState(false);
     const[checkPasswordError,setCheckPasswordError]=useState(false);
-    const {replace} =useNavigate();
+    const[popup,setPopup] =  useState({open: false, title: "", message: "", callback: false});
     function onEmailHandler(e){
         if( e.target.value.length ===0 ){ setEmailError(true);
         }else{ setEmailError(false); }
@@ -80,14 +81,22 @@ export default function Join(){
                 console.log("post완료");
                 console.log(response);
                 localStorage.setItem('token',response.data.jwt);
-                //replace("/");
+                setPopup({
+                    open: true,
+                    title: "회원가입 완료",
+                    message: "로그인창으로 이동합니다"
+                });
                 
 
             }).catch(function(error){
                 console.log(error);
             });
         }else{
-            alert("형식에 맞게 입력해주세요");
+            setPopup({
+                open: true,
+                title: "회원가입 실패",
+                message: "형식에 맞게 입력해주세요",
+            });
         }
        
         
@@ -96,6 +105,7 @@ export default function Join(){
 
     return(
         <div className="contentsFrame">
+              <Popup open = {popup.open} setPopup = {setPopup} message = {popup.message} title = {popup.title} callback = {popup.callback}/>
         <Header text="와우타운에 오신 것을 환영합니다."/>
         <form className="loginForm" onSubmit={onSubmit}>
             <InputInfo label="이메일 주소" inputType="email" value={email} onChange={onEmailHandler}/>
