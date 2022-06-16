@@ -65,7 +65,7 @@ function Login(){
                }
                 <div className="noAccount">
                     <div className="questionNoAccount"> 아직 계정이 없으신가요?</div>
-                    <Link to='/users/signup'>
+                    <Link to='/signup'>
                         <h3 className="a">회원가입</h3>
                     </Link>    
                 </div>

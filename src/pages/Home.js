@@ -11,7 +11,7 @@ export default function Home(){
         <div className="contentsFrame">
             <Header text="와우타운 시작하기 "/>
             <div className="buttonFrame">
-                <Link to='/users/signup'>
+                <Link to='/signup'>
                  <Button  buttonText="시작하기"/>
                 </Link>
             </div>

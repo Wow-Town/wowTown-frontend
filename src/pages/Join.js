@@ -4,7 +4,8 @@ import Button from '../components/Button';
 import './Join.css';
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
+
 export default function Join(){
     const[email,setEmail]=useState("");
     const[name,setName]=useState("");
@@ -15,12 +16,11 @@ export default function Join(){
     const[nameError,setNameError]=useState(false);
     const[passwordError,setPasswordError]=useState(false);
     const[checkPasswordError,setCheckPasswordError]=useState(false);
-
+    const {replace} =useNavigate();
     function onEmailHandler(e){
         if( e.target.value.length ===0 ){ setEmailError(true);
         }else{ setEmailError(false); }
         setEmail(e.target.value); 
-        console.log(email);
     }
 
     function onNameHandler(e){
@@ -62,6 +62,8 @@ export default function Join(){
         }
     }
 
+
+
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
@@ -69,6 +71,21 @@ export default function Join(){
         // 이메일 조건에 맞으면 
         // 유저정보 저장
             console.log("제출조건 맞음")
+            axios.post('http://13.209.5.41:81/signUp',{
+                "email": email,
+                "userName": name,
+                "password": password,
+            })
+            .then( (response)=>{
+                console.log("post완료");
+                console.log(response);
+                localStorage.setItem('token',response.data.jwt);
+                //replace("/");
+                
+
+            }).catch(function(error){
+                console.log(error);
+            });
         }else{
             alert("형식에 맞게 입력해주세요");
         }
@@ -101,7 +118,7 @@ export default function Join(){
             }
             <InputInfo label="비밀번호 확인" inputType="password" value={checkpassword} onChange={onCheckPasswordHandler} maxLength='15'/>
             {
-                checkPasswordError && checkpassword =="" && password !==""? <div className="errorMessage">비밀번호 확인을 입력해주세요.</div> 
+                checkPasswordError && checkpassword ==="" && password !==""? <div className="errorMessage">비밀번호 확인을 입력해주세요.</div> 
                 : ( password !== checkpassword && checkpassword !==""
                     ?<div className="errorMessage">비밀번호와 비밀번호 확인이 일치하지 않습니다.</div>
                     :<div className="errorMessage"/>
@@ -112,7 +129,7 @@ export default function Join(){
             </div>
             <div className="noAccount">
                 <div className="questionNoAccount"> 이미 계정이 있으신가요?</div>
-                <Link to='/users/login'>
+                <Link to='/login'>
                 <h3 className="a">로그인</h3>
                 </Link>
             </div>
