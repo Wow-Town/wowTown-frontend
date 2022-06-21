@@ -7,10 +7,11 @@
     height: 51px;
     align-items: center;
     padding: 16px 25px;
-
+    font-style:normal;
     font-weight: 600;
     font-size: 16px;
     line-height: 19px;
     color: #FFFFFF;
     padding: 0px 0px 0px 0px;
+    cursor: pointer;
 }
