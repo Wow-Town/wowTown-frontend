@@ -1,5 +1,6 @@
 
 import InputInfo from '../components/InputInfo';
+import Button from '../components/Button';
 import Header from '../components/Header';
 import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
