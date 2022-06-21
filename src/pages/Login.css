@@ -48,13 +48,14 @@ h2 {
     padding-right: 13px;
 
 }
-a {
+.a {
     font-size: 16px;
     font-weight: 600;
     line-height: 18.75px;
     width:70px;
     color:#F98B00;
     text-decoration: none;
+    margin: 0px 0px 0px 0px;
 
 }
 

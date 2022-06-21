@@ -1,6 +1,6 @@
  html{
   height:100vh;
-
+  max-height: fit-content;
 }
 body{
   height:100vh;
