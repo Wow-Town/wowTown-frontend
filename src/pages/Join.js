@@ -85,8 +85,6 @@ export default function Join(){
                 "password": password,
             })
             .then( (response)=>{
-                console.log("post완료");
-                console.log(response);
                 localStorage.setItem('token',response.data.jwt);
                 setOpenModal(true);
                 setModalMessage({
@@ -99,6 +97,11 @@ export default function Join(){
 
             }).catch(function(error){
                 console.log(error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "오류 발생",
+                    "contentsText" : "다시 시도해주세요",
+                })
             });
         }else{
             setOpenModal(true);
