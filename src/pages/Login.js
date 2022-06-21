@@ -13,7 +13,6 @@ function Login(){
     const[password,setPassword]= useState();
     const[emailError,setEmailError]=useState(false);
     const[passwordError,setPasswordError]=useState(false);
-    const[popup,setPopup] =  useState({open: false, title: "", message: "", callback: false});
     const[openModal,setOpenModal] =  useState(false);
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
