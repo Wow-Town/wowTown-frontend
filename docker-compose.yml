@@ -5,5 +5,5 @@ services:
     image: devconf5296/wowtown_frontend:0.1
     ports:
       - 80:80
-    working_dir: /deploy/wowtown
+    working_dir: /deploy
     restart: always
