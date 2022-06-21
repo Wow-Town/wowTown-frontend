@@ -53,9 +53,11 @@ const Nav =styled.li`
     text-align: center;
     margin-left : 5px;
     margin-right : 5px;
+
     &:hover{
         background-color: #777777;
     }
+
 `;
 
 const A =styled.a`
