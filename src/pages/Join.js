@@ -1,10 +1,12 @@
 import Header from '../components/Header';
 import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
+import Modal from '../components/Modal';
 import './Join.css';
 import React, {useState} from 'react';
-//import axios from 'axios';
-import {Link} from 'react-router-dom';
+import axios from 'axios';
+import {useNavigate, Link} from 'react-router-dom';
+
 export default function Join(){
     const[email,setEmail]=useState("");
     const[name,setName]=useState("");
@@ -15,12 +17,18 @@ export default function Join(){
     const[nameError,setNameError]=useState(false);
     const[passwordError,setPasswordError]=useState(false);
     const[checkPasswordError,setCheckPasswordError]=useState(false);
-
+    const[openModal,setOpenModal] =  useState(false);
+    const navigate=useNavigate();
+    const[modalMessage, setModalMessage]=useState({
+        titleText: "",
+        contentsText : "",
+        callback: function(){
+        }
+    })
     function onEmailHandler(e){
         if( e.target.value.length ===0 ){ setEmailError(true);
         }else{ setEmailError(false); }
         setEmail(e.target.value); 
-        console.log(email);
     }
 
     function onNameHandler(e){
@@ -62,6 +70,8 @@ export default function Join(){
         }
     }
 
+
+
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
@@ -69,8 +79,37 @@ export default function Join(){
         // 이메일 조건에 맞으면 
         // 유저정보 저장
             console.log("제출조건 맞음")
+            axios.post('http://13.209.5.41:81/signUp',{
+                "email": email,
+                "userName": name,
+                "password": password,
+            })
+            .then( (response)=>{
+                localStorage.setItem('token',response.data.jwt);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "회원가입 성공",
+                    "contentsText" : "로그인창으로 이동합니다",
+                    callback: function(){
+                        navigate("/login");
+                    }
+                })
+
+            }).catch(function(error){
+                console.log(error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "오류 발생",
+                    "contentsText" : "다시 시도해주세요",
+                })
+            });
         }else{
-            alert("형식에 맞게 입력해주세요");
+            setOpenModal(true);
+            setModalMessage({
+                "titleText": "조건에 맞게 입력해주세요",
+                "contentsText" : " "
+            })
+           
         }
        
         
@@ -79,7 +118,8 @@ export default function Join(){
 
     return(
         <div className="contentsFrame">
-        <Header text="와우타운에 오신 것을 환영합니다."/>
+            {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
+            <Header text="와우타운에 회원가입합니다."/>
         <form className="loginForm" onSubmit={onSubmit}>
             <InputInfo label="이메일 주소" inputType="email" value={email} onChange={onEmailHandler}/>
             {
@@ -112,7 +152,7 @@ export default function Join(){
             </div>
             <div className="noAccount">
                 <div className="questionNoAccount"> 이미 계정이 있으신가요?</div>
-                <Link to='/users/login'>
+                <Link to='/login'>
                 <h3 className="a">로그인</h3>
                 </Link>
             </div>

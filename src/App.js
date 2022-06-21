@@ -13,8 +13,6 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/signup" element={<Join/>} />
         <Route path="/login" element={<Login/>} />
-        
-  
       </Routes>
       
     </BrowserRouter>

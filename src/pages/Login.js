@@ -4,23 +4,32 @@ import Button from '../components/Button';
 import Header from '../components/Header';
 import {Link} from 'react-router-dom';
 import React, {useState} from 'react';
+import Modal from '../components/Modal';
 import './Login.css';
+import axios from 'axios';
+
 function Login(){
     const[email,setEmail] =useState();
     const[password,setPassword]= useState();
     const[emailError,setEmailError]=useState(false);
     const[passwordError,setPasswordError]=useState(false);
-
+    const[popup,setPopup] =  useState({open: false, title: "", message: "", callback: false});
+    const[openModal,setOpenModal] =  useState(false);
+    const[modalMessage, setModalMessage]=useState({
+        titleText: "",
+        contentsText : "",
+        callback: function(){
+        }
+    })
     function onEmailHandler(e){
         if( e.target.value.length ===0 ){ setEmailError(true);
         }else{ setEmailError(false); }
         setEmail(e.target.value); 
-        console.log(email);
     }
 
     function onPasswordHandler(e){
         
-        if( e.target.value.length ===0){
+        if(8 > e.target.value.length ){
             setPasswordError(true);
         }else{
             setPasswordError(false);
@@ -30,8 +39,7 @@ function Login(){
 
     function checkLoginFormValidation(){
         //error false이고 agreeing 은 true면 true 리턴 
-        if(!emailError && !passwordError && email.length !==0 && password.length !==0 ){
-            
+        if(!emailError && !passwordError && email && password){
             return true;
         }else{
             return false;
@@ -43,13 +51,42 @@ function Login(){
         //해당 이메일 비번이 존재하면
         //다음 페이지로
             console.log("제출조건 맞음")
+            axios.post('http://13.209.5.41:81/login',{
+                "email" : email,
+                "password" : password,
+            })
+            .then( (response) => {
+                console.log(response);
+                setOpenModal(true);
+                localStorage.setItem('token',response.data.jwt);
+                setModalMessage({
+                    "titleText": "로그인 성공",
+                    "contentsText" : "다음 창으로 이동합니다",
+                    
+                })
+
+            }).catch(function(error){
+                console.log(error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "해당 이메일,비밀번호가 존재하지 않습니다",
+                    "contentsText" : "다시 시도해주세요",
+                })
+            });
         }else{
-            alert("정확한 로그인 정보를 입력해주세요.");
+            setOpenModal(true);
+            setModalMessage({
+                "titleText": "조건에 맞게 입력해주세요",
+                "contentsText" : "",
+                
+            });
         }
 
     }
     return(
         <div className="contentsFrame">
+             {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
+         
             <Header text="와우타운 계정에 로그인합니다."/>
             <form className="loginForm" onSubmit={onSubmit} >
                 <InputInfo label="이메일 주소"inputType="email" onChange={onEmailHandler} />
@@ -60,12 +97,14 @@ function Login(){
                 {
                passwordError && password.length===0
                ? <div className="errorMessage">비밀번호를 입력하세요.</div>
-               : <div className="errorMessage"/>
-                 
+               :  ( passwordError && password.length<8
+                ?<div className="errorMessage">비밀번호를 8~15자로 입력해주세요.</div>
+                :<div className="errorMessage"/>
+               )  
                }
                 <div className="noAccount">
                     <div className="questionNoAccount"> 아직 계정이 없으신가요?</div>
-                    <Link to='/users/signup'>
+                    <Link to='/signup'>
                         <h3 className="a">회원가입</h3>
                     </Link>    
                 </div>
