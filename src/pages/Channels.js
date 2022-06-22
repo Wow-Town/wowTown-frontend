@@ -4,17 +4,18 @@ import styled from "styled-components";
 import { useEffect ,useState } from "react";
 import axios from 'axios';
 
-export default function Channels(){
+export default function Channels({config}){
     const[channelList,setChannelList]=useState([
         {
-            "channelId" : 1,
-            "channelName" : "채널1",
-            "maxJoinNum" : 100,
+            channelId : 1,
+            channelName : "채널1",
+            maxJoinNum : 100,
             currentJoinNum : 10,
           }
     ]);
     // useEffect(() => {
-    //     axios.get("https://jsonplaceholder.typicode.com/posts")
+    //     console.log(channelList);
+    //     axios.get("http://13.209.5.41:81/channels",config)
     //         .then(response => {
     //             console.log(response.data);
     //             setChannelList(response.data);
