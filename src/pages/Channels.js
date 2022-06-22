@@ -13,14 +13,7 @@ export default function Channels({config}){
             currentJoinNum : 10,
           }
     ]);
-    // useEffect(() => {
-    //     console.log(channelList);
-    //     axios.get("http://13.209.5.41:81/channels",config)
-    //         .then(response => {
-    //             console.log(response.data);
-    //             setChannelList(response.data);
-    //         });
-    // }, []);
+   
     return(
         <ContentsFrame>
             <Header text="입장할 채널을 고르세요"/>
