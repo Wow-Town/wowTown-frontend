@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export default function Modal({closeModal, modalMessage}) {
     const handleClose = () => {
       closeModal(false);
