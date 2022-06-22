@@ -1,8 +1,13 @@
 import './Button.css';
-export default function Button({buttonText}){
+export default function Button({buttonText, callback}){
+    const onClick = () => {
+        if(callback){
+          callback();
+        }
+      }
     return(
         <div>
-            <button className="button">{buttonText}</button>
+            <button onClick={onClick} className="button">{buttonText}</button>
         </div>
     );
 

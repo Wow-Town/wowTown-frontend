@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import styled from "styled-components";
 import { useEffect ,useState } from "react";
 import axios from 'axios';
-import {useNavigate, Link} from 'react-router-dom';
 
 export default function Channels(){
     const[channelList,setChannelList]=useState([
@@ -11,11 +10,11 @@ export default function Channels(){
             "channelId" : 1,
             "channelName" : "채널1",
             "maxJoinNum" : 100,
-            "currentJoinNum" : 10,
+            currentJoinNum : 10,
           }
     ]);
     // useEffect(() => {
-    //     axios.get('http://13.209.5.41:81/channels')
+    //     axios.get("https://jsonplaceholder.typicode.com/posts")
     //         .then(response => {
     //             console.log(response.data);
     //             setChannelList(response.data);

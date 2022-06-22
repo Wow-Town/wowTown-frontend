@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import Button from "./Button";
-
+import {useNavigate} from 'react-router-dom';
 
 export default function Channel({channelList}){
+    const navigate=useNavigate();
+
+    function onClick(){
+        navigate("/charactersetting");
+    }
     return(
         <DivChannelList>
            {channelList.map( channel =>{
@@ -10,10 +15,10 @@ export default function Channel({channelList}){
                 <ChannelFrame key={channel.channelId}>
                 <DivChannel>
                 <InfoChannel>
-                    채널1
-                    <div>00/20명</div>
+                    {channel.channelName}
+                    <InfoJoinNum>{channel.currentJoinNum}/{channel.maxJoinNum}명</InfoJoinNum>
                 </InfoChannel>
-                <Button buttonText="입장"/>
+                <Button callback={onClick} buttonText="입장"/>
                 </DivChannel>
                 </ChannelFrame>
             )
@@ -52,9 +57,11 @@ const InfoChannel=styled.span`
     flex-direction: column; 
     width: 100px;
     padding-right:170px;
-    font-size:16px;
+    font-size:18px;
     
 `
 
-
+const InfoJoinNum=styled.div`
+font-size:14px;
+`
 
