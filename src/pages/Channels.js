@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import Channel from "../components/Channel";
 import Header from "../components/Header";
 import styled from "styled-components";
