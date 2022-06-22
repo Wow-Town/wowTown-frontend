@@ -2,13 +2,13 @@
 import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
 import Header from '../components/Header';
-import { useNavigate, Link} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import Modal from '../components/Modal';
 import './Login.css';
 import axios from 'axios';
 
-function Login(){
+export default function Login(){
     const[email,setEmail] =useState();
     const[password,setPassword]= useState();
     const[emailError,setEmailError]=useState(false);
@@ -118,4 +118,3 @@ function Login(){
     </div>);
 }
 
-export default Login;
