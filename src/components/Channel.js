@@ -6,7 +6,7 @@ export default function Channel({channelList}){
     const navigate=useNavigate();
 
     function onClick(){
-        navigate("/charactersetting");
+        navigate("/charactersettings");
     }
     return(
         <DivChannelList>

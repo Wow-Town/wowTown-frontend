@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Join from './pages/Join';
 import Home from './pages/Home';
 import Channels from './pages/Channels';
+import CharacterSettings from './pages/CharacterSettings';
 import { BrowserRouter , Routes, Route } from "react-router-dom";
 
 function App() {
@@ -13,8 +14,8 @@ function App() {
         <Route path="/signup" element={<Join/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/channels" element={<Channels/>} />
-        {/* <Route path="/characterSettings" element={<CharacterSettings/>} />
-       */}
+        <Route path="/characterSettings" element={<CharacterSettings/>} />
+      
       </Routes>
       
     </BrowserRouter>
