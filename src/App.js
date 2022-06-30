@@ -5,9 +5,17 @@ import Home from './pages/Home';
 import Channels from './pages/Channels';
 import CharacterSettings from './pages/CharacterSettings';
 import { BrowserRouter , Routes, Route } from "react-router-dom";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 function App() {
   return (
+    <RecoilRoot>
    <BrowserRouter >
       <Routes>
         <Route index element={<Home/>} />
@@ -19,6 +27,7 @@ function App() {
       </Routes>
       
     </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

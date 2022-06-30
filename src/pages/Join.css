@@ -3,7 +3,7 @@
 .contentsFrame{
     display:flex;
     flex-direction: column;
-    height:100%;
+    height:90%;
     width:670px;
     
 }
@@ -87,7 +87,7 @@ input[type=checkbox] {
 
 .errorMessage{
     padding-left: 83px;
-    height: 42px;
+    height: 32px;
     font-size: 16px;
     font-weight: 700;
     width: 500px;

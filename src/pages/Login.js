@@ -7,6 +7,8 @@ import React, {useState} from 'react';
 import Modal from '../components/Modal';
 import './Login.css';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { LoginState } from '../utils/LoginState';
 
 function Login(){
     const[email,setEmail] =useState();
@@ -15,7 +17,9 @@ function Login(){
     const[passwordError,setPasswordError]=useState(false);
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
-  
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+    
+
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
         contentsText : "",
@@ -51,22 +55,20 @@ function Login(){
         if(checkLoginFormValidation()){
         //해당 이메일 비번이 존재하면
         //다음 페이지로
-            console.log("제출조건 맞음")
             axios.post('http://13.209.5.41:81/login',{
                 "email" : email,
                 "password" : password,
             })
             .then( (response) => {
+                const { accessToken } = response.data;
+
                 console.log(response);
-                setOpenModal(true);
-                localStorage.setItem('token',response.data.jwt);
-                setModalMessage({
-                    "titleText": "로그인 성공",
-                    "contentsText" : "다음 창으로 이동합니다",
-                    callback: function(){
-                        navigate("/channels");
-                    }
-                })
+                axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                if (accessToken) localStorage.setItem('accessToken',  accessToken );
+                if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
+                
+
+                navigate("/channels");
 
             }).catch(function(error){
                 console.log(error);
