@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "./Button.js";
 import {useNavigate} from 'react-router-dom';
 
 export default function Channel({channelList}){
     const navigate=useNavigate();
 
     function onClick(){
-        navigate("/charactersetting");
+        navigate("/charactersettings");
     }
     return(
         <DivChannelList>
