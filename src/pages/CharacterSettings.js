@@ -13,10 +13,10 @@ export default function CharacterSettings(){
         "UnrealEngine", "Unity", "Kubernetes", "Docker"
     ]
     const[nickname,setNickname]=useState("");
-    const[introduction,setIntroduction]=useState("");
+    //const[introduction,setIntroduction]=useState("");
     const[nicknameError,setNicknameError]=useState(false);
-    const[introductionError,setIntroductionError]=useState(false);
-    const[interestAreas,setInterestAreas]=useState();
+    //const[introductionError,setIntroductionError]=useState(false);
+    //const[interestAreas,setInterestAreas]=useState();
     function onNicknameHandler(e){
         if(!e.target.value){setNicknameError(true);}
         else{ setNicknameError(false); }

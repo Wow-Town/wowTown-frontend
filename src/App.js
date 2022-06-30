@@ -6,11 +6,7 @@ import Channels from './pages/Channels';
 import CharacterSettings from './pages/CharacterSettings';
 import { BrowserRouter , Routes, Route } from "react-router-dom";
 import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
+  RecoilRoot
 } from 'recoil';
 
 function App() {

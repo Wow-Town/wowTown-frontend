@@ -1,4 +1,4 @@
-
+/* eslint-disable no-unused-vars */
 import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
 import Header from '../components/Header';
@@ -19,7 +19,6 @@ export default function Login(){
     const navigate=useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
     
-
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
         contentsText : "",
