@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import Button from "./Button.js";
 import {useNavigate} from 'react-router-dom';

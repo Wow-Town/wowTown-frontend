@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './Button.css';
 export default function Button({buttonText, callback}){
     const onClick = () => {
