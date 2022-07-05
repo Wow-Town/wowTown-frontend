@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-
 import './CharacterSettings.css';
 import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import Area from '../components/Area';
+import Modal from '../components/Modal';
 import React, {useState} from 'react';
 
 export default function CharacterSettings(){
@@ -19,6 +19,13 @@ export default function CharacterSettings(){
     const[nicknameError,setNicknameError]=useState(false);
     const[introductionError,setIntroductionError]=useState(false);
     const[interestList,setInterestList]=useState([]);
+    const[openModal,setOpenModal] =  useState(false);
+    const[modalMessage, setModalMessage]=useState({
+        titleText: "",
+        contentsText : "",
+        callback: function(){
+        }
+    })
     function onNicknameHandler(e){
         if(!e.target.value){setNicknameError(true);}
         else{ setNicknameError(false); }
@@ -37,48 +44,42 @@ export default function CharacterSettings(){
             console.log(interestList);
             }
         }
-        else if(interestList.length>=3){
-            console.log("3개까지만 선택 가능");
-            console.log(interestList);
-            
-
-        }
-        
-
     }
 
     function setData(areaName){
-        console.log(areaName);
         handleInterestList(areaName);
-
-        
     }
     function setDataRemove(areaIndex){
-      
         if(interestList.includes(areas[areaIndex])){
             setInterestList(interestList.filter( (item)=>{
                 return item !==areas[areaIndex];
             }))
+            console.log(interestList);
         }
-        console.log(areaIndex);
-
-
     }
     
     function checkJoinFormValidation(){
         //error false이고 agreeing 은 true면 true 리턴 
-       return false;
+       if(!nicknameError && !introductionError
+         && nickname.length !==0 && introduction.length !==0
+         && interestList.length ===3
+         ){
+        return true;
+       }else {
+        return false;
+       }
     }
 
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
-        // vali 조건에 맞으면 
-        // 이메일 조건에 맞으면 
-        // 유저정보 저장
-            console.log("제출조건 맞음")
+            console.log("제출조건 맞음");
         }else{
-            alert("형식에 맞게 입력해주세요");
+            setOpenModal(true);
+            setModalMessage({
+                "titleText": "조건에 맞게 입력해주세요",
+                "contentsText" : " "
+            });
         }
        
         
@@ -87,6 +88,8 @@ export default function CharacterSettings(){
     
     return (
         <div className="contentsFrame">
+             {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
+         
             <Header text="캐릭터 설정"/>
             <form onSubmit={onSubmit} >
                 <InputInfo label="닉네임"
@@ -112,10 +115,20 @@ export default function CharacterSettings(){
                 
                 <ul className="areasFrame">
                     {areas.map((area,index) =>{
-                        return <Area key={index} index={index} setData={setData} setDataRemove= {setDataRemove} area={area}/>;
+                        return <Area 
+                        key={index} 
+                        index={index} 
+                        setData={setData} 
+                        setDataRemove= {setDataRemove} 
+                        area={area}
+                        interestList = {interestList}
+                        />;
                     })}
                 </ul>
                 </div>
+                {
+                interestList.length !==3? <div className="errorMessage">관심사 3개를 선택해주세요.</div> : <div className="errorMessage"/>    
+                }
                 <div className="buttonLogin">
                 <Button  buttonText="설정"/>
                 

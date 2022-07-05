@@ -3,19 +3,19 @@
 import React, {useState} from 'react';
 
 
-export default function Area({area, setData,setDataRemove,index}){
+export default function Area({area, setData,setDataRemove,index,interestList}){
     const[isSelected,setIsSelected]=useState(false);
     
 
     function onAreaHandler(){
-        if( isSelected ===false){
+        if( isSelected ===false && interestList.length <3){
             setIsSelected(true);
             console.log(area, isSelected, index, "선택됨");
             setData(index);
             
             
             
-        }else{
+        }else if(isSelected ===true ){
             setIsSelected(false);
             console.log(area, isSelected, "취소함");
             setDataRemove(index);
@@ -29,6 +29,7 @@ export default function Area({area, setData,setDataRemove,index}){
            
         <li  key={area}
         onClick={onAreaHandler}
+        className={ isSelected && interestList.includes(area) ? "li_clicked" : "li_default"}
         ><span>{area}</span></li>
                 
     );
