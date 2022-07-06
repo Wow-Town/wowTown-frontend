@@ -7,7 +7,7 @@ export default function Channel({channelList}){
     const navigate=useNavigate();
 
     function onClick(){
-        navigate("/charactersettings");
+        navigate("/avatars");
     }
     return(
         <DivChannelList>
