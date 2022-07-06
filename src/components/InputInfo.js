@@ -6,7 +6,11 @@ export default function InputInfo({maxLength, label, inputType,value,onChange}){
     return(
         <div className="inputInfo">
             <label className="inputLabel">{label}</label>
-            <input className="inputFrame" type={inputType} defaultValue={value} onChange={onChange} maxLength={maxLength}></input>
+            <input className="inputFrame" 
+            type={inputType} 
+            defaultValue={value} 
+            onChange={onChange} 
+            maxLength={maxLength}></input>
         </div>
     );
 }

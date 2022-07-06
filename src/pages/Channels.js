@@ -10,27 +10,19 @@ import { LoginState } from '../utils/LoginState';
 
 export default function Channels(){
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
-    const[channelList,setChannelList]=useState([
-        {
-            channelId : 1,
-            channelName : "채널0",
-            maxJoinNum : 100,
-            currentJoinNum : 10,
-          }
-    ]);
-    useEffect(() => {
+    const[channelList,setChannelList]=useState([]);
 
+    useEffect(() => {
         axios.get("http://13.209.5.41:81/channels",{
             headers:{
                 'Authorization' : localStorage.getItem('accessToken'),
             }
-        })
-            .then(response => {
-                console.log(response.data);
+        }).then(response => {
                 setChannelList(response.data);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
             });
-    }, []);
+    },[]);
+
     return(
         <ContentsFrame>
             <Header text="입장할 채널을 고르세요"/>

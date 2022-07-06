@@ -6,7 +6,8 @@ import Header from '../components/Header';
 import Area from '../components/Area';
 import Modal from '../components/Modal';
 import React, {useState} from 'react';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 export default function CharacterSettings(){
     const areas=[
         "Backend", "Frontend",
@@ -20,6 +21,7 @@ export default function CharacterSettings(){
     const[introductionError,setIntroductionError]=useState(false);
     const[interestList,setInterestList]=useState([]);
     const[openModal,setOpenModal] =  useState(false);
+    const navigate=useNavigate();
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
         contentsText : "",
@@ -49,6 +51,7 @@ export default function CharacterSettings(){
     function setData(areaName){
         handleInterestList(areaName);
     }
+    
     function setDataRemove(areaIndex){
         if(interestList.includes(areas[areaIndex])){
             setInterestList(interestList.filter( (item)=>{
@@ -74,6 +77,21 @@ export default function CharacterSettings(){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
             console.log("제출조건 맞음");
+            axios.post('http://13.209.5.41:81/avatars?')
+            .then( (response) => {
+                console.log(response);
+                
+
+                navigate("/channels");
+
+            }).catch(function(error){
+                console.log(error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "해당 이메일,비밀번호가 존재하지 않습니다",
+                    "contentsText" : "다시 시도해주세요",
+                })
+            });
         }else{
             setOpenModal(true);
             setModalMessage({
@@ -127,7 +145,7 @@ export default function CharacterSettings(){
                 </ul>
                 </div>
                 {
-                interestList.length !==3? <div className="errorMessage">관심사 3개를 선택해주세요.</div> : <div className="errorMessage"/>    
+                interestList.length !==3 && interestList.length >0 ? <div className="errorMessage">관심사 3개를 선택해주세요.</div> : <div className="errorMessage"/>    
                 }
                 <div className="buttonLogin">
                 <Button  buttonText="설정"/>
