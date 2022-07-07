@@ -62,7 +62,7 @@ export default function Login(){
                 const { accessToken } = response.data;
 
                 console.log(response);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                axios.defaults.headers.common['Authorization'] = ` ${accessToken}`;
                 if (accessToken) localStorage.setItem('accessToken',  accessToken );
                 if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
                 

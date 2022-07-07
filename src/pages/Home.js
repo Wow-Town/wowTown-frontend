@@ -99,12 +99,12 @@ const ImagesFrame = styled.div`
 `
 const Img1 = styled.img`
     width:400px;
-    height:400px;
+    height:440px;
     padding-top:45px;
     position: relative;
     left: 63px;
     filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
-    border-radius: 5px;
+    border-radius:5px;
 `
 const Img2 = styled.img`
     width:400px;
