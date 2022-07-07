@@ -79,26 +79,24 @@ export default function CharacterSettings(){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
             console.log("제출조건 맞음");
-            axios.post('http://13.209.5.41:81/avatars',{
+            // axios.post('http://13.209.5.41:81/avatars',{
+            //         "nickName" : nickname,
+            //         "description" : introduction,
+            //         "interestList" : interestList,   
+            // })
+            // .then( (response) => {
                 
-                    "nickName" : nickname,
-                    "description" : introduction,
-                    "interestList" : interestList,
-                  
-            })
-            .then( (response) => {
-                
-                console.log(response);
+            //     console.log(response);
 
-            }).catch(function(error){
-                console.log(channelId);
-                console.log(error);
-                setOpenModal(true);
-                setModalMessage({
-                    "titleText": "다시 시도해주세요",
-                    "contentsText" : "",
-                })
-            });
+            // }).catch(function(error){
+            //     console.log(channelId);
+            //     console.log(error);
+            //     setOpenModal(true);
+            //     setModalMessage({
+            //         "titleText": "다시 시도해주세요",
+            //         "contentsText" : "",
+            //     })
+            // });
         }else{
             setOpenModal(true);
             setModalMessage({

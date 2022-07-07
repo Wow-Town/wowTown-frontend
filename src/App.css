@@ -10,7 +10,10 @@ body{
   margin: 0px 0px 0px 0px;
 } 
 
-/* #root{
+#root{
   height:100vh;
   min-height: 100%;
-}  */
+  width:100%;
+  display:flex;
+  justify-content: center;
+} 
