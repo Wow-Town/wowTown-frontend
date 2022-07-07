@@ -3,8 +3,13 @@
     padding: 0px 0px 0px 83px;
     margin: 0px 0px 0px 0px;
     width:250px;
-    line-height:28px;
+    line-height:30px;
     font-size:16px;
+    height: 60px;
     color:#BCBCBC;
 }
 
+h1{
+    margin-top:15px;
+    margin-bottom: 15px;
+}
