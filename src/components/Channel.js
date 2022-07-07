@@ -7,7 +7,7 @@ export default function Channel({channelList}){
     const navigate=useNavigate();
 
     function onClick(){
-        navigate("/charactersettings");
+        navigate("/avatars");
     }
     return(
         <DivChannelList>
@@ -49,6 +49,7 @@ const DivChannel=styled.div`
     border-radius: 10px;
     height:100px;
     width:510px;
+    margin-bottom: 10px;
     
     
 `

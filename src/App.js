@@ -18,7 +18,7 @@ function App() {
         <Route path="/signup" element={<Join/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/channels" element={<Channels/>} />
-        <Route path="/characterSettings" element={<CharacterSettings/>} />
+        <Route path="/avatars" element={<CharacterSettings/>} />
       
       </Routes>
       
