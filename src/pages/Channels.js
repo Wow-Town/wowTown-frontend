@@ -20,7 +20,7 @@ export default function Channels(){
         }).then(response => {
                 console.log(response);
                 setChannelList(response.data);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
+                axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
             });
     },[]);
 
