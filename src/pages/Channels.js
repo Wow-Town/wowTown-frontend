@@ -13,15 +13,16 @@ export default function Channels(){
     const[channelList,setChannelList]=useState([]);
 
     useEffect(() => {
-        axios.get("http://13.209.5.41:81/channels",{
+        axios.get('http://api.wowtown.co.kr:81/channels',{
             headers:{
                 'Authorization' : localStorage.getItem('accessToken'),
             }
         }).then(response => {
                 console.log(response);
                 setChannelList(response.data);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
-            });
+                axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
+
+        })
     },[]);
 
     return(

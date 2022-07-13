@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import Button from "./Button.js";
 import {useNavigate} from 'react-router-dom';
-
+import { useState } from "react";
 export default function Channel({channelList}){
     const navigate=useNavigate();
-
-    function onClick(){
-        navigate("/avatars");
+    const[chosenChannelId,setChosenChannelId]=useState();
+    function onClick(channelId){
+        console.log(channelId);
+        navigate("/avatars?channelId="+channelId);
     }
     return(
         <DivChannelList>
@@ -19,7 +21,7 @@ export default function Channel({channelList}){
                     {channel.channelName}
                     <InfoJoinNum>{channel.currentJoinNum}/{channel.maxJoinNum}명</InfoJoinNum>
                 </InfoChannel>
-                <Button callback={onClick} buttonText="입장"/>
+                <Button callback={() => {onClick(channel.channelId)}} buttonText="입장"/>
                 </DivChannel>
                 </ChannelFrame>
             )
