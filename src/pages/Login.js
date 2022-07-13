@@ -54,7 +54,7 @@ export default function Login(){
         if(checkLoginFormValidation()){
         //해당 이메일 비번이 존재하면
         //다음 페이지로
-            axios.post('http://13.209.5.41:81/login',{
+            axios.post('http://api.wowtown.co.kr:81/login',{
                 "email" : email,
                 "password" : password,
             })

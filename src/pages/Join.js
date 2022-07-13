@@ -79,7 +79,7 @@ export default function Join(){
         // 이메일 조건에 맞으면 
         // 유저정보 저장
             console.log("제출조건 맞음")
-            axios.post('http://13.209.5.41:81/signUp',{
+            axios.post('http://api.wowtown.co.kr:81/signUp',{
                 "email": email,
                 "userName": name,
                 "password": password,
