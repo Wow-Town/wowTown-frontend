@@ -17,7 +17,7 @@ export default function Login(){
     const[passwordError,setPasswordError]=useState(false);
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+    const[ ,setIsLoggedIn] = useRecoilState(LoginState);
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",

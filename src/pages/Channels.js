@@ -11,7 +11,7 @@ import { LoginState } from '../utils/LoginState';
 export default function Channels(){
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
     const[channelList,setChannelList]=useState([]);
-
+    
     useEffect(() => {
         axios.get('http://api.wowtown.co.kr:81/channels',{
             headers:{

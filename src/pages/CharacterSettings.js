@@ -8,6 +8,9 @@ import Modal from '../components/Modal';
 import React, {useState} from 'react';
 import axios from 'axios';
 import { useNavigate,useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { ChannelState } from "../utils/ChannelState.js";
+
 export default function CharacterSettings(){
     const areas=[
         "Backend", "Frontend",
@@ -22,6 +25,7 @@ export default function CharacterSettings(){
     const[interestList,setInterestList]=useState([]);
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
+    const[enteredChannelId, setEnteredChannelId] = useRecoilState(ChannelState);
     let {channelId} = useParams();
     
     const[modalMessage, setModalMessage]=useState({
@@ -79,24 +83,22 @@ export default function CharacterSettings(){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
             console.log("제출조건 맞음");
-            // axios.post('http://13.209.5.41:81/avatars?channelId='+,{
-            //         "nickName" : nickname,
-            //         "description" : introduction,
-            //         "interestList" : interestList,   
-            // })
-            // .then( (response) => {
-                
-            //     console.log(response);
+            console.log(enteredChannelId.channelId);
+            axios.post('http://api.wowtown.co.kr:81/avatars?channelId='+enteredChannelId.channelId,{
+                    "nickName" : nickname,
+                    "description" : introduction,
+                    "interestList" : interestList,   
+            }).then( (response) => {
+                console.log(response);
 
-            // }).catch(function(error){
-            //     console.log(channelId);
-            //     console.log(error);
-            //     setOpenModal(true);
-            //     setModalMessage({
-            //         "titleText": "다시 시도해주세요",
-            //         "contentsText" : "",
-            //     })
-            // });
+            }).catch(function(error){
+                console.log(error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "다시 시도해주세요",
+                    "contentsText" : "",
+                })
+            });
         }else{
             setOpenModal(true);
             setModalMessage({
