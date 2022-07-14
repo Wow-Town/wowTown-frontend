@@ -3,12 +3,14 @@
 import styled from "styled-components";
 import Button from "./Button.js";
 import {useNavigate} from 'react-router-dom';
-import { useState } from "react";
+import { useRecoilState } from 'recoil';
+import { ChannelState } from "../utils/ChannelState.js";
+
 export default function Channel({channelList}){
     const navigate=useNavigate();
-    const[chosenChannelId,setChosenChannelId]=useState();
+    const[ ,setEnteredChannelId] = useRecoilState( ChannelState);
     function onClick(channelId){
-        console.log(channelId);
+        setEnteredChannelId({channelId});
         navigate("/avatars?channelId="+channelId);
     }
     return(
