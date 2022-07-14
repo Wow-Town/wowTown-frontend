@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Header from '../components/Header';
 import InputInfo from '../components/InputInfo';
 import Button from '../components/Button';
@@ -85,7 +86,7 @@ export default function Join(){
                 "password": password,
             })
             .then( (response)=>{
-                localStorage.setItem('token',response.data.jwt);
+                //localStorage.setItem('token',response.data.jwt);
                 setOpenModal(true);
                 setModalMessage({
                     "titleText": "회원가입 성공",

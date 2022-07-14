@@ -16,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/channels" element={<Channels/>} />
         <Route path="/avatars" element={<CharacterSettings/>} />
+        {/* <Route path="/connectMetaverse" element={} /> */}
       
       </Routes>
       

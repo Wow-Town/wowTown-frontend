@@ -13,10 +13,11 @@ import { ChannelState } from "../utils/ChannelState.js";
 
 export default function CharacterSettings(){
     const areas=[
-        "Backend", "Frontend",
-        "React","Spring",
-        "Algorithm",
-        "Java", "Python", "CPP"
+        "BACKEND", "FRONTEND",
+        "CPP",
+        "REACT","SPRING",
+        "ALGORITHM",
+        "JAVA", "PYTHON"
     ]
     const[nickname,setNickname]=useState("");
     const[introduction,setIntroduction]=useState("");
@@ -87,9 +88,23 @@ export default function CharacterSettings(){
             axios.post('http://api.wowtown.co.kr:81/avatars?channelId='+enteredChannelId.channelId,{
                     "nickName" : nickname,
                     "description" : introduction,
-                    "interestList" : interestList,   
-            }).then( (response) => {
+                    "interestList" : interestList,  
+            },
+            {
+                headers:{
+                    'Authorization' : localStorage.getItem('accessToken'),
+                }
+            }
+            ).then( (response) => {
                 console.log(response);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "캐릭터 설정 성공",
+                    "contentsText" : "",
+                    callback: function(){
+                        navigate("/connectMetaverse");
+                    }
+                })
 
             }).catch(function(error){
                 console.log(error);
