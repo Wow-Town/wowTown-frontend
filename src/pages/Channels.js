@@ -18,7 +18,6 @@ export default function Channels(){
                 'Authorization' : localStorage.getItem('accessToken'),
             }
         }).then(response => {
-                console.log(response);
                 setChannelList(response.data);
                 axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
 

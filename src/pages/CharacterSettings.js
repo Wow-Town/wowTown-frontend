@@ -27,7 +27,7 @@ export default function CharacterSettings(){
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
     const[enteredChannelId, setEnteredChannelId] = useRecoilState(ChannelState);
-    let {channelId} = useParams();
+    // let {channelId} = useParams();
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
@@ -136,7 +136,8 @@ export default function CharacterSettings(){
                 inputType="text" 
                 placeholder="10자 이내"
                 onChange={onNicknameHandler} 
-                maxLength='10' />
+                maxLength='10' 
+                />
                 {
                 nicknameError && nickname.length ===0 ? <div className="errorMessage">닉네임을 입력해주세요.</div> : <div className="errorMessage"/>    
             }

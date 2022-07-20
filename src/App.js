@@ -4,6 +4,7 @@ import Join from './pages/Join';
 import Home from './pages/Home';
 import Channels from './pages/Channels';
 import CharacterSettings from './pages/CharacterSettings';
+import ConnectMetaverse from './pages/ConnectMetaverse';
 import { BrowserRouter , Routes, Route } from "react-router-dom";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/channels" element={<Channels/>} />
         <Route path="/avatars" element={<CharacterSettings/>} />
-        {/* <Route path="/connectMetaverse" element={} /> */}
+        <Route path="/connectMetaverse/*" element={<ConnectMetaverse/>} />
       
       </Routes>
       
