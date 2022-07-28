@@ -13,6 +13,9 @@ export default function connectMetaverse(){
     function onClick(){
         navigate('/connectMetaverse/profile');
     }
+    function onClickNotice(){
+        navigate('/connectMetaverse/SelectNotice')
+    }
     return(
         <Div>
             <Navbar/>
@@ -25,7 +28,13 @@ export default function connectMetaverse(){
                             <Button fontSize="13px" color="#C4C4C4" height ='27px' callback={() => {onClick()}}  buttonText="상세 보기"/>
                         </DivCharacterName>
                         <Menu>
-
+                            <Ul>
+                            <span className="material-symbols-outlined">
+person_search
+</span> 친구 목록</Ul>
+                            <Ul>접속 유저</Ul>
+                            <Ul>채팅 목록</Ul>
+                            <Ul onClick={onClickNotice}>공고 보기</Ul>
                         </Menu>
                     </Div3>
                 </Div2>
@@ -91,13 +100,20 @@ const DivCharacterName=styled.div`
 const Span=styled.span`
     margin-right:10px;
     margin-top:3px;
+    font-size:20px;
 
 `
 const Menu= styled.ul`
     margin-left:20px;
     margin-right:20px;
     padding-left:0px;
+    list-style: none;
 
+`
+const Ul= styled.li`
+    float:left;
+    padding:2px 10px 2px 0px;
+    font-size:16px;
 `
 const Empty = styled.div`
     border: 1px solid  #bcbcbc;

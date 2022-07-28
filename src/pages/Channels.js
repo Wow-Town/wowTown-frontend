@@ -16,7 +16,7 @@ export default function Channels(){
         axios.get('http://api.wowtown.co.kr:81/channels',{
             headers:{
                 'Authorization' : localStorage.getItem('accessToken'),
-            }
+            },
         }).then(response => {
                 setChannelList(response.data);
                 axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`

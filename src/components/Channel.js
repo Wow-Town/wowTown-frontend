@@ -5,14 +5,29 @@ import Button from "./Button.js";
 import {useNavigate} from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ChannelState } from "../utils/ChannelState.js";
+import axios from "axios";
 
 export default function Channel({channelList}){
     const navigate=useNavigate();
-    const[ ,setEnteredChannelId] = useRecoilState( ChannelState);
+    const[enteredChannelId ,setEnteredChannelId] = useRecoilState( ChannelState);
     function onClick(channelId){
         setEnteredChannelId({channelId});
-        navigate("/avatars");
+        console.log(enteredChannelId);
+        axios.post('http://api.wowtown.co.kr:81/channels',
+            {
+                "channelId":channelId,
+            },
+            {headers:{
+                'Authorization' : localStorage.getItem('accessToken'),
+            }}
+            
+        ).then(response => {
+                axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
+                navigate('/avatars');
+        })
     }
+        
+    
     return(
         <DivChannelList>
            {channelList.map( channel =>{

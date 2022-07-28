@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 import './InputInfo.css';
 
 export default function InputInfo({maxLength, label, inputType,value,onChange}){
@@ -16,3 +17,6 @@ export default function InputInfo({maxLength, label, inputType,value,onChange}){
         </div>
     );
 }
+
+
+

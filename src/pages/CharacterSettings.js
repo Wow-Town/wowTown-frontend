@@ -91,6 +91,7 @@ export default function CharacterSettings(){
             }
             ).then( (response) => {
                 console.log(response);
+             
                 setOpenModal(true);
                 setModalMessage({
                     "titleText": "캐릭터 설정 성공",
