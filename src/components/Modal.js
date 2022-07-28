@@ -16,8 +16,7 @@ export default function Modal({closeModal, modalMessage}) {
             <Title>
               <TitleText>{modalMessage.titleText}</TitleText>
             </Title>
-            <CloseBtn onClick={handleClose}>x</CloseBtn>
-           
+            <CloseBtn onClick={handleClose}>x</CloseBtn>     
           </DivCloseBtn>
           <ModalContents>
             <p> {modalMessage.contentsText}

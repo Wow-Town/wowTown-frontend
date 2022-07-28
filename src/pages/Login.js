@@ -63,9 +63,9 @@ export default function Login(){
                 axios.defaults.headers.common['Authorization'] = ` ${accessToken}`;
                 if (accessToken) localStorage.setItem('accessToken',  accessToken );
                 if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
-                
-
                 navigate("/channels");
+                setEmail("");
+                setPassword("");
 
             }).catch(function(error){
                 console.log(error);

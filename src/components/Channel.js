@@ -11,7 +11,7 @@ export default function Channel({channelList}){
     const[ ,setEnteredChannelId] = useRecoilState( ChannelState);
     function onClick(channelId){
         setEnteredChannelId({channelId});
-        navigate("/avatars?channelId="+channelId);
+        navigate("/avatars");
     }
     return(
         <DivChannelList>
