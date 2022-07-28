@@ -7,9 +7,7 @@ import Area from '../components/Area';
 import Modal from '../components/Modal';
 import React, {useState} from 'react';
 import axios from 'axios';
-import { useNavigate,useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { ChannelState } from "../utils/ChannelState.js";
+import { useNavigate } from 'react-router-dom';
 
 export default function CharacterSettings(){
     const areas=[
@@ -26,8 +24,6 @@ export default function CharacterSettings(){
     const[interestList,setInterestList]=useState([]);
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
-    const[enteredChannelId, setEnteredChannelId] = useRecoilState(ChannelState);
-    let {channelId} = useParams();
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
@@ -83,9 +79,7 @@ export default function CharacterSettings(){
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
-            console.log("제출조건 맞음");
-            console.log(enteredChannelId.channelId);
-            axios.post('http://api.wowtown.co.kr:81/avatars?channelId='+enteredChannelId.channelId,{
+            axios.post('http://api.wowtown.co.kr:81/avatars',{
                     "nickName" : nickname,
                     "description" : introduction,
                     "interestList" : interestList,  
@@ -97,6 +91,7 @@ export default function CharacterSettings(){
             }
             ).then( (response) => {
                 console.log(response);
+             
                 setOpenModal(true);
                 setModalMessage({
                     "titleText": "캐릭터 설정 성공",
@@ -136,7 +131,8 @@ export default function CharacterSettings(){
                 inputType="text" 
                 placeholder="10자 이내"
                 onChange={onNicknameHandler} 
-                maxLength='10' />
+                maxLength='10' 
+                />
                 {
                 nicknameError && nickname.length ===0 ? <div className="errorMessage">닉네임을 입력해주세요.</div> : <div className="errorMessage"/>    
             }

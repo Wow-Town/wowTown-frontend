@@ -60,14 +60,12 @@ export default function Login(){
             })
             .then( (response) => {
                 const { accessToken } = response.data;
-
-                console.log(response);
                 axios.defaults.headers.common['Authorization'] = ` ${accessToken}`;
                 if (accessToken) localStorage.setItem('accessToken',  accessToken );
                 if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
-                
-
                 navigate("/channels");
+                setEmail("");
+                setPassword("");
 
             }).catch(function(error){
                 console.log(error);

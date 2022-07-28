@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import Button from '../components/Button';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
-import Logo from '../components/Logo';
+import Navbar from '../components/Navbar';
 import img1 from '../img/ex1.png'; 
 import img2 from '../img/ex2.png'; 
 import img3 from '../img/ex3.png'; 
@@ -18,9 +18,7 @@ export default function Home(){
     }
     return(
         <Div>
-        <Navbar>
-            <Logo/>
-        </Navbar>
+        <Navbar/>
         <FullFrame>
         <ContentsFrame>
             <Title>와우타운 </Title>
@@ -46,18 +44,11 @@ const Div = styled.div`
     width:100%;
 
 `
-const Navbar= styled.div`
-height:60px;
-background-color:white;
-display:flex;
-flex-direction: row;
-line-height:48px;
 
 
-`
 const FullFrame = styled.div`
     display:flex;
-    height:720px;
+    height:780px;
     background-color: #EEEEEE;
     flex-direction:row;
     align-items:center;

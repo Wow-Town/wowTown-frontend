@@ -88,6 +88,7 @@ export default function Join(){
             .then( (response)=>{
                 //localStorage.setItem('token',response.data.jwt);
                 setOpenModal(true);
+               
                 setModalMessage({
                     "titleText": "회원가입 성공",
                     "contentsText" : "로그인창으로 이동합니다",
