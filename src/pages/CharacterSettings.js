@@ -6,8 +6,9 @@ import Header from '../components/Header';
 import Area from '../components/Area';
 import Modal from '../components/Modal';
 import React, {useState} from 'react';
-import axios from 'axios';
+import {useMutation} from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { createAvatar } from '../apis/avatar.api';
 
 export default function CharacterSettings(){
     const areas=[
@@ -31,6 +32,32 @@ export default function CharacterSettings(){
         callback: function(){
         }
     })
+
+    const{ mutateAsync: handleCreateAvater } = useMutation(createAvatar,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                console.log(response);
+             
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "캐릭터 설정 성공",
+                    "contentsText" : "",
+                    callback: function(){
+                        navigate("/connectMetaverse");
+                    }
+                });        
+            }else{
+                console.log(error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "다시 시도해주세요",
+                    "contentsText" : "",
+                });
+            }
+        }
+        });
+    
+
     function onNicknameHandler(e){
         if(!e.target.value){setNicknameError(true);}
         else{ setNicknameError(false); }
@@ -79,36 +106,11 @@ export default function CharacterSettings(){
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
-            axios.post('http://api.wowtown.co.kr:81/avatars',{
-                    "nickName" : nickname,
-                    "description" : introduction,
-                    "interestList" : interestList,  
-            },
-            {
-                headers:{
-                    'Authorization' : localStorage.getItem('accessToken'),
-                }
-            }
-            ).then( (response) => {
-                console.log(response);
-             
-                setOpenModal(true);
-                setModalMessage({
-                    "titleText": "캐릭터 설정 성공",
-                    "contentsText" : "",
-                    callback: function(){
-                        navigate("/connectMetaverse");
-                    }
-                })
-
-            }).catch(function(error){
-                console.log(error);
-                setOpenModal(true);
-                setModalMessage({
-                    "titleText": "다시 시도해주세요",
-                    "contentsText" : "",
-                })
-            });
+            handleCreateAvater({
+                "nickName" : nickname,
+                "description" : introduction,
+                "interestList" : interestList,  
+        });
         }else{
             setOpenModal(true);
             setModalMessage({

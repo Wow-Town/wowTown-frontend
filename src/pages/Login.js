@@ -4,11 +4,14 @@ import Button from '../components/Button';
 import Header from '../components/Header';
 import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
+import {useMutation} from 'react-query';
 import Modal from '../components/Modal';
 import './Login.css';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
+import { login } from '../apis/user.api';
+import instance from '../apis/axios'
 
 export default function Login(){
     const[email,setEmail] =useState();
@@ -25,6 +28,26 @@ export default function Login(){
         callback: function(){
         }
     })
+
+    const{ mutateAsync: handleLogin } = useMutation(login,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                const { accessToken } = response;
+                instance.defaults.headers.common['Authorization'] = ` ${accessToken}`;
+                if (accessToken) localStorage.setItem('accessToken',  accessToken );
+                if (localStorage.getItem('accessToken')) setIsLoggedIn(true); 
+                navigate("/channels");             
+            }else{
+                console.log('login failed: ', error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "해당 이메일,비밀번호가 존재하지 않습니다",
+                    "contentsText" : "다시 시도해주세요",
+                })
+            }
+        }
+        });
+
     function onEmailHandler(e){
         if( e.target.value.length ===0 ){ setEmailError(true);
         }else{ setEmailError(false); }
@@ -54,27 +77,12 @@ export default function Login(){
         if(checkLoginFormValidation()){
         //해당 이메일 비번이 존재하면
         //다음 페이지로
-            axios.post('http://api.wowtown.co.kr:81/login',{
+            handleLogin({
                 "email" : email,
                 "password" : password,
             })
-            .then( (response) => {
-                const { accessToken } = response.data;
-                axios.defaults.headers.common['Authorization'] = ` ${accessToken}`;
-                if (accessToken) localStorage.setItem('accessToken',  accessToken );
-                if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
-                navigate("/channels");
-                setEmail("");
-                setPassword("");
-
-            }).catch(function(error){
-                console.log(error);
-                setOpenModal(true);
-                setModalMessage({
-                    "titleText": "해당 이메일,비밀번호가 존재하지 않습니다",
-                    "contentsText" : "다시 시도해주세요",
-                })
-            });
+            setEmail("");
+            setPassword("");  
         }else{
             setOpenModal(true);
             setModalMessage({
@@ -90,7 +98,7 @@ export default function Login(){
              {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
          
             <Header text="와우타운 계정에 로그인합니다."/>
-            <form className="loginForm" onSubmit={onSubmit} >
+            <form rect className="loginForm" onSubmit={onSubmit} >
                 <InputInfo label="이메일 주소"inputType="email" onChange={onEmailHandler} />
                 {
                 emailError && email.length===0? <div className="errorMessage">이메일을 입력해주세요.</div> : <div className="errorMessage"/>    

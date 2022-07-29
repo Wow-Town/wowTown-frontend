@@ -5,8 +5,9 @@ import Button from '../components/Button';
 import Modal from '../components/Modal';
 import './Join.css';
 import React, {useState} from 'react';
-import axios from 'axios';
+import {useMutation} from 'react-query';
 import {useNavigate, Link} from 'react-router-dom';
+import { signUp } from '../apis/user.api';
 
 export default function Join(){
     const[email,setEmail]=useState("");
@@ -26,6 +27,29 @@ export default function Join(){
         callback: function(){
         }
     })
+
+    const{ mutateAsync: handleSignUp } = useMutation(signUp,{
+        onSuccess: ({success, error }) => {
+            if(success){
+                setOpenModal(true);
+               
+                setModalMessage({
+                    "titleText": "회원가입 성공",
+                    "contentsText" : "로그인창으로 이동합니다",
+                    callback: function(){
+                        navigate("/login");
+                    }});            
+            }else{
+                console.log('login failed: ', error);
+                setOpenModal(true);
+                setModalMessage({
+                    "titleText": "오류 발생",
+                    "contentsText" : "다시 시도해주세요",
+                })
+            }
+        }
+        });
+
     function onEmailHandler(e){
         if( e.target.value.length ===0 ){ setEmailError(true);
         }else{ setEmailError(false); }
@@ -80,31 +104,11 @@ export default function Join(){
         // 이메일 조건에 맞으면 
         // 유저정보 저장
             console.log("제출조건 맞음")
-            axios.post('http://api.wowtown.co.kr:81/signUp',{
+            handleSignUp({
                 "email": email,
                 "userName": name,
                 "password": password,
             })
-            .then( (response)=>{
-                //localStorage.setItem('token',response.data.jwt);
-                setOpenModal(true);
-               
-                setModalMessage({
-                    "titleText": "회원가입 성공",
-                    "contentsText" : "로그인창으로 이동합니다",
-                    callback: function(){
-                        navigate("/login");
-                    }
-                })
-
-            }).catch(function(error){
-                console.log(error);
-                setOpenModal(true);
-                setModalMessage({
-                    "titleText": "오류 발생",
-                    "contentsText" : "다시 시도해주세요",
-                })
-            });
         }else{
             setOpenModal(true);
             setModalMessage({
@@ -112,9 +116,7 @@ export default function Join(){
                 "contentsText" : " "
             })
            
-        }
-       
-        
+        }        
     }
     
 
