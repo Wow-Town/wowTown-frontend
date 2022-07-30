@@ -12,7 +12,7 @@ export async function getChannelList(){
 export async function enterChannel(ChannelProps){
     const channelId  = ChannelProps;
     try {
-       axios.post('/channels',{"channelId":channelId});
+        await axios.post('/channels',{"channelId":channelId});
         return { success: true, error: undefined };
       } catch (error) {
         return { success: false, error };
