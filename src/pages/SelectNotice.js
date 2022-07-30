@@ -11,11 +11,11 @@ export default function SelectNotice(){
         <FrameHeader frameTitle='공고 유형 선택'/>
         <Div onClick={()=>{navigate('../studyGroups');}}>
             <Icon className="material-icons" >find_in_page</Icon>
-            <Label>공고 찾기</Label>
+            <Label>공고 검색</Label>
         </Div>
         <Div onClick={()=>{navigate('../PostStudyGroups');}}>
             <Icon className="material-icons">edit_document</Icon>
-            <Label>공고 올리기</Label>    
+            <Label>공고 등록</Label>    
         </Div>        
         
     </Frame>
