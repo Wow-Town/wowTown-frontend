@@ -3,28 +3,48 @@
 import styled from "styled-components";
 import Button from "./Button.js";
 import {useNavigate} from 'react-router-dom';
+import {useMutation} from 'react-query';
 import { useRecoilState } from 'recoil';
 import { ChannelState } from "../utils/ChannelState.js";
-import axios from "axios";
+import { enterChannel } from '../apis/channel.api';
+import { getAvatar } from "../apis/avatar.api.js";
+import { AvatarState } from "../utils/AvatarState.js";
 
 export default function Channel({channelList}){
     const navigate=useNavigate();
     const[enteredChannelId ,setEnteredChannelId] = useRecoilState( ChannelState);
+    const[avatar, setAvatar] = useRecoilState(AvatarState);
+    //채널 입장 api 호출 후 바로 다음으로 아바타 조회 api 호출
+    const{ mutateAsync: handleGetAvatar } = useMutation(getAvatar,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                setAvatar(response);
+                navigate('/connectMetaverse');
+                     
+            }else{
+                //error 발생한 이유는 해당 채널에 아바타가 없기 때문이다. -> 아바타 생성 페이지로 이동
+                console.log('login failed: ', error);
+                navigate('/avatars');   
+            }
+        }
+        });
+    
+    // 채널 입장 api 호출
+    const{ mutateAsync: handleEnterChannel } = useMutation(enterChannel,{
+        onSuccess: ({success, error }) => {
+            if(success){
+                console.log('채널 입장 성공');   
+                handleGetAvatar(); 
+            }else{
+                console.log('login failed: ', error);
+            }
+        }
+        });
+
     function onClick(channelId){
-        setEnteredChannelId({channelId});
-        console.log(enteredChannelId);
-        axios.post('http://api.wowtown.co.kr:81/channels',
-            {
-                "channelId":channelId,
-            },
-            {headers:{
-                'Authorization' : localStorage.getItem('accessToken'),
-            }}
-            
-        ).then(response => {
-                axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
-                navigate('/avatars');
-        })
+        setEnteredChannelId(channelId);
+        console.log(channelId);
+        handleEnterChannel(channelId);
     }
         
     
@@ -38,7 +58,7 @@ export default function Channel({channelList}){
                     {channel.channelName}
                     <InfoJoinNum>{channel.currentJoinNum}/{channel.maxJoinNum}명</InfoJoinNum>
                 </InfoChannel>
-                <Button callback={() => {onClick(channel.channelId)}} buttonText="입장"/>
+                <Button onClick={()=>onClick(channel.channelId)} buttonText="입장"/>
                 </DivChannel>
                 </ChannelFrame>
             )

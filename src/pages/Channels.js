@@ -4,24 +4,27 @@ import Channel from "../components/Channel";
 import Header from "../components/Header";
 import styled from "styled-components";
 import { useEffect ,useState } from "react";
+import {useMutation} from 'react-query';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
+import { getChannelList } from '../apis/channel.api';
 
 export default function Channels(){
     const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
     const[channelList,setChannelList]=useState([]);
+    const{ mutateAsync: handleGetChannelList } = useMutation(getChannelList,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                setChannelList(response);        
+            }else{
+                console.log('login failed: ', error);
+            }
+        }
+        });
     
     useEffect(() => {
-        axios.get('http://api.wowtown.co.kr:81/channels',{
-            headers:{
-                'Authorization' : localStorage.getItem('accessToken'),
-            },
-        }).then(response => {
-                setChannelList(response.data);
-                axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
-
-        })
+        handleGetChannelList();
     },[]);
 
     return(

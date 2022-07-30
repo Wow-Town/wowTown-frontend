@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,10 +9,14 @@ import { RecoilRoot } from 'recoil';
 axios.defaults.withCredentials = true;
 const rootNode = document.getElementById('root');
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(rootNode).render(
+    <QueryClientProvider client={queryClient}>
     <RecoilRoot>
     <App />
     </RecoilRoot>
+    </QueryClientProvider>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

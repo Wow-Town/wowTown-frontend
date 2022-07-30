@@ -25,8 +25,8 @@ export default function Home(){
             <Explanation>와우타운은 홍익대 팀빌딩 메타버스 플랫폼으로<br/>
 학우들에게 팀빌딩 서비스와 스터디 공간을 제공합니다. </Explanation>
             <ButtonFrame>
-                <Button callback={gotoJoinPage} buttonText="계정 생성"/>   
-                <Button color="#FFBC45" marginLeft= "30px" callback={gotoLoginPage} buttonText="로그인"/>
+                <Button onClick={gotoJoinPage} buttonText="계정 생성"/>   
+                <Button color="#FFBC45" marginLeft= "30px" onClick={gotoLoginPage} buttonText="로그인"/>
             </ButtonFrame>
         </ContentsFrame>
         <ImagesFrame>

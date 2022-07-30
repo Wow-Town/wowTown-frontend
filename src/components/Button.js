@@ -2,12 +2,7 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 
-export default function Button({color,height,fontSize,marginLeft,buttonText, callback}){
-    const onClick = () => {
-        if(callback){
-          callback();
-        }
-      }
+export default function Button({color,height,fontSize,marginLeft,buttonText, onClick}){
     return(
         <div>
             <BUTTON fontSize={fontSize} color={color} height={height} marginLeft={marginLeft} onClick={onClick} className="button">{buttonText}</BUTTON>
