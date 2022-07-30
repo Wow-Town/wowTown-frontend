@@ -23,7 +23,6 @@ export default function Frame({frameTitle}){
 const Div=styled.div`
     background-color:#FEFFFF;
     margin-bottom:50px;
-
 `
 const Header=styled.div`
     display:flex;
