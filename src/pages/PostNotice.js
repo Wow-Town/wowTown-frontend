@@ -104,9 +104,7 @@ export default function PostNotice(){
                         onChange={onNoticeContentsHandler} 
                      />
                 </div>
-                <divButton>
                 <Button buttonText="등록" marginLeft="133px"/>
-                </divButton>
             </Div>
         </Frame>
     );
