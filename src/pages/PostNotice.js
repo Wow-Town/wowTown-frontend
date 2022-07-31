@@ -4,17 +4,34 @@ import Area from "../components/Area";
 import FrameHeader from "../components/FrameHeader";
 import { useState } from "react";
 import Button from "../components/Button";
+
 export default function PostNotice(){
+    const[noticeTitle,setNoticeTitle]=useState();
+    const[noticeContents,setNoticeContents]=useState();
+    const[interestList,setInterestList]=useState([]);
+    const[noticetTitleError,setNoticeTitleError] =useState(false);
+    const[noticeContentsError,setNoticeContentsError]=useState(false);
+   
     const areas=[
         "BACKEND", "FRONTEND","PYTHON",
         "CPP",
         "REACT","SPRING",
-        
         "JAVA","ALGORITHM" 
     ]
-
-    const[interestList,setInterestList]=useState([]);
-    function handleInterestList(areaIndex){
+    
+    function onNoticeTitleHandler(e){
+        if(e.target.value.length ===0){setNoticeTitleError(true);
+        }else{
+            setNoticeTitle(e.target.value);
+        }
+    }
+    function onNoticeContentsHandler(e){
+        if(e.target.value.length ===0){setNoticeContentsError(true);
+        }else{
+            setNoticeContents(e.target.value);
+        }
+    }
+    function onInterestListHandler(areaIndex){
         
         if(!interestList.includes(areas[areaIndex])){
             setInterestList([...interestList,areas[areaIndex]]);
@@ -24,7 +41,7 @@ export default function PostNotice(){
     }
 
     function setData(areaName){
-        handleInterestList(areaName);
+        onInterestListHandler(areaName);
     }
     
     function setDataRemove(areaIndex){
@@ -36,13 +53,34 @@ export default function PostNotice(){
         }
     }
 
+    function checkNoticeFormValidation(){
+        if(!noticetTitleError && noticeTitle 
+            && !noticeContentsError && noticeContents
+            && interestList.length !==0){
+                return true;
+            }else{
+                return false;
+            }
+    }
+
+    function onSubmitNotice(e){
+        e.preventDefault();
+        if(checkNoticeFormValidation()){
+            console.log("맞");
+            console.log(noticeTitle);
+            console.log(noticeContents);
+        }else{
+            console.log("틀");
+        }
+
+    }
     return(
-        <Frame>
+        <Frame>bb
             <FrameHeader frameTitle='공고 등록'/>
-            <Div>
+            <Div onSubmit={onSubmitNotice}>
                 <TitleDiv>
                 <Label>공고 제목</Label>
-                <TitleInput></TitleInput>
+                <TitleInput onChange={onNoticeTitleHandler}></TitleInput>
                 </TitleDiv>
                 <div>
                     <Label>모집 분야</Label>
@@ -63,10 +101,10 @@ export default function PostNotice(){
                     <Label>공고 내용</Label>
                     <Textarea
                         id="inputAboutIntroduction"
-                        //onChange={onIntroductionHandler} 
+                        onChange={onNoticeContentsHandler} 
                      />
                 </div>
-               
+                <Button buttonText="등록" marginLeft="133px"/>
             </Div>
         </Frame>
     );
@@ -79,7 +117,7 @@ const Frame= styled.div`
 
 `
 
-const Div = styled.div`
+const Div = styled.form`
 
 `
 const TitleDiv = styled.div`
@@ -116,3 +154,4 @@ const Textarea = styled.textarea`
     padding: 10px 15px 10px 15px;
     margin-bottom:40px;
 `
+
