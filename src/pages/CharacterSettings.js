@@ -1,23 +1,17 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import './CharacterSettings.css';
+import styled from 'styled-components';
 import InputInfo from '../components/InputInfo';
-import Button from '../components/Button';
+import Button from '../components/atoms/Button';
 import Header from '../components/Header';
-import Area from '../components/Area';
 import Modal from '../components/Modal';
-import React, {useState} from 'react';
+import InterestList from '../components/templates/InterestList';
+import {useState} from 'react';
 import {useMutation} from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { createAvatar } from '../apis/avatar.api';
 
 export default function CharacterSettings(){
-    const areas=[
-        "BACKEND", "FRONTEND",
-        "CPP",
-        "REACT","SPRING",
-        "ALGORITHM",
-        "JAVA", "PYTHON"
-    ]
     const[nickname,setNickname]=useState("");
     const[introduction,setIntroduction]=useState("");
     const[nicknameError,setNicknameError]=useState(false);
@@ -56,7 +50,6 @@ export default function CharacterSettings(){
             }
         }
         });
-    
 
     function onNicknameHandler(e){
         if(!e.target.value){setNicknameError(true);}
@@ -69,29 +62,9 @@ export default function CharacterSettings(){
         else{ setIntroductionError(false); }
         setIntroduction(e.target.value);
     }
-    function handleInterestList(areaIndex){
-        if(interestList.length <3){
-            if(!interestList.includes(areas[areaIndex])){
-            setInterestList([...interestList,areas[areaIndex]]);
-            console.log(interestList);
-            }
-        }
-    }
-
-    function setData(areaName){
-        handleInterestList(areaName);
-    }
-    
-    function setDataRemove(areaIndex){
-        if(interestList.includes(areas[areaIndex])){
-            setInterestList(interestList.filter( (item)=>{
-                return item !==areas[areaIndex];
-            }))
-            console.log(interestList);
-        }
-    }
     
     function checkJoinFormValidation(){
+        console.log(interestList.length);
         //error false이고 agreeing 은 true면 true 리턴 
        if(!nicknameError && !introductionError
          && nickname.length !==0 && introduction.length !==0
@@ -124,11 +97,11 @@ export default function CharacterSettings(){
 
     
     return (
-        <div className="contentsFrame">
+        <ContentsFrame>
              {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
          
             <Header text="캐릭터 설정"/>
-            <form onSubmit={onSubmit} >
+            <AvaterForm onSubmit={onSubmit} >
                 <InputInfo label="닉네임"
                 inputType="text" 
                 placeholder="10자 이내"
@@ -136,42 +109,94 @@ export default function CharacterSettings(){
                 maxLength='10' 
                 />
                 {
-                nicknameError && nickname.length ===0 ? <div className="errorMessage">닉네임을 입력해주세요.</div> : <div className="errorMessage"/>    
-            }
-                <div className="introductionFrame">
-                    <label >소개</label>
-                    <textarea
-                     id="inputAboutIntroduction"
-                     onChange={onIntroductionHandler} 
-                     />
-                </div>
-                {
-                introductionError && introduction.length ===0 ? <div className="errorMessage">소개를 입력해주세요.</div> : <div className="errorMessage"/>    
-            }
-                <div className="allAreaFrame">
-                    <label>관심사(3개)</label>
-                
-                <ul className="areasFrame">
-                    {areas.map((area,index) =>{
-                        return <Area 
-                        key={index} 
-                        index={index} 
-                        setData={setData} 
-                        setDataRemove= {setDataRemove} 
-                        area={area}
-                        interestList = {interestList}
-                        />;
-                    })}
-                </ul>
-                </div>
-                {
-                interestList.length !==3 && interestList.length >0 ? <div className="errorMessage">관심사 3개를 선택해주세요.</div> : <div className="errorMessage"/>    
+                nicknameError && nickname.length ===0 ? <ErrorMessage>닉네임을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
                 }
-                <div className="buttonLogin">
-                <Button  buttonText="설정"/>
-                
-                </div>
-            </form>
-    </div>
+                <IntroductionFrame>
+                    <Label>소개</Label>
+                    <Textarea onChange={onIntroductionHandler}/>
+                </IntroductionFrame>
+                {
+                introductionError && introduction.length ===0 ? <ErrorMessage>소개를 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
+                }   
+                <AllAreaFrame>
+                    <Label>관심사(3개)</Label>
+                    <InterestList setInterestList={setInterestList}/>
+                </AllAreaFrame>
+                {
+                interestList.length !==3 && interestList.length >0 ? <ErrorMessage>관심사 3개를 선택해주세요.</ErrorMessage> : <ErrorMessage/>    
+                }
+                <ButtonLogin>
+                    <Button  buttonText="설정"/>
+                </ButtonLogin>
+            </AvaterForm>
+    </ContentsFrame>
     )
 }
+
+const ContentsFrame=styled.div`
+    display:flex;
+    flex-direction: column;
+    height:90%;
+    width:670px;
+`
+
+const AvaterForm=styled.form`
+    display:flex;
+    flex-direction: column; 
+    justify-content: center; 
+`
+
+const ErrorMessage =styled.div`
+    padding-left: 83px;
+    height: 32px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 500px;
+    line-height:20px; 
+    color: red;
+`
+
+const IntroductionFrame =styled.div`
+    padding-left:83px;
+`
+
+const Label =styled.label`
+    font-size: 16px;
+    font-weight: 700;
+    width: 140px;
+    line-height:20px; 
+    padding: 0px 0px 10px 83px;
+    display:flex;
+    flex-direction: column;
+    padding: 0px 83px 15px 0px;
+    width: 502px;
+`
+
+const Textarea =styled.textarea`
+    max-width: 502px;
+    min-width: 502px;
+    max-height: 250px;
+    height: 170px;
+    background: #FFFFFF;
+    border: 1px solid #A4A4A4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 10px 15px 10px 15px;
+`
+
+const AllAreaFrame =styled.div`
+    padding-left: 83px;
+`
+
+const AreasFrame =styled.ul`
+    padding-left: 0px;
+    cursor: pointer;
+`
+
+const ButtonLogin =styled.div`
+    display:flex;
+    flex-direction: row; 
+    justify-content: flex-end;
+    padding-right: 83px;
+    padding-top: 30px;
+`

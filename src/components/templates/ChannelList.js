@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
-import Button from "./Button.js";
+import Button from "../atoms/Button.js";
 import {useNavigate} from 'react-router-dom';
 import {useMutation} from 'react-query';
 import { useRecoilState } from 'recoil';
-import { ChannelState } from "../utils/ChannelState.js";
-import { enterChannel } from '../apis/channel.api';
-import { getAvatar } from "../apis/avatar.api.js";
-import { AvatarState } from "../utils/AvatarState.js";
+import { ChannelState } from "../../utils/ChannelState.js";
+import { enterChannel } from '../../apis/channel.api';
+import { getAvatar } from "../../apis/avatar.api.js";
+import { AvatarState } from "../../utils/AvatarState.js";
 
-export default function Channel({channelList}){
+export default function ChanneList({channelList}){
     const navigate=useNavigate();
     const[enteredChannelId ,setEnteredChannelId] = useRecoilState( ChannelState);
     const[avatar, setAvatar] = useRecoilState(AvatarState);
@@ -69,37 +69,37 @@ export default function Channel({channelList}){
 }
 
 const DivChannelList=styled.div`
-    display:flex;
-    flex-direction: column; 
-    justify-content: center; 
-    padding-left:83px;
+display:flex;
+flex-direction: column; 
+justify-content: center; 
+padding-left:83px;
 `
 
 const ChannelFrame=styled.div`
 
-    
+
 `
 const DivChannel=styled.div`
-    display:flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    border: 1px solid #A4A4A4 ;
-    border-radius: 10px;
-    height:100px;
-    width:510px;
-    margin-bottom: 10px;
-    
-    
+display:flex;
+flex-direction: row;
+justify-content: space-around;
+align-items: center;
+border: 1px solid #A4A4A4 ;
+border-radius: 10px;
+height:100px;
+width:510px;
+margin-bottom: 10px;
+
+
 `
 
 const InfoChannel=styled.span`
-    display:flex;
-    flex-direction: column; 
-    width: 100px;
-    padding-right:170px;
-    font-size:18px;
-    
+display:flex;
+flex-direction: column; 
+width: 100px;
+padding-right:170px;
+font-size:18px;
+
 `
 
 const InfoJoinNum=styled.div`
