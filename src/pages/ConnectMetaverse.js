@@ -44,7 +44,7 @@ export default function connectMetaverse(){
 
                 <Routes>
                     <Route path="/profile" element={<Profile/>} />
-                    <Route path="/notice" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
+                    <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
                 </Routes>
             </ContentsFrame>
         </Div>
