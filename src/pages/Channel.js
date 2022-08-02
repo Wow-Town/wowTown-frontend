@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import ChannelList from "../components/templates/ChannelList";
-import Header from "../components/Header";
+import Header from '../components/templates/Header';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
 import { useEffect ,useState } from "react";

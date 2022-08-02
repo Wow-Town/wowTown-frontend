@@ -10,17 +10,17 @@ import axios from 'axios';
 
 export default function Profile(){
 
-    useEffect(() => {
-        axios.get('http://api.wowtown.co.kr:81/avatars',{
-            headers:{
-                'Authorization' : localStorage.getItem('accessToken'),
-            }
-        }).then(response => {
-                console.log(response);
-                axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
+    // useEffect(() => {
+    //     axios.get('http://api.wowtown.co.kr:81/avatars',{
+    //         headers:{
+    //             'Authorization' : localStorage.getItem('accessToken'),
+    //         }
+    //     }).then(response => {
+    //             console.log(response);
+    //             axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
 
-        })
-    },[]);
+    //     })
+    // },[]);
 
     return(
         <ProfileFrame >

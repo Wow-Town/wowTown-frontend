@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import Header from '../components/Header';
-import InputInfo from '../components/InputInfo';
+import Header from '../components/templates/Header';
+import InputInfo from '../components/atoms/InputInfo';
 import Button from '../components/atoms/Button';
-import Modal from '../components/Modal';
+import Modal from '../components/templates/Modal';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
 import {useNavigate, Link} from 'react-router-dom';
