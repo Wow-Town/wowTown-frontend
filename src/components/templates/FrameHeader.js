@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -21,21 +22,21 @@ export default function Frame({frameTitle}){
 }
 
 const Div=styled.div`
-    background-color:#FEFFFF;
-    margin-bottom:50px;
+background-color:#FEFFFF;
+margin-bottom:50px;
 `
 const Header=styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
+display:flex;
+flex-direction:row;
+justify-content:space-between;
 
 `
 const Title = styled.div`
-    font-size:20px;
+font-size:20px;
 `
 
 const Icon=styled.span`
-    cursor: pointer;
-    
+cursor: pointer;
+
 `
 

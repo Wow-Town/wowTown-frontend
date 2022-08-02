@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from './Button';
+import Button from './atoms/Button';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
 import {useNavigate} from 'react-router-dom';

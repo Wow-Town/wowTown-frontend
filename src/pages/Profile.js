@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import styled from "styled-components";
-import FrameHeader from "../components/FrameHeader.js";
-import { useEffect } from "react";
-import { ChannelState } from "../utils/ChannelState.js";
+import styled from 'styled-components';
+import FrameHeader from "../components/templates/FrameHeader";
+import Button from "../components/atoms/Button";
+import { ChannelState } from "../utils/ChannelState";
 import { useRecoilState } from 'recoil';
+import { useEffect } from "react";
 import axios from 'axios';
-import Button from "../components/Button.js";
 
 export default function Profile(){
 
@@ -22,7 +23,7 @@ export default function Profile(){
     },[]);
 
     return(
-        <Frame >
+        <ProfileFrame >
             <FrameHeader frameTitle='내 프로필'/>
             <SimpleProfile>
                 <ProfileImg>닉</ProfileImg>
@@ -42,74 +43,76 @@ export default function Profile(){
                 안녕~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             </IntroductionDiv>
             
-        </Frame>
+        </ProfileFrame>
     );
 }
 
-const Frame= styled.div`
-    padding : 20px 30px 20px 30px;
-    border: 1px solid #A4A4A4 ;
-    width:490px;
+const ProfileFrame= styled.div`
+padding : 20px 30px 20px 30px;
+border: 1px solid #A4A4A4 ;
+width:490px;
 `
 
 const SimpleProfile = styled.div`
-    display:flex;
-    flex-direction: row;
-    align-items:center;
-    margin-bottom:60px;
+display:flex;
+flex-direction: row;
+align-items:center;
+margin-bottom:60px;
 `
-const ProfileImg=styled.div`
-    background-color:pink;
-    width:60px;
-    height:60px;
-    line-height:60px;
-    border-radius:100px;
-    text-align: center;
-    display:table-cell;
-    vertical-align:middle;
 
-    `
+const ProfileImg=styled.div`
+background-color:pink;
+width:60px;
+height:60px;
+line-height:60px;
+border-radius:100px;
+text-align: center;
+display:table-cell;
+vertical-align:middle;
+
+`
 
 const Name= styled.h1`
-    padding-left:25px;
-    padding-right:10px;
-    font-size:30px;
-    font-weight:500;
+padding-left:25px;
+padding-right:10px;
+font-size:30px;
+font-weight:500;
 `
 
 const InterestListDiv = styled.div`
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
+display:flex;
+flex-direction: row;
+justify-content: flex-start;
 `
-
 
 const IntroductionDiv = styled.div`
-    //width:370px;
-    word-break:break-all;
-    font-size:20px;
-    font-weight: 400;
-    margin-left:5px;
+//width:370px;
+word-break:break-all;
+font-size:20px;
+font-weight: 400;
+margin-left:5px;
 
 `
+
 const H3= styled.h3`
-    font-size:16px;
-    font-weight: 600;
-    padding-top:20px;
-    padding-bottom:13px;
-    font-style:normal;
-    width: 100px;
-    line-height:20px; 
- 
+font-size:16px;
+font-weight: 600;
+padding-top:20px;
+padding-bottom:13px;
+font-style:normal;
+width: 100px;
+line-height:20px; 
+
 
 `
+
 const H4 =styled.li`
-    display:inline-block;
-    font-size:16px;
-    font-weight: 700;
-    background-color:#BCBCBC;
-    margin: 5px;
-    padding: 5px 10px;
-    border-radius:10px;
+display:inline-block;
+font-size:16px;
+font-weight: 700;
+background-color:#BCBCBC;
+margin: 5px;
+padding: 5px 10px;
+border-radius:10px;
 
 `

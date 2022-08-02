@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import Button from '../components/Button';
-import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
+import Button from '../components/atoms/Button';
+import {useNavigate} from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import img1 from '../img/ex1.png'; 
 import img2 from '../img/ex2.png'; 
@@ -11,7 +11,7 @@ export default function Home(){
     const navigate=useNavigate();
    
     function gotoJoinPage(){
-        navigate("/signUp");
+        navigate("/join");
     }
     function gotoLoginPage(){
         navigate("/login");
@@ -35,83 +35,81 @@ export default function Home(){
             {/* <Img3 src={img3}/> */}
         </ImagesFrame>
         </FullFrame>
-        </Div>
-        
+        </Div>        
     )
 }
 
 const Div = styled.div`
-    width:100%;
-
+width:100%;
 `
 
 
 const FullFrame = styled.div`
-    display:flex;
-    height:780px;
-    background-color: #EEEEEE;
-    flex-direction:row;
-    align-items:center;
+display:flex;
+height:780px;
+background-color: #EEEEEE;
+flex-direction:row;
+align-items:center;
 
 
 `
 const ContentsFrame=styled.div`
-    width:40%;
-    height:570px;
-    display:flex;
-    flex-direction:column;
-    justify-content: center;
-    margin-left:212px;
+width:40%;
+height:570px;
+display:flex;
+flex-direction:column;
+justify-content: center;
+margin-left:212px;
 
- `
+`
 const Title=styled.h1`
-    font-size:48px;
-    margin-bottom:15px;
- 
+font-size:48px;
+margin-bottom:15px;
+
 `
 const Explanation = styled.h3`
-    font-size:24px;
-    font-weight: 500;
-    margin-bottom:34px;
+font-size:24px;
+font-weight: 500;
+margin-bottom:34px;
 
 `
 
 const ButtonFrame =styled.div`
-    margin-top:30px;
-    display:flex;
-    flex-direction: row;
-    justify-content:flex-start;
+margin-top:30px;
+display:flex;
+flex-direction: row;
+justify-content:flex-start;
 
 `
 const ImagesFrame = styled.div`
 
-    width:60%;
-    height:570px;
+width:60%;
+height:570px;
 `
 const Img1 = styled.img`
-    width:400px;
-    height:440px;
-    padding-top:45px;
-    position: relative;
-    left: 63px;
-    filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
-    border-radius:5px;
+width:400px;
+height:440px;
+padding-top:45px;
+position: relative;
+left: 63px;
+filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
+border-radius:5px;
 `
 const Img2 = styled.img`
-    width:400px;
-    height:300px;
-    margin-right:212px;
-    position: absolute;
-    top:400px;
-    filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
+width:400px;
+height:300px;
+margin-right:212px;
+position: absolute;
+top:400px;
+filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
 `
 const Img3 = styled.img`
-    width:400px;
-    height:250px;
-    padding-top:80px;
-    position: absolute;
-    left: 1013px;
-    top: 101px;
-    filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
-    border-radius: 5px;
+width:400px;
+height:250px;
+padding-top:80px;
+position: absolute;
+left: 1013px;
+top: 101px;
+filter: drop-shadow(0px 10px 30px rgba(0, 0, 0, 0.25));
+border-radius: 5px;
 `

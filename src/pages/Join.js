@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+import styled from 'styled-components';
 import Header from '../components/Header';
 import InputInfo from '../components/InputInfo';
-import Button from '../components/Button';
+import Button from '../components/atoms/Button';
 import Modal from '../components/Modal';
-import './Join.css';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
 import {useNavigate, Link} from 'react-router-dom';
@@ -121,50 +122,120 @@ export default function Join(){
     
 
     return(
-        <div className="contentsFrame">
+        <ContentsFrame>
             {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
             <Header text="와우타운에 회원가입합니다."/>
-        <form className="loginForm" onSubmit={onSubmit}>
-            <InputInfo label="이메일 주소" inputType="email" value={email} onChange={onEmailHandler}/>
-            {
-                emailError && email.length===0? <div className="errorMessage">이메일을 입력해주세요.</div> : <div className="errorMessage"/>    
-            }
-            <InputInfo label="이름" inputType="text" value={name} onChange={onNameHandler} maxLength='10' />
-            {
-                nameError &&name.length ===0 ? <div className="errorMessage">이름을 입력해주세요.</div> : <div className="errorMessage"/>    
-            }
-            
-            <InputInfo label="비밀번호(8~15자)" inputType="password" value={password} onChange={onPasswordHandler} maxLength='15' />
-            {
-               passwordError && password.length===0
-               ? <div className="errorMessage">비밀번호를 입력하세요.</div>
-               : ( passwordError && password.length<8
-                ?<div className="errorMessage">비밀번호를 8~15자로 입력해주세요.</div>
-                :<div className="errorMessage"/>
-               )   
-            }
-            <InputInfo label="비밀번호 확인" inputType="password" value={checkpassword} onChange={onCheckPasswordHandler} maxLength='15'/>
-            {
-                checkPasswordError && checkpassword ==="" && password !==""? <div className="errorMessage">비밀번호 확인을 입력해주세요.</div> 
-                : ( password !== checkpassword && checkpassword !==""
-                    ?<div className="errorMessage">비밀번호와 비밀번호 확인이 일치하지 않습니다.</div>
-                    :<div className="errorMessage"/>
-                     )    
-            }
-            <div className='agreeCheckBox'>
-            <input type='checkbox' name='agreeing' onChange={onAgreeingHandler} value={agreeing} />[필수] 개인정보 수집 및 이용동의
-            </div>
-            <div className="noAccount">
-                <div className="questionNoAccount"> 이미 계정이 있으신가요?</div>
-                <Link to='/login'>
-                <h3 className="a">로그인</h3>
-                </Link>
-            </div>
-            <div className="buttonLogin">
-            <Button  buttonText="계정 생성"/>
-            </div>
-    </form>
-        </div> 
+            <LoginForm onSubmit={onSubmit}>
+                <InputInfo label="이메일 주소" inputType="email" value={email} onChange={onEmailHandler}/>
+                {
+                    emailError && email.length===0? <ErrorMessage>이메일을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
+                }
+                <InputInfo label="이름" inputType="text" value={name} onChange={onNameHandler} maxLength='10' />
+                {
+                    nameError &&name.length ===0 ? <ErrorMessage>이름을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
+                }
+                
+                <InputInfo label="비밀번호(8~15자)" inputType="password" value={password} onChange={onPasswordHandler} maxLength='15' />
+                {
+                passwordError && password.length===0
+                ? <ErrorMessage>비밀번호를 입력하세요.</ErrorMessage>
+                : ( passwordError && password.length<8
+                    ?<ErrorMessage>비밀번호를 8~15자로 입력해주세요.</ErrorMessage>
+                    :<ErrorMessage/>
+                )   
+                }
+                <InputInfo label="비밀번호 확인" inputType="password" value={checkpassword} onChange={onCheckPasswordHandler} maxLength='15'/>
+                {
+                    checkPasswordError && checkpassword ==="" && password !==""? <ErrorMessage>비밀번호 확인을 입력해주세요.</ErrorMessage> 
+                    : ( password !== checkpassword && checkpassword !==""
+                        ?<ErrorMessage>비밀번호와 비밀번호 확인이 일치하지 않습니다.</ErrorMessage>
+                        :<ErrorMessage/>
+                        )    
+                }
+                <AgreeCheckBox>
+                <Input onChange={onAgreeingHandler} value={agreeing} />[필수] 개인정보 수집 및 이용동의
+                </AgreeCheckBox>
+                <NoAccount>
+                    <QuestionNoAccount> 이미 계정이 있으신가요?</QuestionNoAccount>
+                    <Link to='/login'>
+                    <H3 className="a">로그인</H3>
+                    </Link>
+                </NoAccount>
+                <ButtonLogin>
+                    <Button  buttonText="계정 생성"/>
+                </ButtonLogin>
+            </LoginForm>
+        </ContentsFrame> 
     );
 }
 
+const ContentsFrame=styled.div`
+    display:flex;
+    flex-direction: column;
+    height:90%;
+    width:670px;
+`
+
+const LoginForm=styled.form`
+display:flex;
+flex-direction: column; 
+justify-content: center; 
+`
+const ErrorMessage =styled.div`
+padding-left: 83px;
+height: 32px;
+font-size: 16px;
+font-weight: 700;
+width: 500px;
+line-height:20px; 
+color: red;
+`
+
+const AgreeCheckBox=styled.div`
+font-size: 16px;
+font-weight: 600;
+line-height: 18.75px;
+width:400px;
+padding-left: 83px;
+padding-bottom:50px;
+accent-color: black;
+`
+
+const Input =styled.input.attrs(props=>({type: "checkbox"}))`
+-webkit-transform: scale(2); /* Safari and Chrome */
+padding: 10px;
+margin-right: 10px;
+`
+
+const NoAccount =styled.div`
+display:flex;
+flex-direction: row;  
+text-align: left;
+padding-left: 83px;
+`
+
+const QuestionNoAccount =styled.div`
+font-size: 16px;
+font-weight: 600;
+line-height: 18.75px;
+width:200px;
+padding-right: 13px;
+`
+
+const H3 = styled.h3`
+font-size: 16px;
+font-weight: 600;
+line-height: 18.75px;
+width:70px;
+color:#F98B00;
+text-decoration: none;
+margin: 0px 0px 0px 0px;
+`
+
+const ButtonLogin =styled.div`
+display:flex;
+flex-direction: row; 
+justify-content: flex-end;
+padding-right: 83px;
+padding-top: 30px;
+`

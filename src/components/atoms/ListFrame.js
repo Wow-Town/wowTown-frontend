@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
 export default function ListFrame(){
@@ -13,28 +15,28 @@ export default function ListFrame(){
     );
 }
 
+
 const Div = styled.div`
-    margin-top:10px;
-    margin-bottom:10px;
-    padding:10px 10px 10px 10px;
-    border: 1px solid #A4A4A4 ;
-    border-radius:10px;
+margin-top:10px;
+margin-bottom:10px;
+padding:10px 10px 10px 10px;
+border: 1px solid #A4A4A4 ;
+border-radius:10px;
 `
 const Name=styled.div`
-    margin-bottom:10px;
+margin-bottom:10px;
 `
 const Interests = styled.div`
-    display:flex;
+display:flex;
 
 `
 
 const Interest = styled.div`
-    display:inline-block;
-    font-size:16px;
-    font-weight: 700;
-    background-color:#BCBCBC;
-    margin-right: 10px;
-    padding: 5px 10px;
-    border-radius:10px;
-
+display:inline-block;
+font-size:16px;
+font-weight: 700;
+background-color:#BCBCBC;
+margin-right: 10px;
+padding: 5px 10px;
+border-radius:10px;
 `
