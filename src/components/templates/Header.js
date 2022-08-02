@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export default function Header({text}){
     return(
         <ContentsHeader>
-            <Logo classname="logo"/>
+            <Logo/>
             <ContenetsHeaderTitle>{text}</ContenetsHeaderTitle>
         </ContentsHeader>
 
