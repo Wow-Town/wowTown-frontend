@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
-import InputInfo from '../components/InputInfo';
+import InputInfo from '../components/atoms/InputInfo';
 import Button from '../components/atoms/Button';
-import Header from '../components/Header';
-import Modal from '../components/Modal';
+import Header from '../components/templates/Header';
+import Modal from '../components/templates/Modal';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
 import {useNavigate, Link} from 'react-router-dom';

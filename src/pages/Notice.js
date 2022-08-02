@@ -2,8 +2,8 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import SelectNotice from "../components/templates/SelectNotice";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect,useState } from "react";
+
 
 export default function Notice({clearNotice, setClearNotice}){
     const [notice, setNotice] =useState(); 

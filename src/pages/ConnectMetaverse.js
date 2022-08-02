@@ -2,11 +2,10 @@
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import Button from '../components/atoms/Button';
-import Navbar from '../components/Navbar';
+import Navbar from "../components/templates/Navbar";
 import Profile from './Profile';
 import Notice from './Notice';
-import { Routes, Route } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function connectMetaverse(){
