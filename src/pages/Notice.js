@@ -2,21 +2,27 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import SelectNotice from "../components/templates/SelectNotice";
-import { useEffect,useState } from "react";
-
+import NoticeList from "../components/templates/NoticeList";
+import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import PostNotice from '../components/templates/PostNotice';
 
 export default function Notice({clearNotice, setClearNotice}){
-    const [notice, setNotice] =useState(); 
 
     useEffect(() =>{
         if(clearNotice){
-            setNotice(<SelectNotice setNotice={setNotice}/>);
             setClearNotice(false);
         }
     })
 
     return(
-        <NoticeFrame>{notice}</NoticeFrame>
+        <NoticeFrame>
+            <Routes>
+                <Route path="" element={<SelectNotice/>} />
+                <Route path="/search/*" element={<NoticeList />} />
+                <Route path="/post/*" element={<PostNotice />} />
+            </Routes>
+        </NoticeFrame>
     );
 }
 

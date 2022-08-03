@@ -2,16 +2,16 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import FrameHeader from "./FrameHeader";
-import NoticeList from "./NoticeList";
-import PostNotice from "./PostNotice";
+import { useNavigate } from 'react-router-dom';
 
-export default function SelectNotice({setNotice}){
+export default function SelectNotice(){
+    const navigate=useNavigate();
 
     function onClickNoticeList(){
-        setNotice(<NoticeList/>);
+        navigate('/connectMetaverse/notice/search');
     }
     function onClickPostNotice(){
-        setNotice(<PostNotice/>);
+        navigate('/connectMetaverse/notice/post');
     }
     
 
