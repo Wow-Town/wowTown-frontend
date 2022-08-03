@@ -24,5 +24,5 @@ const NoticeFrame = styled.div`
 padding : 20px 30px 20px 30px;
 border: 1px solid #A4A4A4 ;
 width:490px;
-height:600px; 
+height:625px; 
 `

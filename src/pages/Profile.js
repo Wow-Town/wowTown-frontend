@@ -3,10 +3,10 @@
 import styled from 'styled-components';
 import FrameHeader from "../components/templates/FrameHeader";
 import Button from "../components/atoms/Button";
-import { ChannelState } from "../utils/ChannelState";
-import { useRecoilState } from 'recoil';
-import { useEffect } from "react";
-import axios from 'axios';
+//import { ChannelState } from "../utils/ChannelState";
+//import { useRecoilState } from 'recoil';
+//import { useEffect } from "react";
+
 
 export default function Profile(){
 

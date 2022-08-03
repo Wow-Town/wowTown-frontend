@@ -11,7 +11,7 @@ import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
 import { login } from '../apis/user.api';
-import instance from '../apis/axios'
+import instance from '../apis/axios';
 
 export default function Login(){
     const[email,setEmail] =useState();
