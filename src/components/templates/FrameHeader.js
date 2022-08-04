@@ -9,23 +9,23 @@ export default function Frame({frameTitle}){
         navigate('/connectMetaverse');
     }
     return(
-        <Div>
-            <Header>
+        
+        <Header>
             <Title>{frameTitle}</Title>
             <Icon 
-            className="material-icons"
-            onClick={closeFrame}
-            >highlight_off </Icon>
-            </Header>
-        </Div>
+                className="material-icons"
+                onClick={closeFrame}>
+                highlight_off 
+            </Icon>
+        </Header>
+        
     );
 }
 
-const Div=styled.div`
+
+const Header=styled.div`
 background-color:#FEFFFF;
 margin-bottom:50px;
-`
-const Header=styled.div`
 display:flex;
 flex-direction:row;
 justify-content:space-between;

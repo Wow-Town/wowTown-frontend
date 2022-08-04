@@ -11,16 +11,21 @@ export default function NoticeList(){
     return(
             <NoticeListFrame>
                 <FrameHeader frameTitle='공고 검색'/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
-                <ListFrame/>
+                <SearchFrame>
+                    설계 없음
+                </SearchFrame>
+                <AllListFrame>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                    <ListFrame/>
+                </AllListFrame>
             </NoticeListFrame>
     );
 }
@@ -28,7 +33,31 @@ export default function NoticeList(){
 
 
 const NoticeListFrame = styled.div`
-width:100%;
-height:100%;
-overflow-y: auto;
+    padding : 20px 30px 20px 30px;
+    border: 1px solid #A4A4A4 ;
+    height:100%;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        width: 10px;
+        
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #BCBCBC;
+        border-radius: 10px;
+    }
+`
+const SearchFrame = styled.div`
+
+`
+const AllListFrame =styled.div`
+    display:flex;
+    flex-direction: column; 
+    align-items:center;
+    
 `

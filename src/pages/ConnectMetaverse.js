@@ -24,25 +24,22 @@ export default function connectMetaverse(){
             <Navbar/>
             <ContentsFrame>
                 <Div2>
-                    <Metaverse>ffff</Metaverse>
+                    <Metaverse/>
                     <Div3>
                         <DivCharacterName> 
                             <Span>닉네임</Span> 
                             <Button fontSize="13px" color="#C4C4C4" height ='27px' onClick={() => {onClick()}}  buttonText="상세 보기"/>
                         </DivCharacterName>
                         <Menu>
-                            <Ul>
-                            <span className="material-symbols-outlined">
-                                            person_search
-                            </span> 친구 목록</Ul>
+                            <Ul>친구 목록</Ul>
                             <Ul>접속 유저</Ul>
                             <Ul>채팅 목록</Ul>
                             <Ul onClick={onClickNotice}>공고 보기</Ul>
                         </Menu>
                     </Div3>                
                 </Div2>
-
                 <Routes>
+                    <Route path="/" element={<Empty/>} />
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
                 </Routes>
@@ -60,6 +57,7 @@ height:100%;
 `
 
 const ContentsFrame = styled.div`
+height:790px;
 width:1500px;
 display:flex;
 flex-direction: row;
@@ -71,7 +69,7 @@ const Div2 =styled.div`
 `
 
 const Metaverse = styled.div`
-position: sticky;
+//position: sticky;
 top: 0;
 border: 1px solid  #bcbcbc;
 width:1067px;
@@ -80,10 +78,9 @@ height:662px;
 `
 
 const Div3 =styled.div`
-border: 1px solid  #bcbcbc;
-height:200px;
+//border: 1px solid  #bcbcbc;
+height: 150px;
 `
-
 const DivCharacterName=styled.div`
 display:flex;
 flex-direction: row;
@@ -114,7 +111,7 @@ font-size:16px;
 
 const Empty = styled.div`
 padding : 20px 30px 20px 30px;
-border: 1px solid #A4A4A4 ;
+//border: 1px solid #A4A4A4 ;
 width:490px;
-height:60%; 
+height:100%; 
 `

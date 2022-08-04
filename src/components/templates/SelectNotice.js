@@ -31,8 +31,9 @@ export default function SelectNotice(){
 }
 
 const SelectNoticeFrame = styled.div`
-width:100%;
-height:100%;
+    padding : 20px 30px 20px 30px;
+    border: 1px solid #A4A4A4 ;
+
 `
 
 const Div=styled.div`

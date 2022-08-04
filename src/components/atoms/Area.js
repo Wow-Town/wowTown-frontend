@@ -52,6 +52,7 @@ font-style: normal;
 font-weight: 400;
 font-size: 16px;
 line-height: 19px;
+cursor: pointer;
 `
 
 const ClickedArea = styled.li`
@@ -70,6 +71,7 @@ font-style: normal;
 font-weight: 400;
 font-size: 16px;
 line-height: 19px;
+cursor: pointer;
 `
 const Span = styled.span`
 line-height: 40px;

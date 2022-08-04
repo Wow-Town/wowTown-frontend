@@ -4,7 +4,7 @@ import FrameHeader from "./FrameHeader";
 import { useState } from "react";
 import Button from "../atoms/Button";
 import InterestList from "./InterestList";
-import InputInfo from "../atoms/InputInfo";
+
 
 export default function PostNotice(){
     const[noticeTitle,setNoticeTitle]=useState();
@@ -13,12 +13,7 @@ export default function PostNotice(){
     const[noticetTitleError,setNoticeTitleError] =useState(false);
     const[noticeContentsError,setNoticeContentsError]=useState(false);
    
-    const areas=[
-        "BACKEND", "FRONTEND","PYTHON",
-        "CPP",
-        "REACT","SPRING",
-        "JAVA","ALGORITHM" 
-    ]
+    
     
     function onNoticeTitleHandler(e){
         if(e.target.value.length ===0){setNoticeTitleError(true);
@@ -32,27 +27,7 @@ export default function PostNotice(){
             setNoticeContents(e.target.value);
         }
     }
-    function onInterestListHandler(areaIndex){
-        
-        if(!interestList.includes(areas[areaIndex])){
-            setInterestList([...interestList,areas[areaIndex]]);
-            console.log(interestList);
-            }
-        
-    }
-
-    function setData(areaName){
-        onInterestListHandler(areaName);
-    }
     
-    function setDataRemove(areaIndex){
-        if(interestList.includes(areas[areaIndex])){
-            setInterestList(interestList.filter( (item)=>{
-                return item !==areas[areaIndex];
-            }))
-            console.log(interestList);
-        }
-    }
 
     function checkNoticeFormValidation(){
         if(!noticetTitleError && noticeTitle 
@@ -80,14 +55,17 @@ export default function PostNotice(){
             <FrameHeader frameTitle='공고 등록'/>
             <Div onSubmit={onSubmitNotice}>
                 <TitleDiv>
-                <InputInfo label="공고 제목" onChange={onNoticeTitleHandler}/>
-                {/* <Label>공고 제목</Label>
-                <TitleInput onChange={onNoticeTitleHandler}></TitleInput> */}
+                {/* <InputInfo 
+                label="공고 제목"
+                inputWidth = "100px"
+                onChange={onNoticeTitleHandler}/> */}
+                <Label>공고 제목</Label>
+                <TitleInput onChange={onNoticeTitleHandler}></TitleInput>
                 </TitleDiv>
-                <AreaDiv>
-                    <Label>모집 분야</Label>
+                <AllAreaFrame>
+                    <Label>모집 분야(1~3개)</Label>
                     <InterestList setInterestList={setInterestList}/>
-                </AreaDiv>
+                </AllAreaFrame>
                 <ContentsDiv>
                     <Label>공고 내용</Label>
                     <Textarea
@@ -102,8 +80,9 @@ export default function PostNotice(){
 }
 
 const Frame= styled.div`
-    width:100%;
     height:100%;
+    padding : 20px 30px 20px 30px;
+    border: 1px solid #A4A4A4 ;
 `
 
 const Div = styled.form`
@@ -111,7 +90,7 @@ const Div = styled.form`
 const TitleDiv = styled.div`
     margin-bottom:20px;
 `
-const AreaDiv =styled.div`
+const AllAreaFrame =styled.div`
 
 `
 const ContentsDiv =styled.div`
@@ -124,9 +103,8 @@ const Label = styled.label`
     font-size: 16px;
     font-weight: 700;
     width: 140px;
-    line-height:20px; 
-    padding: 0px 0px 10px 0px;
-    margin-bottom:60px;
+    line-height:20px;
+   
 `
 const TitleInput = styled.input`
     width:369px;
@@ -135,17 +113,18 @@ const TitleInput = styled.input`
     border: 2px solid #A4A4A4;
     box-sizing: border-box;
     border-radius: 10px;
-    padding: 1px 15px 1px 15px;
+    margin-top:10px;
 `
 const Textarea = styled.textarea`
     max-width: 369px;
     min-width: 369px;
     max-height: 250px;
+    min-height: 250px;
     height:50px; 
     background: #FFFFFF;
     border: 1px solid #A4A4A4;
     box-sizing: border-box;
     border-radius: 10px;
     padding: 10px 15px 10px 15px;
-    margin-bottom:40px;
+    margin: 10px 0px 40px 0px;
 `

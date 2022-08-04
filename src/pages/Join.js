@@ -180,9 +180,10 @@ const LoginForm=styled.form`
 display:flex;
 flex-direction: column; 
 justify-content: center; 
+padding-left:83px;
 `
 const ErrorMessage =styled.div`
-padding-left: 83px;
+//padding-left: 83px;
 height: 32px;
 font-size: 16px;
 font-weight: 700;
@@ -196,7 +197,7 @@ font-size: 16px;
 font-weight: 600;
 line-height: 18.75px;
 width:400px;
-padding-left: 83px;
+//padding-left: 83px;
 padding-bottom:50px;
 accent-color: black;
 `
@@ -211,7 +212,7 @@ const NoAccount =styled.div`
 display:flex;
 flex-direction: row;  
 text-align: left;
-padding-left: 83px;
+//padding-left: 83px;
 `
 
 const QuestionNoAccount =styled.div`
