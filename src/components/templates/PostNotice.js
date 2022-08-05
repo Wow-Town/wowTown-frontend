@@ -53,7 +53,7 @@ export default function PostNotice(){
     return(
         <Frame>
             <FrameHeader frameTitle='공고 등록'/>
-            <Div onSubmit={onSubmitNotice}>
+            <NoticeForm onSubmit={onSubmitNotice}>
                 <TitleDiv>
                 {/* <InputInfo 
                 label="공고 제목"
@@ -74,18 +74,18 @@ export default function PostNotice(){
                      />
                 </ContentsDiv>
                 <Button buttonText="등록" marginLeft="140px"/>
-            </Div>
+            </NoticeForm>
         </Frame>
     );
 }
 
 const Frame= styled.div`
     height:100%;
-    padding : 20px 30px 20px 30px;
     border: 1px solid #A4A4A4 ;
 `
 
-const Div = styled.form`
+const NoticeForm = styled.form`
+    padding : 20px 30px 20px 30px;
 `
 const TitleDiv = styled.div`
     margin-bottom:20px;
@@ -118,8 +118,8 @@ const TitleInput = styled.input`
 const Textarea = styled.textarea`
     max-width: 369px;
     min-width: 369px;
-    max-height: 250px;
-    min-height: 250px;
+    max-height: 200px;
+    min-height: 200px;
     height:50px; 
     background: #FFFFFF;
     border: 1px solid #A4A4A4;

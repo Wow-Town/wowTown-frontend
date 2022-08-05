@@ -10,6 +10,6 @@ export default function Hr(){
 
 const Border=styled.hr`
     border: 0;
-    border-top: 1px solid #8c8c8c;
+    border-top: 3px solid #8c8c8c;
     border-bottom: 1px solid #fff;
 `

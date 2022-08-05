@@ -18,6 +18,7 @@ export default function SelectNotice(){
     return(
         <SelectNoticeFrame>
             <FrameHeader frameTitle='공고 유형 선택'/>
+            <SelectNoticetype>
             <Div onClick={()=> onClickNoticeList()}>
                 <Icon className="material-icons" >find_in_page</Icon>
                 <Label>공고 검색</Label>
@@ -26,17 +27,21 @@ export default function SelectNotice(){
                 <Icon className="material-icons">edit_document</Icon>
                 <Label>공고 등록</Label>    
             </Div>
+            </SelectNoticetype>
         </SelectNoticeFrame>
     );
 }
 
 const SelectNoticeFrame = styled.div`
-    padding : 20px 30px 20px 30px;
+    
     border: 1px solid #A4A4A4 ;
 
 `
-
+const SelectNoticetype =styled.div`
+    padding: 20px 30px 20px 30px;
+`
 const Div=styled.div`
+
 border: 1px solid #A4A4A4 ;
 width:370px;
 height:200px;

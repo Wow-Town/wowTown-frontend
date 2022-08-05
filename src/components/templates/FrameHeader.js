@@ -25,10 +25,11 @@ export default function Frame({frameTitle}){
 
 const Header=styled.div`
 background-color:#FEFFFF;
-margin-bottom:50px;
+//margin-bottom:50px;
 display:flex;
 flex-direction:row;
 justify-content:space-between;
+padding : 20px 30px 50px 30px;
 
 `
 const Title = styled.div`

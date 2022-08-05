@@ -49,19 +49,19 @@ export default function connectMetaverse(){
 }
 
 const Div=styled.div`
-padding: 0px 0px 0px 0px;
-display:flex;
-flex-direction: column;
-width:100%;
-height:100%;
+    padding: 0px 0px 0px 0px;
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    height:100%;
 `
 
 const ContentsFrame = styled.div`
-height:790px;
-width:1500px;
-display:flex;
-flex-direction: row;
-margin:0 auto;
+    height:800px;
+    width:1500px;
+    display:flex;
+    flex-direction: row;
+    margin:0 auto;
 `
 
 const Div2 =styled.div`
@@ -69,49 +69,49 @@ const Div2 =styled.div`
 `
 
 const Metaverse = styled.div`
-//position: sticky;
-top: 0;
-border: 1px solid  #bcbcbc;
-width:1067px;
-min-width:500px;
-height:662px;
+    //position: sticky;
+    top: 0;
+    border: 1px solid  #bcbcbc;
+    width:1067px;
+    min-width:500px;
+    height:662px;
 `
 
 const Div3 =styled.div`
-//border: 1px solid  #bcbcbc;
-height: 150px;
+    border: 1px solid  #bcbcbc;
+    height: 130px;
 `
 const DivCharacterName=styled.div`
-display:flex;
-flex-direction: row;
-align-items:center;
-margin:15px 20px 15px 20px;
-font-size:20px;
-font-weight: 600;
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    margin:15px 20px 15px 20px;
+    font-size:20px;
+    font-weight: 600;
 `
 
 const Span=styled.span`
-margin-right:10px;
-margin-top:3px;
-font-size:20px;
+    margin-right:10px;
+    margin-top:3px;
+    font-size:20px;
 `
 
 const Menu= styled.ul`
-margin-left:20px;
-margin-right:20px;
-padding-left:0px;
-list-style: none;
+    margin-left:20px;
+    margin-right:20px;
+    padding-left:0px;
+    list-style: none;
 `
 
 const Ul= styled.li`
-float:left;
-padding:2px 10px 2px 0px;
-font-size:16px;
+    float:left;
+    padding:2px 10px 2px 0px;
+    font-size:16px;
 `
 
 const Empty = styled.div`
-padding : 20px 30px 20px 30px;
-//border: 1px solid #A4A4A4 ;
-width:490px;
-height:100%; 
+    padding : 20px 30px 20px 30px;
+    //border: 1px solid #A4A4A4 ;
+    width:490px;
+    height:100%; 
 `
