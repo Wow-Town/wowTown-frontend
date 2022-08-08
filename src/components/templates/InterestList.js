@@ -38,4 +38,5 @@ export default function InterestList({setInterestList}){
 const AreasFrame =styled.ul`
     padding-left: 0px;
     width:100%;
+    margin-bottom:0px;
 `

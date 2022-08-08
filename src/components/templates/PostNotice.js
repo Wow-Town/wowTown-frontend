@@ -16,16 +16,14 @@ export default function PostNotice(){
     
     
     function onNoticeTitleHandler(e){
-        if(e.target.value.length ===0){setNoticeTitleError(true);
-        }else{
-            setNoticeTitle(e.target.value);
-        }
+        if( e.target.value.length ===0 ){ setNoticeTitleError(true);
+        }else{ setNoticeTitleError(false); }
+        setNoticeTitle(e.target.value); 
     }
     function onNoticeContentsHandler(e){
-        if(e.target.value.length ===0){setNoticeContentsError(true);
-        }else{
-            setNoticeContents(e.target.value);
-        }
+        if( e.target.value.length ===0 ){ setNoticeContentsError(true);
+        }else{setNoticeContentsError(false); }
+        setNoticeContents(e.target.value); 
     }
     
 
@@ -55,16 +53,18 @@ export default function PostNotice(){
             <FrameHeader frameTitle='공고 등록'/>
             <NoticeForm onSubmit={onSubmitNotice}>
                 <TitleDiv>
-                {/* <InputInfo 
-                label="공고 제목"
-                inputWidth = "100px"
-                onChange={onNoticeTitleHandler}/> */}
                 <Label>공고 제목</Label>
                 <TitleInput onChange={onNoticeTitleHandler}></TitleInput>
+                {
+                    noticetTitleError && noticeTitle.length ===0 ? <ErrorMessage>제목을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
+                }
                 </TitleDiv>
                 <AllAreaFrame>
                     <Label>모집 분야(1~3개)</Label>
                     <InterestList setInterestList={setInterestList}/>
+                    {
+                    interestList.length ===0? <ErrorMessage>모집분야를 1개 이상 선택해주세요.</ErrorMessage> : <ErrorMessage/>    
+                    }
                 </AllAreaFrame>
                 <ContentsDiv>
                     <Label>공고 내용</Label>
@@ -72,7 +72,11 @@ export default function PostNotice(){
                         id="inputAboutIntroduction"
                         onChange={onNoticeContentsHandler} 
                      />
+                     {
+                    noticeContentsError && noticeContents.length ===0 ? <ErrorMessage>내용을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
+                    }
                 </ContentsDiv>
+                
                 <Button buttonText="등록" marginLeft="140px"/>
             </NoticeForm>
         </Frame>
@@ -94,7 +98,7 @@ const AllAreaFrame =styled.div`
 
 `
 const ContentsDiv =styled.div`
-
+    margin: 10px 0px 30px 0px;
 `
 
 
@@ -126,5 +130,14 @@ const Textarea = styled.textarea`
     box-sizing: border-box;
     border-radius: 10px;
     padding: 10px 15px 10px 15px;
-    margin: 10px 0px 40px 0px;
+    margin-top:10px;
+    
+`
+
+const ErrorMessage =styled.div`
+    font-size: 12px;
+    font-weight: 700;
+    line-height:20px; 
+    color: red;
+    height: 20px;
 `
