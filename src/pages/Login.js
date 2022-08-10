@@ -80,9 +80,7 @@ export default function Login(){
             handleLogin({
                 "email" : email,
                 "password" : password,
-            })
-            setEmail("");
-            setPassword("");  
+            }) 
         }else{
             setOpenModal(true);
             setModalMessage({

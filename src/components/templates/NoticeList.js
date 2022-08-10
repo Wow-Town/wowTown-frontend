@@ -3,22 +3,39 @@
 import styled from "styled-components";
 import FrameHeader from "./FrameHeader";
 import ListFrame from '../atoms/ListFrame';
-import Hr from '../atoms/Hr';
-import DetailMenu from "./DetailMenu";
+import { useState } from "react";
+import SearchBar from '../atoms/SearchBar';
 export default function NoticeList(){
 
-    
-    function onClickByInterest(){
-
-
+    const [activeIndex, setActiveIndex] = useState(1);
+    const tabContArr=[
+        {
+            tabTitle:"내 관심사로 검색"
+            ,
+            tabCont:(
+                <div> 탭1 내용 </div>
+            )
+        },
+        {
+            tabTitle:"제목으로 검색",
+            tabCont:(
+                <SearchBar/>
+            )
+        }
+    ];
+    const tabClickHandler=(index)=>{
+        setActiveIndex(index);
     }
     return(
             <NoticeListPage>
                 <NoticeListFrame>
                     <FrameHeader frameTitle='공고 검색'/>
-                    <DetailMenu/>
+                    <TabFrame>
+                        <Tab1 onClick={()=> tabClickHandler(0)} >{tabContArr[0].tabTitle}</Tab1>
+                        <Tab2 onClick={()=> tabClickHandler(1)}>{tabContArr[1].tabTitle}</Tab2>
+                    </TabFrame>
                     <ContentsBySearchType>
-                        
+                        {tabContArr[activeIndex].tabCont}
                     </ContentsBySearchType>
                     <AllListFrame>
                         <ListFrame/>
@@ -65,7 +82,33 @@ const NoticeListPage = styled.div`
 const NoticeListFrame =styled.div`
 
 `
-
+const TabFrame =styled.div`
+    display:flex;
+    border-bottom:1px solid black;
+    
+`
+const Tab1 =styled.span`
+    padding: 4px 10px 4px 10px;
+    margin-left:20px;
+    font-size:12px;
+    color: #A4A4A4;
+    border-bottom:1px solid white;
+    &:hover{
+        color: black;
+        border-bottom:1px solid;
+    }
+   
+`
+const Tab2 = styled.span`
+    padding: 4px 10px 4px 10px;
+    font-size:12px;
+    color: #A4A4A4;
+    border-bottom:1px solid white;
+    &:hover{
+        color: black;
+        border-bottom:1px solid;
+    }
+`
 
 const ContentsBySearchType = styled.div`
 

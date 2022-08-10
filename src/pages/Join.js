@@ -89,7 +89,7 @@ export default function Join(){
         //error false이고 agreeing 은 true면 true 리턴 
         if(!emailError && !nameError && !passwordError && !checkPasswordError && agreeing
             && email.length !==0 && name.length !==0 && passwordError.length !==0 && checkPasswordError.length !==0){
-            
+                
             return true;
         }else{
             return false;
@@ -104,7 +104,8 @@ export default function Join(){
         // vali 조건에 맞으면 
         // 이메일 조건에 맞으면 
         // 유저정보 저장
-            console.log("제출조건 맞음")
+            console.log("제출조건 맞음");
+
             handleSignUp({
                 "email": email,
                 "userName": name,

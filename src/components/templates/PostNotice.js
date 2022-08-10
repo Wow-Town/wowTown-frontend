@@ -54,7 +54,9 @@ export default function PostNotice(){
             <NoticeForm onSubmit={onSubmitNotice}>
                 <TitleDiv>
                 <Label>공고 제목</Label>
-                <TitleInput onChange={onNoticeTitleHandler}></TitleInput>
+                <TitleInput 
+                    value={noticeTitle}
+                    onChange={onNoticeTitleHandler}></TitleInput>
                 {
                     noticetTitleError && noticeTitle.length ===0 ? <ErrorMessage>제목을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
                 }
@@ -69,7 +71,8 @@ export default function PostNotice(){
                 <ContentsDiv>
                     <Label>공고 내용</Label>
                     <Textarea
-                        id="inputAboutIntroduction"
+                        //id="inputAboutIntroduction"
+                        value={noticeContents}
                         onChange={onNoticeContentsHandler} 
                      />
                      {
