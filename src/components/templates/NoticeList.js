@@ -5,7 +5,7 @@ import FrameHeader from "./FrameHeader";
 import ListFrame from '../atoms/ListFrame';
 import { useState } from "react";
 import SearchBar from '../atoms/SearchBar';
-import SelectedInterestList from "./SelectednterestList";
+import SelectedInterestList from "./SelectedInterestList";
 export default function NoticeList(){
 
     const [activeIndex, setActiveIndex] = useState(2);
@@ -35,7 +35,7 @@ export default function NoticeList(){
     }
     return(
             <NoticeListPage>
-                <NoticeListFrame>
+                
                     <FrameHeader frameTitle='공고 검색'/>
                     <TabFrame>
                         <Tab1 onClick={()=> tabClickHandler(0)} >{tabContArr[0].tabTitle}</Tab1>
@@ -58,7 +58,7 @@ export default function NoticeList(){
                         <ListFrame/>
                         <ListFrame/>
                     </AllListFrame>
-                    </NoticeListFrame>
+                
                 </NoticeListPage>
     );
 }
@@ -86,9 +86,6 @@ const NoticeListPage = styled.div`
     }
 `
 
-const NoticeListFrame =styled.div`
-
-`
 const TabFrame =styled.div`
     display:flex;
     border-bottom:1px solid black;

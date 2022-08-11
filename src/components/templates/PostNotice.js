@@ -49,7 +49,7 @@ export default function PostNotice(){
 
     }
     return(
-        <Frame>
+        <PostNoticeFrame>
             <FrameHeader frameTitle='공고 등록'/>
             <NoticeForm onSubmit={onSubmitNotice}>
                 <TitleDiv>
@@ -82,11 +82,11 @@ export default function PostNotice(){
                 
                 <Button buttonText="등록" marginLeft="140px"/>
             </NoticeForm>
-        </Frame>
+        </PostNoticeFrame>
     );
 }
 
-const Frame= styled.div`
+const PostNoticeFrame = styled.div`
     height:100%;
     border: 1px solid #A4A4A4 ;
 `

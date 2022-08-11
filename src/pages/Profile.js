@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import FrameHeader from "../components/templates/FrameHeader";
 import Button from "../components/atoms/Button";
-import SelectedInterestList from '../components/templates/SelectednterestList';
+import SelectedInterestList from '../components/templates/SelectedInterestList';
 //import { ChannelState } from "../utils/ChannelState";
 //import { useRecoilState } from 'recoil';
 //import { useEffect } from "react";

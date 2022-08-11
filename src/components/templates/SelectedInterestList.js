@@ -1,15 +1,15 @@
 import styled from "styled-components";
 export default function SelectedInterestList(){
     return(
-        <SelectedInterestListDiv >
+        <SelectedInterestListFrame >
             <Interest>REACT</Interest>
             <Interest>FRONTEND</Interest>
             <Interest>ALGORITHM</Interest>
-        </SelectedInterestListDiv>
+        </SelectedInterestListFrame>
     )
 }
 
-const SelectedInterestListDiv = styled.div`
+const SelectedInterestListFrame = styled.div`
     display:flex;
     flex-direction: row;
     justify-content: center;
