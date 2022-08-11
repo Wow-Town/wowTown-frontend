@@ -64,9 +64,9 @@ export default function PostNotice(){
                 <AllAreaFrame>
                     <Label>모집 분야(1~3개)</Label>
                     <InterestList setInterestList={setInterestList}/>
-                    {
+                    {/* {
                     interestList.length ===0? <ErrorMessage>모집분야를 1개 이상 선택해주세요.</ErrorMessage> : <ErrorMessage/>    
-                    }
+                    } */}
                 </AllAreaFrame>
                 <ContentsDiv>
                     <Label>공고 내용</Label>
@@ -125,8 +125,8 @@ const TitleInput = styled.input`
 const Textarea = styled.textarea`
     max-width: 369px;
     min-width: 369px;
-    max-height: 200px;
-    min-height: 200px;
+    max-height: 170px;
+    min-height: 170px;
     height:50px; 
     background: #FFFFFF;
     border: 1px solid #A4A4A4;
