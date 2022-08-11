@@ -8,7 +8,7 @@ import SearchBar from '../atoms/SearchBar';
 import SelectedInterestList from "./SelectednterestList";
 export default function NoticeList(){
 
-    const [activeIndex, setActiveIndex] = useState(1);
+    const [activeIndex, setActiveIndex] = useState(2);
     const tabContArr=[
         {
             tabTitle:"내 관심사로 검색"
@@ -21,6 +21,12 @@ export default function NoticeList(){
             tabTitle:"제목으로 검색",
             tabCont:(
                 <SearchBar/>
+            )
+        },
+        {
+            tabTitle:"빈 화면",
+            tabCont:(
+                <TabEmpty/>
             )
         }
     ];
@@ -122,4 +128,7 @@ const AllListFrame =styled.div`
     border-top : 1px solid;
     
     
+`
+const TabEmpty = styled.div`
+
 `
