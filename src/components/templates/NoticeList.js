@@ -5,6 +5,7 @@ import FrameHeader from "./FrameHeader";
 import ListFrame from '../atoms/ListFrame';
 import { useState } from "react";
 import SearchBar from '../atoms/SearchBar';
+import SelectedInterestList from "./SelectednterestList";
 export default function NoticeList(){
 
     const [activeIndex, setActiveIndex] = useState(1);
@@ -13,7 +14,7 @@ export default function NoticeList(){
             tabTitle:"내 관심사로 검색"
             ,
             tabCont:(
-                <div> 탭1 내용 </div>
+                <SelectedInterestList  />
             )
         },
         {
@@ -118,6 +119,7 @@ const AllListFrame =styled.div`
     flex-direction: column; 
     align-items:center;
     padding: 20px 30px 20px 30px;
+    border-top : 1px solid;
     
     
 `

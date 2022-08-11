@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import FrameHeader from "../components/templates/FrameHeader";
 import Button from "../components/atoms/Button";
+import SelectedInterestList from '../components/templates/SelectednterestList';
 //import { ChannelState } from "../utils/ChannelState";
 //import { useRecoilState } from 'recoil';
 //import { useEffect } from "react";
@@ -32,11 +33,7 @@ export default function Profile(){
                 <Button fontSize="13px" color="#C4C4C4" height ='27px'   buttonText="캐릭터 수정"/>
             </SimpleProfile>
             <H3>관심 분야</H3>
-            <InterestListDiv>
-                <H4>ALGORITHM</H4>
-                <H4>FRONTEND</H4>
-                <H4>BACKEND</H4>
-            </InterestListDiv>
+            <SelectedInterestList  />
              
             <H3>소개</H3>
             
@@ -83,11 +80,7 @@ const Name= styled.h1`
     font-weight:500;
 `
 
-const InterestListDiv = styled.div`
-    display:flex;
-    flex-direction: row;
-    justify-content: flex-start;
-`
+
 
 const IntroductionDiv = styled.div`
     //width:370px;
@@ -102,21 +95,10 @@ const H3= styled.h3`
     font-size:16px;
     font-weight: 600;
     padding-top:20px;
-    padding-bottom:13px;
+    //padding-bottom:13px;
     font-style:normal;
     width: 100px;
     line-height:20px; 
 
-
-`
-
-const H4 =styled.li`
-    display:inline-block;
-    font-size:16px;
-    font-weight: 700;
-    background-color:#BCBCBC;
-    margin: 5px;
-    padding: 5px 10px;
-    border-radius:10px;
 
 `
