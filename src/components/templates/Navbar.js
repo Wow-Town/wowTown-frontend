@@ -3,34 +3,38 @@ import Button from '../atoms/Button';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../../utils/LoginState';
 import {useNavigate} from 'react-router-dom';
+import { LoginEmail } from '../../utils/LoginState';
 export default function Navbar(){
     
     const [,setIsLoggedIn] = useRecoilState(LoginState);
+    const[ loggedEmail,setLoggedEmail] = useRecoilState(LoginEmail);
+
     const navigate=useNavigate();
 
-    function onClick(){
+    function onClickButton(){
         setIsLoggedIn(false);
-        navigate('../login');
+        setLoggedEmail("");
+        navigate('.../');
 
     }
-    
+    function onClickLogo(){
+        navigate('./connectMetaverse');
+    }
     return(
             <NavContainer>
-                <LogoHeader>WowTown</LogoHeader>
-                <DivShowIdImg></DivShowIdImg>
-                <DivShowId> 유저 아이디 </DivShowId>
-                <Button height ='41px' callback={() => {onClick()}}  buttonText="로그아웃"/>
-
+                <LogoHeader onclick={onClickLogo}>
+                <LogoImg className="material-icons">school</LogoImg>
+                    WowTown
+                </LogoHeader>
+                <PersonalInformationFrame>
+                    <DivShowIdImg className="material-icons">account_circle</DivShowIdImg>
+                    <DivShowId> {loggedEmail} </DivShowId>
+                    <Button height ='31px' callback={() => {onClickButton()}}  buttonText="로그아웃"/>
+                </PersonalInformationFrame>
             </NavContainer>
     );
 }
-const LogoHeader = styled.h1`
-    padding-right:10px;
-    margin-top: 15px;
-    margin-left:30px;
-    //margin-right:1470px;
-    color:#F98B00;
-`;
+
 
 const NavContainer =styled.nav`
     // position: fixed;
@@ -42,16 +46,35 @@ const NavContainer =styled.nav`
     display:flex;
     flex-direction:row;
     align-items:center;
+    justify-content: space-between;
 `;
-const DivShowIdImg = styled.div`
-    background-color: #F8FB89;
-    width:35px;
-    height:35px;
-    border-radius:100px;
-    margin-right:10px;
+const LogoHeader = styled.h1`
+    padding-right:10px;
+    margin-top: 15px;
+    margin-left:30px;
+    color:#F98B00;
+    display:flex;
+    align-items:center;
+`;
+const LogoImg = styled.span`
+    font-size:40px;
+    padding-right:10px;
 `
-const DivShowId = styled.div`
+const PersonalInformationFrame = styled.div`
+    display:flex;
+    flex-direction:row;
+    align-items:center;
     margin-right:30px;
+`
+const DivShowIdImg = styled.div`
+    color: #F8FB89;
+    font-size:40px;
+    border-radius:100px;
+    margin-right:5px;
+`
+
+const DivShowId = styled.div`
+    margin-right:20px;
     color:white;
 `
 // const NavUl = styled.ul`

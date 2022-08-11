@@ -8,3 +8,11 @@ export const LoginState = atom({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const LoginEmail = atom(
+  {
+    key: 'LoginEmail',
+    default: "",
+    effects_UNSTABLE: [persistAtom],
+  }
+)

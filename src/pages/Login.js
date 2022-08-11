@@ -7,6 +7,7 @@ import Header from '../components/templates/Header';
 import Modal from '../components/templates/Modal';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
+import { LoginEmail } from '../utils/LoginState';
 import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
@@ -21,6 +22,8 @@ export default function Login(){
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
     const[ ,setIsLoggedIn] = useRecoilState(LoginState);
+    const[ loggedEmail,setLoggedEmail] = useRecoilState(LoginEmail);
+    
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
@@ -35,7 +38,11 @@ export default function Login(){
                 const { accessToken } = response;
                 instance.defaults.headers.common['Authorization'] = ` ${accessToken}`;
                 if (accessToken) localStorage.setItem('accessToken',  accessToken );
-                if (localStorage.getItem('accessToken')) setIsLoggedIn(true); 
+                if (localStorage.getItem('accessToken')){
+                    setIsLoggedIn(true);
+                    setLoggedEmail(email);
+                    
+                }
                 navigate("/channels");             
             }else{
                 console.log('login failed: ', error);
