@@ -55,7 +55,7 @@ export default function PostNotice(){
                 <TitleDiv>
                 <Label>공고 제목</Label>
                 <TitleInput 
-                    value={noticeTitle}
+                    value={noticeTitle || ""}
                     onChange={onNoticeTitleHandler}></TitleInput>
                 {
                     noticetTitleError && noticeTitle.length ===0 ? <ErrorMessage>제목을 입력해주세요.</ErrorMessage> : <ErrorMessage/>    
