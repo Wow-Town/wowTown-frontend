@@ -11,7 +11,7 @@ import {useMutation} from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { createAvatar } from '../apis/avatar.api';
 
-export default function CharacterSettings(){
+export default function  AvatarSettings(){
     const[nickname,setNickname]=useState("");
     const[introduction,setIntroduction]=useState("");
     const[nicknameError,setNicknameError]=useState(false);
