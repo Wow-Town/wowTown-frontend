@@ -17,8 +17,8 @@ export default function ListFrame(){
 
 
 const Div = styled.div`
-margin-top:10px;
-margin-bottom:10px;
+width:85%;
+margin:5px 0px 5px 0px;
 padding:10px 10px 10px 10px;
 border: 1px solid #A4A4A4 ;
 border-radius:10px;

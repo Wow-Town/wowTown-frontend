@@ -9,10 +9,10 @@ export default function InterestList({setInterestList}){
     const [selectedInterests,setSelectedInterests] = useState([]);
 
     const areas=[
-        "BACKEND", "FRONTEND","PYTHON",
+        "BACKEND", "FRONTEND",
         "CPP",
         "REACT","SPRING",
-        "JAVA","ALGORITHM" 
+        "JAVA","ALGORITHM" ,"PYTHON"
     ]
 
     useEffect(()=>{
@@ -35,7 +35,8 @@ export default function InterestList({setInterestList}){
     )
 }
 
-export const AreasFrame =styled.ul`
-padding-left: 0px;
-cursor: pointer;
+const AreasFrame =styled.ul`
+    padding-left: 0px;
+    width:100%;
+    margin-bottom:0px;
 `

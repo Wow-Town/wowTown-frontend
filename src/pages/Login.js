@@ -11,7 +11,7 @@ import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
 import { login } from '../apis/user.api';
-import instance from '../apis/axios'
+import instance from '../apis/axios';
 
 export default function Login(){
     const[email,setEmail] =useState();
@@ -80,9 +80,7 @@ export default function Login(){
             handleLogin({
                 "email" : email,
                 "password" : password,
-            })
-            setEmail("");
-            setPassword("");  
+            }) 
         }else{
             setOpenModal(true);
             setModalMessage({
@@ -138,9 +136,10 @@ const LoginForm=styled.form`
 display:flex;
 flex-direction: column; 
 justify-content: center; 
+padding-left:83px;
 `
 const ErrorMessage =styled.div`
-padding-left: 83px;
+//padding-left: 83px;
 height: 42px;
 font-size: 16px;
 font-weight: 700;
@@ -153,7 +152,7 @@ const NoAccount =styled.div`
 display:flex;
 flex-direction: row;  
 text-align: left;
-padding-left: 83px;
+//padding-left: 83px;
 `
 
 const QuestionNoAccount =styled.div`

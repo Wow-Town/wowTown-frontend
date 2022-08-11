@@ -11,7 +11,7 @@ import {useMutation} from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { createAvatar } from '../apis/avatar.api';
 
-export default function CharacterSettings(){
+export default function  AvatarSettings(){
     const[nickname,setNickname]=useState("");
     const[introduction,setIntroduction]=useState("");
     const[nicknameError,setNicknameError]=useState(false);
@@ -142,12 +142,14 @@ const ContentsFrame=styled.div`
 
 const AvaterForm=styled.form`
     display:flex;
+    width:520px;
     flex-direction: column; 
-    justify-content: center; 
+    justify-content: center;
+    padding-left: 83px;
 `
 
 const ErrorMessage =styled.div`
-    padding-left: 83px;
+    
     height: 32px;
     font-size: 16px;
     font-weight: 700;
@@ -157,7 +159,7 @@ const ErrorMessage =styled.div`
 `
 
 const IntroductionFrame =styled.div`
-    padding-left:83px;
+    
 `
 
 const Label =styled.label`
@@ -185,13 +187,10 @@ const Textarea =styled.textarea`
 `
 
 const AllAreaFrame =styled.div`
-    padding-left: 83px;
+width:100%;
+
 `
 
-const AreasFrame =styled.ul`
-    padding-left: 0px;
-    cursor: pointer;
-`
 
 const ButtonLogin =styled.div`
     display:flex;

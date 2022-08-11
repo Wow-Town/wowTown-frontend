@@ -28,7 +28,7 @@ const LogoHeader = styled.h1`
     padding-right:10px;
     margin-top: 15px;
     margin-left:30px;
-    margin-right:1470px;
+    //margin-right:1470px;
     color:#F98B00;
 `;
 
