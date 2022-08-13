@@ -10,45 +10,38 @@ import SelectedInterestList from '../components/templates/SelectedInterestList';
 
 
 export default function Profile(){
+    const userInf=[
+        {
+            "avatarId" : "1",
+            "nickName" : "나나나",
+            "description" : "나나나나나나니skskskskssssssssssssssssssssssssssssssssssssssss",
+            "interestList" : ["REACT", "ALGORITHM", "PYTHON"]
+          },
+        ]
 
-    // useEffect(() => {
-    //     axios.get('http://api.wowtown.co.kr:81/avatars',{
-    //         headers:{
-    //             'Authorization' : localStorage.getItem('accessToken'),
-    //         }
-    //     }).then(response => {
-    //             console.log(response);
-    //             axios.defaults.headers.common['Authorization'] = ` ${response.data.accessToken}`
-
-    //     })
-    // },[]);
 
     return(
-        <ProfilePage >
+        <ProfilePage>
             <FrameHeader frameTitle='내 프로필'/>
             <ProfileFrame>
-            <SimpleProfile>
-                <ProfileImg>닉</ProfileImg>
-                <Name>닉네임</Name>
-                <Button fontSize="13px" color="#C4C4C4" height ='27px'   buttonText="캐릭터 수정"/>
-            </SimpleProfile>
-            <H3>관심 분야</H3>
-            <SelectedInterestList  />
-             
-            <H3>소개</H3>
-            
-            <IntroductionDiv>
-                안녕~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            </IntroductionDiv>
+                <SimpleProfile>
+                    <ProfileImg className="material-icons">account_circle</ProfileImg>
+                    <Name>{userInf[0].nickName}</Name>
+                    <Button fontSize="13px" color="#C4C4C4" height ='27px'   buttonText="캐릭터 수정"/>
+                </SimpleProfile>
+                <H3>관심 분야</H3>
+                    <SelectedInterestList  />
+                <H3>소개</H3>
+                    <IntroductionDiv>
+                    {userInf[0].description}    
+                    </IntroductionDiv>
             </ProfileFrame>
         </ProfilePage>
     );
 }
 
 const ProfilePage= styled.div`
-
     border: 1px solid #A4A4A4 ;
-    width:490px;
 `
 const ProfileFrame =styled.div`
     padding : 20px 30px 20px 30px;
@@ -62,9 +55,8 @@ const SimpleProfile = styled.div`
 `
 
 const ProfileImg=styled.div`
-    background-color:pink;
-    width:60px;
-    height:60px;
+    color:pink;
+    font-size:60px;
     line-height:60px;
     border-radius:100px;
     text-align: center;
@@ -88,6 +80,9 @@ const IntroductionDiv = styled.div`
     font-size:20px;
     font-weight: 400;
     margin-left:5px;
+    padding: 10px 10px 10px 10px;
+    border: 0.5px solid;
+    border-radius:10px;
 
 `
 

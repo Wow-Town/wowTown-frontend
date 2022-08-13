@@ -2,35 +2,37 @@ import styled from 'styled-components';
 import Button from '../atoms/Button';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../../utils/LoginState';
-import {useNavigate} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LoginEmail } from '../../utils/LoginState';
 export default function Navbar(){
     
-    const [,setIsLoggedIn] = useRecoilState(LoginState);
+    const [isloggedIn,setIsLoggedIn] = useRecoilState(LoginState);
     const[ loggedEmail,setLoggedEmail] = useRecoilState(LoginEmail);
 
-    const navigate=useNavigate();
+    
 
     function onClickButton(){
         setIsLoggedIn(false);
         setLoggedEmail("");
-        navigate('.../');
+        
 
     }
-    function onClickLogo(){
-        navigate('./connectMetaverse');
-    }
+    
     return(
             <NavContainer>
-                <LogoHeader onclick={onClickLogo}>
+                <LogoHeader>
                 <LogoImg className="material-icons">school</LogoImg>
                     WowTown
                 </LogoHeader>
+                {isloggedIn ?
                 <PersonalInformationFrame>
                     <DivShowIdImg className="material-icons">account_circle</DivShowIdImg>
                     <DivShowId> {loggedEmail} </DivShowId>
-                    <Button height ='31px' callback={() => {onClickButton()}}  buttonText="로그아웃"/>
-                </PersonalInformationFrame>
+                    <Link to="/">
+                        <Button height ='31px' onClick={() => {onClickButton()}}  buttonText="로그아웃"/>
+                    </Link>
+                </PersonalInformationFrame> :<Empty/>
+                }
             </NavContainer>
     );
 }
@@ -77,41 +79,5 @@ const DivShowId = styled.div`
     margin-right:20px;
     color:white;
 `
-// const NavUl = styled.ul`
-//     display:flex;
-//     flex-direction:row;
-//     display: flex;
-//     flex-direction: row;
-//     align-items: center;
-//     justify-content:space-evenly;
-//     margin: 0px;
-    
-// `;
-// const Nav =styled.li` 
-//     font-weight: 600;
-//     font-size: 25px; 
-//     color: #000000;
-//     list-style:none;
-//     padding: 18px 7px 10px ;
-//     cursor:pointer;
-//     border-radius: 15px;
-//     line-height: 25px;
-//     text-align: center;
-//     margin-left : 5px;
-//     margin-right : 5px;
-//     height:50%;
-
-//     &:hover{
-//         background-color: #FFBC45;
-//     }
-
-// `;
-
-// const A =styled.a`
-//     text-decoration: none;
-//     font-weight: 00;
-//     font-size: 22px;
-//     color: #FFFFFF;
-//     text-align:center;
-   
-// `;
+const Empty =styled.div`
+`

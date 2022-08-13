@@ -30,7 +30,7 @@ const InputLabel = styled.label`
     font-style:normal;
     font-size: 16px;
     font-weight: 700;
-    width: 110px;
+    width: 135px;
     line-height:20px; 
     padding: 0px 0px 10px 0px;
     

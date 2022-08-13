@@ -22,7 +22,7 @@ export default function Login(){
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
     const[ ,setIsLoggedIn] = useRecoilState(LoginState);
-    const[ loggedEmail,setLoggedEmail] = useRecoilState(LoginEmail);
+    const[,setLoggedEmail] = useRecoilState(LoginEmail);
     
     
     const[modalMessage, setModalMessage]=useState({
