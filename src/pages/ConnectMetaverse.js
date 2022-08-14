@@ -10,11 +10,17 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { AvatarState } from "../utils/AvatarState";
 
+import Chat from "./Chat";
+///////////////////////////////////////나중에 지울부분
+import {useMutation} from 'react-query';
+import { createChatRoom, enterChatRoom } from "../apis/chatRoom.api";
+
 
 
 export default function connectMetaverse(){
     const navigate=useNavigate();
     const [clearNotice,setClearNotice] = useState(false);
+    const [clearChat,setClearChat] = useState(false);
     const avatarNickname= useRecoilValue(AvatarState);
     
 
@@ -27,6 +33,45 @@ export default function connectMetaverse(){
     function onClickNotice(){
         setClearNotice(true);
         navigate('/connectMetaverse/notice')
+    }
+    function onClickChat(){
+        setClearNotice(true);
+        navigate('/connectMetaverse/chat')
+    }
+/////////////////////////////아래 지울 부분
+
+////채팅하기 버튼을 누르면 빈 채팅방이 하나 만들어지고 해당 채팅방 UUID를 이용하여 채팅방 페이지로 이동한다.
+////채팅방 페이지에 props로 아바타ID또는 공고ID를 넘겨준다.(아마도 채팅방 페이지를 1:1, n:n 따로 만들어야할듯...)
+////채팅방 페이지에서 제일 먼저 ID로 상대방 닉네임을 조회하여 채팅방 이름을 표시해준다.
+////오픈채팅방일겨우 공고ID 를 가지고 공고 제목,
+    const{ mutateAsync: handleCreateChatRoom } = useMutation(createChatRoom,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                console.log('아바타 채팅 목록');
+                console.log(response); 
+                navigate('/connectMetaverse/chat/room/'+response.chatRoomUUID, { state : {chatRoomId : response.chatRoomUUID, roomName : "상대방 닉네임"}})
+                //handleEnterChatRoom(response.chatRoomUUID);
+
+
+            }else{
+                console.log('login failed: ', error);
+            }
+        }
+        });
+    const{ mutateAsync: handleEnterChatRoom } = useMutation(enterChatRoom,{
+        onSuccess: ({success, error }) => {
+            if(success){
+                console.log('아바타 채팅 입장');
+            }else{
+                console.log('login failed: ', error);
+            }
+        }
+        });
+    function onClickTest(){
+        console.log('테스트 시작');
+        
+        handleCreateChatRoom({"avatarId": 2 , "nickName" : "와사비망고"});
+        
     }
     return(
         <Div>
@@ -42,8 +87,9 @@ export default function connectMetaverse(){
                         <Menu>
                             <Ul>친구 목록</Ul>
                             <Ul>접속 유저</Ul>
-                            <Ul>채팅 목록</Ul>
+                            <Ul onClick={onClickChat}>채팅 목록</Ul>
                             <Ul onClick={onClickNotice}>공고 보기</Ul>
+                            <Ul onClick={onClickTest}>[아바타 채팅방 생성 및 입장 테스트]</Ul>
                         </Menu>
                     </Div3>                
                 </Div2>
@@ -51,6 +97,7 @@ export default function connectMetaverse(){
                     <Route path="/" element={<Empty/>} />
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
+                    <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
                 </Routes>
             </ContentsFrame>
         </Div>

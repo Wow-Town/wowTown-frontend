@@ -7,13 +7,7 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import PostNotice from '../components/templates/PostNotice';
 
-export default function Notice({clearNotice, setClearNotice}){
-
-    useEffect(() =>{
-        if(clearNotice){
-            setClearNotice(false);
-        }
-    })
+export default function Notice(){
 
     return(
         <NoticeFrame>
