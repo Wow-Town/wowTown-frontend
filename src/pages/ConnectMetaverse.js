@@ -7,10 +7,19 @@ import Profile from './Profile';
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { AvatarState } from "../utils/AvatarState";
+
+
 
 export default function connectMetaverse(){
     const navigate=useNavigate();
     const [clearNotice,setClearNotice] = useState(false);
+    const avatarNickname= useRecoilValue(AvatarState);
+    
+
+
+
 
     function onClick(){
         navigate('/connectMetaverse/profile');
@@ -27,7 +36,7 @@ export default function connectMetaverse(){
                     <Metaverse/>
                     <Div3>
                         <DivCharacterName> 
-                            <Span>닉네임</Span> 
+                            <Span>{avatarNickname.nickName}</Span> 
                             <Button fontSize="13px" color="#C4C4C4" height ='27px' onClick={() => {onClick()}}  buttonText="상세 보기"/>
                         </DivCharacterName>
                         <Menu>
@@ -62,6 +71,7 @@ const ContentsFrame = styled.div`
     display:flex;
     flex-direction: row;
     margin:0 auto;
+    margin-top:10px;
 `
 
 const Div2 =styled.div`

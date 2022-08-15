@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+// eslint-disable-next-line react/prop-types 
 import styled from "styled-components";
 
 export default function Button({color,height,fontSize,marginLeft,buttonText, onClick}){

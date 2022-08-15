@@ -8,3 +8,4 @@ export const AvatarState = atom({
   default: {},
   effects_UNSTABLE: [persistAtom],
 });
+

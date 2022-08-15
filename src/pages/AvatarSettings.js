@@ -10,6 +10,7 @@ import {useState} from 'react';
 import {useMutation} from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { createAvatar } from '../apis/avatar.api';
+import { useRecoilState } from 'recoil';
 
 export default function  AvatarSettings(){
     const[nickname,setNickname]=useState("");
@@ -19,6 +20,7 @@ export default function  AvatarSettings(){
     const[interestList,setInterestList]=useState([]);
     const[openModal,setOpenModal] =  useState(false);
     const navigate=useNavigate();
+
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
@@ -31,7 +33,6 @@ export default function  AvatarSettings(){
         onSuccess: ({response, success, error }) => {
             if(success){
                 console.log(response);
-             
                 setOpenModal(true);
                 setModalMessage({
                     "titleText": "캐릭터 설정 성공",
