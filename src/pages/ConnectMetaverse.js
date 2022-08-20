@@ -49,7 +49,7 @@ export default function connectMetaverse(){
             if(success){
                 console.log('아바타 채팅 목록');
                 console.log(response); 
-                navigate('/connectMetaverse/chat/room/'+response.chatRoomUUID, { state : {chatRoomId : response.chatRoomUUID, roomName : "상대방 닉네임"}})
+                navigate('/connectMetaverse/chat/room/'+response.chatRoomUUID, { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName}})
                 //handleEnterChatRoom(response.chatRoomUUID);
 
 
@@ -58,15 +58,7 @@ export default function connectMetaverse(){
             }
         }
         });
-    const{ mutateAsync: handleEnterChatRoom } = useMutation(enterChatRoom,{
-        onSuccess: ({success, error }) => {
-            if(success){
-                console.log('아바타 채팅 입장');
-            }else{
-                console.log('login failed: ', error);
-            }
-        }
-        });
+
     function onClickTest(){
         console.log('테스트 시작');
         

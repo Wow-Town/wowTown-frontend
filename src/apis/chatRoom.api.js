@@ -9,15 +9,6 @@ export async function createChatRoom(CreateChatRoomProps){
       }
 }
 
-export async function enterChatRoom(ChatRoomUUID){
-    try {
-        await axios.post('/chatRooms/'+ChatRoomUUID+'/enter');  
-        return {success: true, error: undefined };
-      } catch (error) {
-        return {success: false, error };
-      }
-}
-
 export async function getChatRoomList(){
     try {
         const response = await axios.get(`/chatRooms`);  
