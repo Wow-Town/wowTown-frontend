@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://api.wowtown.co.kr:81',
+  baseURL: 'http://localhost:8080',
   withCredentials: true,
+  headers: {
+    Authorization : `${localStorage.getItem('accessToken')}`
+    }
 });
 
 export default instance;

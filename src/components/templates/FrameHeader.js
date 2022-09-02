@@ -29,7 +29,7 @@ background-color:#FEFFFF;
 display:flex;
 flex-direction:row;
 justify-content:space-between;
-padding : 20px 30px 50px 30px;
+padding : 20px 0px 50px 0px;
 
 `
 const Title = styled.div`

@@ -44,7 +44,7 @@ export default function ChanneList({channelList}){
     function onClick(channelId){
         setEnteredChannelId(channelId);
         console.log(channelId);
-        handleEnterChannel(channelId);
+        handleEnterChannel({"channelId":channelId});
     }
         
     

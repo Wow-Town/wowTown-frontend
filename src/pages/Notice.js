@@ -7,13 +7,7 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import PostNotice from '../components/templates/PostNotice';
 
-export default function Notice({clearNotice, setClearNotice}){
-
-    useEffect(() =>{
-        if(clearNotice){
-            setClearNotice(false);
-        }
-    })
+export default function Notice(){
 
     return(
         <NoticeFrame>
@@ -27,6 +21,9 @@ export default function Notice({clearNotice, setClearNotice}){
 }
 
 const NoticeFrame = styled.div`
-width:490px;
-height:100%; 
+padding: 20px 30px 20px 30px;
+margin: 30px 40px 30px 30px;
+border: 1px solid #A4A4A4;
+width: 30%;
+height: 700px;
 `

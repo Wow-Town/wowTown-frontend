@@ -12,7 +12,6 @@ import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
 import { login } from '../apis/user.api';
-import instance from '../apis/axios';
 
 export default function Login(){
     const[email,setEmail] =useState();
@@ -36,7 +35,6 @@ export default function Login(){
         onSuccess: ({response, success, error }) => {
             if(success){
                 const { accessToken } = response;
-                instance.defaults.headers.common['Authorization'] = ` ${accessToken}`;
                 if (accessToken) localStorage.setItem('accessToken',  accessToken );
                 if (localStorage.getItem('accessToken')){
                     setIsLoggedIn(true);

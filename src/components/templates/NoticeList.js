@@ -8,6 +8,8 @@ import SearchBar from '../atoms/SearchBar';
 import SelectedInterestList from "./SelectedInterestList";
 export default function NoticeList(){
 
+    
+
     const [activeIndex, setActiveIndex] = useState(2);
     const tabContArr=[
         {
@@ -66,9 +68,8 @@ export default function NoticeList(){
 
 
 const NoticeListPage = styled.div`
-    //padding : 20px 30px 20px 30px;
-    border: 1px solid #A4A4A4 ;
-    height:90%;
+    width:100%;
+    height:100%;
     overflow-y: auto;
     &::-webkit-scrollbar {
         width: 10px;
