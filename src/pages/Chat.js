@@ -22,8 +22,9 @@ export default function Chat(){
 }
 
 const MainFrame = styled.div`
-padding : 20px 30px 20px 30px;
-border: 1px solid #A4A4A4 ;
-width:490px;
-height:600px; 
+padding: 20px 30px 20px 30px;
+margin: 30px 40px 30px 30px;
+border: 1px solid #A4A4A4;
+width: 30%;
+height: 700px;
 `

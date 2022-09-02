@@ -126,6 +126,7 @@ margin 3px;
 
 const Text = styled.p`
 max-width: 200px;
+word-wrap : break-word;
 padding: 2px;
 align-items: center;
 position: relative;
