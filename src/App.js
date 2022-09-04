@@ -5,12 +5,15 @@ import Home from './pages/Home';
 import Channels from './pages/Channel';
 import AvatarSettings from './pages/AvatarSettings';
 import ConnectMetaverse from './pages/ConnectMetaverse';
-import { BrowserRouter , Routes, Route } from "react-router-dom";
+import {unstable_HistoryRouter as HistoryRouter, Routes, Route} from 'react-router-dom';
+import {history} from './utils/History';
+
+
 
 function App() {
   return (
   
-   <BrowserRouter >
+   <HistoryRouter history={history}>
       <Routes>
         <Route index element={<Home/>} />
         <Route path="/join" element={<Join/>} />
@@ -21,7 +24,7 @@ function App() {
       
       </Routes>
       
-    </BrowserRouter>
+    </HistoryRouter>
   
   );
 }

@@ -61,7 +61,7 @@ display: inline-block;
 justify-content: center;
 align-items: center;
 padding: 0px 16px;
-margin-right: 12px;
+margin-right: 4px;
 margin-bottom: 12px;
 gap: 10px;
 border: 1px solid #A4A4A4;

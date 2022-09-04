@@ -32,10 +32,9 @@ export default function Login(){
     })
 
     const{ mutateAsync: handleLogin } = useMutation(login,{
-        onSuccess: ({response, success, error }) => {
+        onSuccess: ({success, error }) => {
             if(success){
-                const { accessToken } = response;
-                if (accessToken) localStorage.setItem('accessToken',  accessToken );
+                console.log(localStorage.getItem('accessToken'));
                 if (localStorage.getItem('accessToken')){
                     setIsLoggedIn(true);
                     setLoggedEmail(email);
