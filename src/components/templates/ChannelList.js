@@ -23,7 +23,7 @@ export default function ChanneList({channelList}){
                      
             }else{
                 //error 발생한 이유는 해당 채널에 아바타가 없기 때문이다. -> 아바타 생성 페이지로 이동
-                console.log('login failed: ', error);
+                console.log('getAvatar failed: ', error);
                 navigate('/avatars');   
             }
         }
@@ -43,7 +43,7 @@ export default function ChanneList({channelList}){
 
     function onClick(channelId){
         setEnteredChannelId(channelId);
-        console.log(channelId);
+        //console.log(channelId);
         handleEnterChannel({"channelId":channelId});
     }
         
