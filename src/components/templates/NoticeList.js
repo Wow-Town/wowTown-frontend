@@ -3,12 +3,13 @@
 import styled from "styled-components";
 import FrameHeader from "./FrameHeader";
 import ListFrame from '../atoms/ListFrame';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from '../atoms/SearchBar';
 import SelectedInterestList from "./SelectedInterestList";
-export default function NoticeList(){
+import { getNoticeList } from "../../apis/notice.api";
+import {useMutation} from 'react-query';
 
-    
+export default function NoticeList(){
 
     const [activeIndex, setActiveIndex] = useState(2);
     const tabContArr=[
@@ -35,6 +36,26 @@ export default function NoticeList(){
     const tabClickHandler=(index)=>{
         setActiveIndex(index);
     }
+
+    const [registeredNotice,setRegisteredNotice] =useState([]); 
+    useEffect(() =>{
+        handleNoticeList();
+    },[])   
+
+    const{ mutateAsync: handleNoticeList } = useMutation(getNoticeList,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                console.log("response" , response);
+                console.log(response[0]);
+                setRegisteredNotice(response);
+                console.log(registeredNotice);
+               
+            }else{
+                console.log('notice loading failed: ', error);
+            }
+        }
+        });
+
     return(
             <NoticeListPage>
                 
@@ -47,18 +68,16 @@ export default function NoticeList(){
                         {tabContArr[activeIndex].tabCont}
                     </ContentsBySearchType>
                     <AllListFrame>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
-                        <ListFrame/>
+                        {registeredNotice.map(
+                            (notice)=>{
+                                return (<ListFrame
+                                    key={notice.noticeId}
+                                    ownerName={notice.ownerName}
+                                    subject={notice.subject}
+                                    interests={notice.interests}
+                                />)
+                            })
+                        }
                     </AllListFrame>
                 
                 </NoticeListPage>
@@ -70,21 +89,7 @@ export default function NoticeList(){
 const NoticeListPage = styled.div`
     width:100%;
     height:100%;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-        width: 10px;
-        
-    }
-    &::-webkit-scrollbar-thumb:hover {
-        background: #A4A4A4;
-    }
-    &::-webkit-scrollbar-thumb:active {
-        background: #A4A4A4;
-    }
-    &::-webkit-scrollbar-thumb {
-        background: #BCBCBC;
-        border-radius: 10px;
-    }
+    
 `
 
 const TabFrame =styled.div`
@@ -124,7 +129,24 @@ const AllListFrame =styled.div`
     align-items:center;
     padding: 20px 30px 20px 30px;
     border-top : 1px solid;
-    
+    height: 75%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        
+        width: 10px;
+        
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #BCBCBC;
+        border-radius: 10px;
+    }
+   
     
 `
 const TabEmpty = styled.div`

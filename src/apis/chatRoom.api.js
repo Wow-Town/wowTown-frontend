@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import axios from "./axios";
 
 export async function createChatRoom(CreateChatRoomProps){

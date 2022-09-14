@@ -59,6 +59,7 @@ export default function PostNotice(){
         e.preventDefault();
         if(checkNoticeFormValidation()){
             console.log("맞");
+            console.log(noticeTitle, noticeContents, interestList);
             handleCreateNotice({"subject": noticeTitle, "description": noticeContents, "interests": interestList});
         }else{
             console.log("틀");

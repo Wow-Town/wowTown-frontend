@@ -19,7 +19,7 @@ import Avatar from "./Avatar";
 
 
 
-export default function connectMetaverse(){
+export default function ConnectMetaverse(){
     const navigate=useNavigate();
     const [clearNotice,setClearNotice] = useState(false);
     const [clearChat,setClearChat] = useState(false);
@@ -75,7 +75,7 @@ export default function connectMetaverse(){
             if(success){
                 console.log('공고 리스트');
                 console.log(response);
-                setNoticeId(response[0].noticeId);
+                setNoticeId(response[0].noticeId); //수정해야함 그냥 0번 index로 임의로 설정
                 //navigate('/connectMetaverse/chat/room/1a6946f1-ded8-41be-947d-97c9a836ec94',{ state : {chatRoomId : "1a6946f1-ded8-41be-947d-97c9a836ec94", roomName : "알고리즘"}});
                 //handleEnterChatRoom(response.chatRoomUUID);
 
@@ -160,7 +160,7 @@ export default function connectMetaverse(){
                             <Ul onClick={onClickChat}>채팅 목록</Ul>
                             <Ul onClick={onClickNotice}>공고 보기</Ul>
                             <Ul onClick={onClickTest}>[아바타 채팅방 생성 및 입장 테스트]</Ul>
-                            <Ul onClick={onClickGetAllNotice}>[전체 공고 목록]</Ul>
+                            <Ul onClick={onClickGetAllNotice}>[공고보기-공고검색p]</Ul>
                             <Ul onClick={onClickGetNoticeDetail}>[공고 상세 조회]</Ul>
                             <Ul onClick={onClickJoinNotice}>[아바타 공고 채팅방 입장 테스트]</Ul>
                         </Menu>

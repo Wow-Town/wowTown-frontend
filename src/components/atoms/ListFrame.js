@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
-export default function ListFrame(){
+export default function ListFrame(
+    {ownerName,subject,interests}){
 
     return(
         <Div>

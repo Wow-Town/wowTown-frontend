@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function searchBar(){
+export default function SearchBar(){
     const[enteredTitle,setEnteredTitle]=useState("");
     function onCheckEnter(e) {
         if(e.key === 'Enter') {
