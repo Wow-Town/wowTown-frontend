@@ -18,7 +18,6 @@ instance.interceptors.request.use(function (request) {
 
 instance.interceptors.response.use(
     function (response) {
-        console.log(3);
         console.log(response);
         if(response.config.url === "/login"){
             const { accessToken } = response.data;
@@ -26,7 +25,6 @@ instance.interceptors.response.use(
             instance.defaults.headers.common["Authorization"] =accessToken;
         }
         const newAccessToken = response.headers.authorization;
-        console.log(newAccessToken);
         if(newAccessToken !== undefined){
             instance.defaults.headers.common["Authorization"] =newAccessToken;
             localStorage.setItem('accessToken',  newAccessToken );
