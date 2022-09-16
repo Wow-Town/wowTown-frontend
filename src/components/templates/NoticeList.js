@@ -19,7 +19,7 @@ export default function NoticeList(){
             tabTitle:"내 관심사로 검색"
             ,
             tabCont:(
-                <SelectedInterestList  />
+                <SelectedInterestList setMyInterestNoticeData={setMyInterestNoticeData} />
             )
         },
         {
@@ -43,16 +43,18 @@ export default function NoticeList(){
     
     //보여줄 공고(페이지별 다름)
    
-
-
-    //page 0 api 
     
+    //page 0 api 
+    function setMyInterestNoticeData(searchByInterestNotice){
+        setSearchredNotice(searchByInterestNotice);
+        console.log('관심사로 거른 공고',searchByInterestNotice);
+    }
     
 
     //page 1 제목 별 검색
     function setNoticeData(searchByTitleNotice){
         setSearchredNotice(searchByTitleNotice);
-        console.log('부모',searchByTitleNotice);
+        
     }
 
     //page 2 : 전체공고 api
@@ -61,7 +63,7 @@ export default function NoticeList(){
         onSuccess: ({response, success, error }) => {
             if(success){
                 setSearchredNotice(response);
-                console.log(searchedNotice);
+        
                
             }else{
                 console.log('notice loading failed: ', error);
@@ -105,6 +107,7 @@ export default function NoticeList(){
                             (notice)=>{
                                 return (<ListFrame
                                     key={notice.noticeId}
+                                    noticeId={notice.noticeId}
                                     ownerName={notice.ownerName}
                                     subject={notice.subject}
                                     interests={notice.interests}

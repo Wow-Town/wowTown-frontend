@@ -9,7 +9,6 @@ export default function SearchBar({setNoticeData}){
         onSuccess: ({response, success, error }) => {
             if(success){
                 
-                console.log('res',response);
                 setNoticeData(response);
               
             }else{

@@ -1,11 +1,21 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
+export default function ListFrame({ownerName,subject,interests,noticeId}){
+    const navigate = useNavigate();
+    const {clickedNoticeId,setClickedNoticeId}= useState();
+    function onClickGetNoticeDetail(){
+        //클릭하면 해당 공고 id 불러옴, 그 id맞는 공고디테일
 
-export default function ListFrame({ownerName,subject,interests}){
+        //setClickedNoticeId(noticeId);
+        console.log(noticeId);
+        navigate('../'+noticeId);
+    }
 
     return(
-        <Div>
+        <Div onClick={onClickGetNoticeDetail}>
             <Name>{subject}</Name>
             <Interests>
                 {interests.map(
