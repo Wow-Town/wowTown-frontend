@@ -7,10 +7,11 @@ import { useState, useEffect } from "react";
 import SearchBar from '../atoms/SearchBar';
 import SelectedInterestList from "./SelectedInterestList";
 import { getNoticeList } from "../../apis/notice.api";
-
 import {useMutation, useQuery} from 'react-query';
+import { getAvatar } from "../../apis/avatar.api";
 
 export default function NoticeList(){
+    
 
     const [activeIndex, setActiveIndex] = useState(2);
     const tabContArr=[
@@ -37,32 +38,23 @@ export default function NoticeList(){
     const tabClickHandler=(index)=>{
         setActiveIndex(index);
     }
-    useEffect(() =>{
-        if (activeIndex === 0){
-            console.log("페이지 0 실행");
-            
 
-        }
-        else if (activeIndex ===1){
-            console.log("페이지 1 실행");
-            console.log("제목으로 검색인데 아직 안함");
-
-        }else {
-            console.log("페이지 2 실행");
-            handleNoticeList();
-        }
-    },[activeIndex]) 
+    const [searchedNotice,setSearchredNotice] =useState([]); 
     
     //보여줄 공고(페이지별 다름)
-    const [searchedNotice,setSearchredNotice] =useState([]); 
+   
+
 
     //page 0 api 
     
-    //page 1 
+    
+
+    //page 1 제목 별 검색
     function setNoticeData(searchByTitleNotice){
         setSearchredNotice(searchByTitleNotice);
         console.log('부모',searchByTitleNotice);
     }
+
     //page 2 : 전체공고 api
 
     const{ mutateAsync: handleNoticeList } = useMutation(getNoticeList,{
@@ -76,6 +68,25 @@ export default function NoticeList(){
             }
         }
         });
+
+    
+    useEffect(() =>{
+    
+        if (activeIndex === 0){
+            console.log("페이지 0 실행");
+            
+           
+        }
+        else if (activeIndex ===1){
+            console.log("페이지 1 실행");
+           
+        }else {
+            console.log("페이지 2 실행");
+            handleNoticeList();
+        
+    }},[activeIndex]) ;
+    
+    
 
     return(
             <NoticeListPage>

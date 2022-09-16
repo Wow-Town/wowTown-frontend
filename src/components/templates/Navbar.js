@@ -44,6 +44,7 @@ const NavContainer =styled.nav`
     // right:0;
     // left:0;
     height:60px;
+    wudth:100%;
     background-color: #ffc947;
     display:flex;
     flex-direction:row;
