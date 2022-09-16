@@ -39,3 +39,21 @@ export async function getNoticeList(){
       }
 }
 
+export async function getMyInterestsNoticeList(myInterests){
+  try {
+      const response = await axios.get(`/notices?interest=`+myInterests[0],myInterests[1],myInterests[2]);  
+      return {response: response.data, success: true, error: undefined };
+    } catch (error) {
+      return {response: null, success: false, error };
+    }
+}
+
+export async function getSearchByNoticeTitle(enteredTitle){
+
+  try {
+      const response =await axios.get(`/notices?subject=`+enteredTitle);
+      return {response: response.data, success: true, error: undefined };
+    } catch (error) {
+      return {success: false, error };
+    }
+}

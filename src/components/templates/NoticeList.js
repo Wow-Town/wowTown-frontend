@@ -7,7 +7,8 @@ import { useState, useEffect } from "react";
 import SearchBar from '../atoms/SearchBar';
 import SelectedInterestList from "./SelectedInterestList";
 import { getNoticeList } from "../../apis/notice.api";
-import {useMutation} from 'react-query';
+
+import {useMutation, useQuery} from 'react-query';
 
 export default function NoticeList(){
 
@@ -23,11 +24,11 @@ export default function NoticeList(){
         {
             tabTitle:"제목으로 검색",
             tabCont:(
-                <SearchBar/>
+                <SearchBar setNoticeData={setNoticeData} />
             )
         },
         {
-            tabTitle:"빈 화면",
+            tabTitle:"전체 공고",
             tabCont:(
                 <TabEmpty/>
             )
@@ -36,19 +37,39 @@ export default function NoticeList(){
     const tabClickHandler=(index)=>{
         setActiveIndex(index);
     }
-
-    const [registeredNotice,setRegisteredNotice] =useState([]); 
     useEffect(() =>{
-        handleNoticeList();
-    },[])   
+        if (activeIndex === 0){
+            console.log("페이지 0 실행");
+            
+
+        }
+        else if (activeIndex ===1){
+            console.log("페이지 1 실행");
+            console.log("제목으로 검색인데 아직 안함");
+
+        }else {
+            console.log("페이지 2 실행");
+            handleNoticeList();
+        }
+    },[activeIndex]) 
+    
+    //보여줄 공고(페이지별 다름)
+    const [searchedNotice,setSearchredNotice] =useState([]); 
+
+    //page 0 api 
+    
+    //page 1 
+    function setNoticeData(searchByTitleNotice){
+        setSearchredNotice(searchByTitleNotice);
+        console.log('부모',searchByTitleNotice);
+    }
+    //page 2 : 전체공고 api
 
     const{ mutateAsync: handleNoticeList } = useMutation(getNoticeList,{
         onSuccess: ({response, success, error }) => {
             if(success){
-                console.log("response" , response);
-                console.log(response[0]);
-                setRegisteredNotice(response);
-                console.log(registeredNotice);
+                setSearchredNotice(response);
+                console.log(searchedNotice);
                
             }else{
                 console.log('notice loading failed: ', error);
@@ -63,12 +84,13 @@ export default function NoticeList(){
                     <TabFrame>
                         <Tab1 onClick={()=> tabClickHandler(0)} >{tabContArr[0].tabTitle}</Tab1>
                         <Tab2 onClick={()=> tabClickHandler(1)}>{tabContArr[1].tabTitle}</Tab2>
+                        <Tab2 onClick={()=> tabClickHandler(2)}>{tabContArr[2].tabTitle}</Tab2>
                     </TabFrame>
                     <ContentsBySearchType>
                         {tabContArr[activeIndex].tabCont}
                     </ContentsBySearchType>
                     <AllListFrame>
-                        {registeredNotice.map(
+                        {searchedNotice.map(
                             (notice)=>{
                                 return (<ListFrame
                                     key={notice.noticeId}
@@ -129,11 +151,14 @@ const AllListFrame =styled.div`
     align-items:center;
     padding: 20px 30px 20px 30px;
     border-top : 1px solid;
-    height: 75%;
+    height: 70%;
     overflow-y: scroll;
+    
+
     &::-webkit-scrollbar {
         
         width: 10px;
+        
         
     }
     &::-webkit-scrollbar-thumb:hover {
@@ -145,6 +170,7 @@ const AllListFrame =styled.div`
     &::-webkit-scrollbar-thumb {
         background: #BCBCBC;
         border-radius: 10px;
+        
     }
    
     
