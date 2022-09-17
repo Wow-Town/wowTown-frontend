@@ -3,10 +3,7 @@
 import styled from "styled-components";
 import Button from '../components/atoms/Button';
 import Navbar from "../components/templates/Navbar";
-<<<<<<< HEAD
 import Metaverse from "../components/templates/Metaverse";
-=======
->>>>>>> 0885b01 (getNoticeDatail api connect)
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState } from 'react';
