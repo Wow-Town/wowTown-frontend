@@ -10,8 +10,10 @@ export default function ListFrame({ownerName,subject,interests,noticeId}){
         //클릭하면 해당 공고 id 불러옴, 그 id맞는 공고디테일
 
         //setClickedNoticeId(noticeId);
-        console.log(noticeId);
-        navigate('../'+noticeId);
+        navigate('../'+noticeId,
+        { state : {
+            noticeId:noticeId
+        }});
     }
 
     return(

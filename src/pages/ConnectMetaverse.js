@@ -3,7 +3,10 @@
 import styled from "styled-components";
 import Button from '../components/atoms/Button';
 import Navbar from "../components/templates/Navbar";
+<<<<<<< HEAD
 import Metaverse from "../components/templates/Metaverse";
+=======
+>>>>>>> 0885b01 (getNoticeDatail api connect)
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState } from 'react';
@@ -33,7 +36,7 @@ export default function ConnectMetaverse(){
     }
     function onClickNotice(){
         setClearNotice(true);
-        navigate('/connectMetaverse/notice')
+        navigate('/connectMetaverse/notices')
     }
     function onClickChat(){
         setClearNotice(true);
@@ -169,7 +172,11 @@ export default function ConnectMetaverse(){
                 <Routes>
                     <Route path="/" element={<Empty/>} />
                     <Route path="/avatar/*" element={<Avatar/>} />
+<<<<<<< HEAD
                     <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
+=======
+                    <Route path="/notices/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
+>>>>>>> 0885b01 (getNoticeDatail api connect)
                     <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
                 </Routes>
             </ContentsFrame>

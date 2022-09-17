@@ -8,10 +8,10 @@ export default function SelectNotice(){
     const navigate=useNavigate();
 
     function onClickNoticeList(){
-        navigate('/connectMetaverse/notice/search');
+        navigate('/connectMetaverse/notices/search');
     }
     function onClickPostNotice(){
-        navigate('/connectMetaverse/notice/post');
+        navigate('/connectMetaverse/notices/post');
     }
     
 

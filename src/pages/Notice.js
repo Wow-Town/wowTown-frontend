@@ -15,7 +15,7 @@ export default function Notice(){
                 <Route path="" element={<SelectNotice/>} />
                 <Route path="/search/*" element={<NoticeList />} />
                 <Route path="/post/*" element={<PostNotice />} />
-                <Route path="/*" element={<NoticeDetail />} />
+                <Route path="/:noticeId" element={<NoticeDetail />} />
             </Routes>
         </NoticeFrame>
     );
