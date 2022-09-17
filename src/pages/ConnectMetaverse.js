@@ -3,7 +3,6 @@
 import styled from "styled-components";
 import Button from '../components/atoms/Button';
 import Navbar from "../components/templates/Navbar";
-import Profile from './Profile';
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState } from 'react';
@@ -15,6 +14,7 @@ import Chat from "./Chat";
 import {useMutation} from 'react-query';
 import { createChatRoom } from "../apis/chatRoom.api";
 import {getNoticeDetail, getNoticeList, checkChatRoomPassword} from "../apis/notice.api";
+import Avatar from "./Avatar";
 
 
 
@@ -22,14 +22,13 @@ export default function connectMetaverse(){
     const navigate=useNavigate();
     const [clearNotice,setClearNotice] = useState(false);
     const [clearChat,setClearChat] = useState(false);
-    const avatarNickname= useRecoilValue(AvatarState);
-    
-
-
-
+    const avatar= useRecoilValue(AvatarState);
 
     function onClick(){
-        navigate('/connectMetaverse/profile');
+        navigate('/connectMetaverse/avatar/profile?id='+avatar.avatarId,{ state : {avatarId : avatar.avatarId}});
+    }
+    function onClickFriend(){
+        navigate('/connectMetaverse/avatar/friend');
     }
     function onClickNotice(){
         setClearNotice(true);
@@ -151,11 +150,11 @@ export default function connectMetaverse(){
                     <Metaverse/>
                     <Div3>
                         <DivCharacterName> 
-                            <Span>{avatarNickname.nickName}</Span> 
+                            <Span>{avatar.nickName}</Span> 
                             <Button fontSize="13px" color="#C4C4C4" height ='27px' onClick={() => {onClick()}}  buttonText="상세 보기"/>
                         </DivCharacterName>
                         <Menu>
-                            <Ul>친구 목록</Ul>
+                            <Ul onClick={onClickFriend}>친구 목록</Ul>
                             <Ul>접속 유저</Ul>
                             <Ul onClick={onClickChat}>채팅 목록</Ul>
                             <Ul onClick={onClickNotice}>공고 보기</Ul>
@@ -168,7 +167,7 @@ export default function connectMetaverse(){
                 </Div2> 
                 <Routes>
                     <Route path="/" element={<Empty/>} />
-                    <Route path="/profile" element={<Profile/>} />
+                    <Route path="/avatar/*" element={<Avatar/>} />
                     <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
                     <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
                 </Routes>

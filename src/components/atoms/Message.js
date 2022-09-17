@@ -5,8 +5,10 @@ import { AvatarState } from "../../utils/AvatarState";
 import { useRecoilState } from 'recoil';
 import { useState, useEffect ,useRef } from "react";
 import { useCallback } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Message({recv}){
+    const navigate=useNavigate();
     const [isSender, setIsSender] = useState(false);
     const [time, setTime] = useState();
     const [textFrameWidth, setTextFrameWidth] = useState();
@@ -40,6 +42,11 @@ export default function Message({recv}){
         return time;
     }
 
+    function onClickAvatarImg(){
+        console.log(recv);
+        navigate('/connectMetaverse/avatar/profile?id='+recv.senderId,{ state : {avatarId : recv.senderId}});
+    }
+
   
     
     return(
@@ -57,14 +64,14 @@ export default function Message({recv}){
                         <TextFrame ref={textFrameRef}>
                             <Text>{recv.message}</Text>
                         </TextFrame>
-                        <AvatarImg ref={avatarImgRef}></AvatarImg>
+                        <AvatarImg onClick={onClickAvatarImg} ref={avatarImgRef}></AvatarImg>
                     </Content>
                 </>
                 :
                 <>
                     <NickName align={"left"}>{recv.sender}</NickName>
                     <Content float={"left"}>
-                        <AvatarImg ref={avatarImgRef}></AvatarImg>
+                        <AvatarImg onClick={onClickAvatarImg} ref={avatarImgRef}></AvatarImg>
                         <TextFrame ref={textFrameRef}>
                             <Text>{recv.message}</Text>
                         </TextFrame>

@@ -1,29 +1,25 @@
 import styled from "styled-components";
-export default function SelectedInterestList(){
+export default function SelectedInterestList({interestList}){
     return(
         <SelectedInterestListFrame >
-            <Interest>REACT</Interest>
-            <Interest>FRONTEND</Interest>
-            <Interest>ALGORITHM</Interest>
+            {
+                interestList.map((interest,idx) =>{
+                    return <Interest key={idx}>{interest}</Interest>
+                })
+            }
         </SelectedInterestListFrame>
     )
 }
 
-const SelectedInterestListFrame = styled.div`
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 9px 10px 9px 10px;
-    
-    
-    
+const SelectedInterestListFrame = styled.div` 
 `
+
 const Interest =styled.li`
     display:inline-block;
     font-size:16px;
     font-weight: 700;
     background-color:#BCBCBC;
-    margin: 5px;
+    margin-right: 10px;
     padding: 5px 10px;
     border-radius:10px;
 
