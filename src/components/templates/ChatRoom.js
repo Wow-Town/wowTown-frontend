@@ -28,7 +28,7 @@ export default function ChatRoom({setReceiveMessage}){
     const [avatar] = useRecoilState(AvatarState);
 
     useEffect(() =>{    
-        sockJS = new SockJS("http://localhost:8080/ws-stomp");
+        sockJS = new SockJS("http://api.wowTown.co.kr:81/ws-stomp");
         stompClient= Stomp.over(sockJS);
         stompClient.connect({}, function(frame) {
             //연결 성공시 api호출
