@@ -9,14 +9,21 @@ import SelectedInterestList from "./SelectedInterestList";
 import {useMutation} from 'react-query';
 import { useState } from "react";
 import { useEffect } from "react";
-import { useLocation } from 'react-router-dom';
-
+import { createChatRoom } from "../../apis/chatRoom.api";
+import { useLocation,useNavigate } from 'react-router-dom';
+import { checkChatRoomPassword } from "../../apis/notice.api";
 export default function NoticeDetail(){
+
     const [subject,setSubject]=useState("");
-    const [onwerId,setOwnerId]=useState("");
+    const [ownerId,setOwnerId]=useState("");
     const [interests,setInterests]=useState([]);
     const [description,setDescription]=useState("");
-
+    const [chatRoomUUID,setChatRoomUUID] = useState();
+    const [password,setPassword] = useState();
+    const [roomName,setRoomName] = useState();
+    const [noticeId,setNoticeId] = useState();
+    const[ownerNickName,setOwnerNickname]=useState();
+    const navigate=useNavigate();
     const location = useLocation();
    
 
@@ -28,16 +35,90 @@ export default function NoticeDetail(){
                 setOwnerId(response.ownerId);
                 setInterests(response.interests);
                 setDescription(response.description);
+                setChatRoomUUID(response.chatRoomUUID);
+                setPassword(response.randomPW);
+                setRoomName(response.subject);
 
             }else{
                 console.log('아바타 조회 실패: ', error);
             }
         }
+
+
+
         });
+        const{ mutateAsync: handleCreateChatRoom } = useMutation(createChatRoom,{
+            onSuccess: ({response, success, error }) => {
+                if(success){
+                    console.log('아바타 채팅 목록');
+                    console.log(response); 
+                    navigate('/connectMetaverse/chat/room/'+response.chatRoomUUID, { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName}})
+                    //handleEnterChatRoom(response.chatRoomUUID);
     
+    
+                }else{
+                    console.log('handleCreateChatRoom failed: ', error);
+                }
+            }
+            });
+        
+
+        function onClickTest(){
+                console.log('테스트 시작',ownerId,ownerNickName,"에게 채팅 할거임");
+                console.log('내가 들어갈 챗룸 정보들',chatRoomUUID, roomName);
+                handleCreateChatRoom({"avatarId": ownerId , "nickName" : ownerNickName });
+                
+            }
+        const[showInput,setShowInput]=useState(false);
+        function onClickRenderingInput(){
+            if( showInput === false){
+                setShowInput(true);
+                console.log(showInput);
+            }else{
+                setShowInput(false);
+                console.log(showInput);
+            }
+
+        }
+        const[enteredNoticePassword,setEnteredNoticePassword]=useState();
+        function onClickPassWordInputBtn(){
+            console.log(enteredNoticePassword);
+            if (enteredNoticePassword === password){
+                console.log('비번 맞ㄷ');
+                onClickJoinNotice();
+            }else{
+                console.log('틀리다');
+                console.log(password);
+                
+            }
+        }
+        function onClickJoinNotice(){
+            console.log('공고 입장');     
+            handleCheckChatRoomPassword({"noticeId":noticeId, "password" :password});
+            
+        }
+    
+        const{ mutateAsync: handleCheckChatRoomPassword} = useMutation(checkChatRoomPassword,{
+            onSuccess: ({success, error }) => {
+                if(success){
+                    console.log('공고 채팅방 비밀번호 일치');
+                    navigate('/connectMetaverse/chat/room/'+chatRoomUUID,{ state : {chatRoomId : chatRoomUUID, roomName : roomName}});
+                    //handleEnterChatRoom(response.chatRoomUUID);
+    
+    
+                }else{
+                    console.log('login failed: ', error);
+                }
+            }
+            });
+
     useEffect( ()=>{
         const noticeId = location.state.noticeId;
-        console.log(noticeId);
+        const ownerName = location.state.ownerName;
+        setNoticeId(noticeId);
+        setOwnerNickname(ownerName);
+        //console.log('쥔 이름',ownerName);
+        //console.log(noticeId);
         handleGetNoticeDetail(noticeId);
         
     },[]);
@@ -53,7 +134,7 @@ export default function NoticeDetail(){
                         <Label> 작성자 </Label>
                         
                         <ProfileImg className="material-icons">account_circle</ProfileImg>
-                        {onwerId}
+                        {ownerNickName}
                         
                     </OwnerIdDiv>
                     <RecruitAreaDiv>
@@ -78,9 +159,24 @@ export default function NoticeDetail(){
                         </NoticeDetailContents>
                     </ContentsWrapper>
                     <ButtonWrapper>
-                        <Button buttonText="문의" marginLeft="80px" marginRight="10px" height="31px" />
-                        <Button buttonText="입장"  height="31px" color="#FFBC45"marginLeft="auto"/>
+                        <Button buttonText="문의"  onClick={onClickTest} marginLeft="80px" marginRight="10px" height="31px" />
+                        <Button buttonText="입장"  onClick={onClickRenderingInput} height="31px" color="#FFBC45"marginLeft="auto"/>
                     </ButtonWrapper>
+                    { showInput ===true ?
+                        <NoticeInputDiv>
+                        <NoticeInput
+                            type="text"
+                            value={enteredNoticePassword}
+                            onChange= {(e)=>setEnteredNoticePassword(e.target.value)}
+                            maxLength= "120"
+                            autoComplete="on"
+                            placeholder="공고 비밀번호를 입력하세요"
+                        ></NoticeInput>
+                        <NoticePassWordBtn className="material-icons"
+                            onClick={onClickPassWordInputBtn}
+                        >search</NoticePassWordBtn>
+                    </NoticeInputDiv> :<NoticeInputDiv/>
+                    }
                     </NoticeDetailWrapper>
         </NoticeDetailPage>
 )
@@ -144,6 +240,7 @@ const NoticeDetailContents =styled.div`
 const ButtonWrapper =styled.div`
     margin-top:35px;
     display:flex;
+    margin-bottom:15px;
     
 `
 
@@ -167,4 +264,32 @@ const ProfileImg=styled.div`
     vertical-align:middle;
 
 
+`
+
+const NoticeInputDiv=styled.div`
+   display:flex;
+   justify-content:center;
+   align-items:center;
+   
+
+`
+const NoticeInput=styled.input`
+width:80%;
+height140px;
+background: #FFFFFF;
+border: 1.5px solid #A4A4A4;
+box-sizing: border-box;
+border-radius: 15px;
+padding: 5px 15px 5px 15px;
+&:focus {
+    
+    border-color:black;
+    outline: none;
+}
+
+`
+
+const NoticePassWordBtn = styled.span`
+    margin-left:5px;
+    font-size:20px;
 `

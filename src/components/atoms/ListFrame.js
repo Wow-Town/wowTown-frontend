@@ -12,7 +12,7 @@ export default function ListFrame({ownerName,subject,interests,noticeId}){
         //setClickedNoticeId(noticeId);
         navigate('../'+noticeId,
         { state : {
-            noticeId:noticeId
+            noticeId:noticeId, ownerName:ownerName
         }});
     }
 

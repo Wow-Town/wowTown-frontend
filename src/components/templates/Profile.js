@@ -164,7 +164,16 @@ export default function Profile(){
                 </SimpleProfile>
                 {buttonComponent}
                 <H3>관심 분야</H3>
-                    <SelectedInterestList interestList={interest} />
+                    {
+                        interest.map(
+                            (i)=>{
+                                return (
+                                    <Interest key={i}>{i}</Interest>
+                                )
+                            }
+                        )
+                    }
+                    
                 <H3>소개</H3>
                 <IntroductionDiv>
                 {description}    
@@ -235,4 +244,18 @@ const IntroductionDiv = styled.div`
 const H3= styled.h3`
     font-size:16px;
     font-style:normal;
+`
+
+const Interest =styled.li`
+    
+    
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius:10px;
+    display:inline-block;
+    font-size:14px;
+    font-weight: 500;
+    background-color:#BCBCBC;
+
+
 `

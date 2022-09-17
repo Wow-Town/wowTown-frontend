@@ -117,11 +117,13 @@ export default function ConnectMetaverse(){
         }
         });
 
+        //%
     function onClickGetNoticeDetail(){      
         console.log(noticeId);
         handleGetNoticeDetail(noticeId);
         
     }
+    //%
 
     //공고 채팅방 입장버튼 누를시 비밀번호 같이 입력후 비밀번호 확인 api호출
     //성공시 채팅방 목록에 채팅방 추가됨

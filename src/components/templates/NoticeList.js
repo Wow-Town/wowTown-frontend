@@ -55,6 +55,7 @@ export default function NoticeList(){
     function setNoticeData(searchByTitleNotice){
         setSearchredNotice(searchByTitleNotice);
         
+        
     }
 
     //page 2 : 전체공고 api
@@ -108,7 +109,7 @@ export default function NoticeList(){
                                 return (<ListFrame
                                     key={notice.noticeId}
                                     noticeId={notice.noticeId}
-                                    ownerName={notice.ownerName}
+                                    ownerName={notice.ownerNickName}
                                     subject={notice.subject}
                                     interests={notice.interests}
                                 />)
