@@ -9,7 +9,7 @@ import { AvatarState } from '../../utils/AvatarState';
 import { useState, useEffect } from 'react';
 import {useMutation} from 'react-query';
 import { useNavigate, useLocation } from "react-router-dom";
-import { approveFriendRequest, getAvatarById } from '../../apis/avatar.api';
+import { addFriend, approveFriendRequest, rejectFriendRequest, getAvatarById } from '../../apis/avatar.api';
 import { createChatRoom } from "../../apis/chatRoom.api";
 
 
@@ -37,6 +37,17 @@ export default function Profile(){
         }
         });
 
+    const{ mutateAsync: handleAddFriend } = useMutation(addFriend,{
+        onSuccess: ({ success, error }) => {
+            if(success){
+                console.log('친구 신청'); 
+                navigate('/connectMetaverse/avatar/friend');
+            }else{
+                console.log('친구 신청 실패: ', error);
+            }
+        }
+        });
+
     const{ mutateAsync: handleApproveFriendRequest } = useMutation(approveFriendRequest,{
         onSuccess: ({ success, error }) => {
             if(success){
@@ -44,6 +55,17 @@ export default function Profile(){
                 navigate('/connectMetaverse/avatar/friend');
             }else{
                 console.log('친구 수락 실패: ', error);
+            }
+        }
+        });
+
+    const{ mutateAsync: handleRejectFriendRequest } = useMutation(rejectFriendRequest,{
+        onSuccess: ({ success, error }) => {
+            if(success){
+                console.log('친구 거절'); 
+                navigate('/connectMetaverse/avatar/friend');
+            }else{
+                console.log('친구 거절 실패: ', error);
             }
         }
         });
@@ -60,8 +82,16 @@ export default function Profile(){
         }
         });
 
+    function onClickAddFriend(){
+        handleAddFriend({"friendAvatarId": avatar.avatarId});
+    }
+
     function onClickApproveFriend(){
         handleApproveFriendRequest({"friendAvatarId": avatar.avatarId});
+    }
+
+    function onClickRejectFriend(){
+        handleRejectFriendRequest({"friendAvatarId": avatar.avatarId});
     }
 
     function onClickChat(){
@@ -88,7 +118,6 @@ export default function Profile(){
                 setButtonComponent(
                     <ButtonContents>
                         <Button onClick={onClickChat} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="채팅하기"/>
-                        <Button fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 삭제"/>
                     </ButtonContents>
                     );
             }
@@ -97,7 +126,7 @@ export default function Profile(){
                 setButtonComponent(
                     <ButtonContents>
                         <Button onClick={onClickApproveFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 수락"/>
-                        <Button fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 거절"/>
+                        <Button onClick={onClickRejectFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 거절"/>
                     </ButtonContents>
                     );
             }
@@ -105,7 +134,7 @@ export default function Profile(){
                 setTitle("친구 프로필");
                 setButtonComponent(
                     <ButtonContents>
-                        <Button fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 추가"/>
+                        <Button onClick={onClickAddFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 신청"/>
                     </ButtonContents>
                     );
             }

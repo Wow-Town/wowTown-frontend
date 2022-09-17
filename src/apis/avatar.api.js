@@ -36,10 +36,30 @@ export async function createAvatar(AvatarProps){
       }
 }
 
+export async function addFriend(RequestProps){
+    const {friendAvatarId} =RequestProps;
+    try {
+        await axios.post(`/avatars/friends/add`,{"friendAvatarId": friendAvatarId});  
+        return { success: true, error: undefined };
+      } catch (error) {
+        return { success: false, error };
+      }
+}
+
 export async function approveFriendRequest(RequestProps){
     const {friendAvatarId} =RequestProps;
     try {
         await axios.post(`/avatars/friends/approve`,{"friendAvatarId": friendAvatarId});  
+        return { success: true, error: undefined };
+      } catch (error) {
+        return { success: false, error };
+      }
+}
+
+export async function rejectFriendRequest(RequestProps){
+    const {friendAvatarId} =RequestProps;
+    try {
+        await axios.post(`/avatars/friends/reject`,{"friendAvatarId": friendAvatarId});  
         return { success: true, error: undefined };
       } catch (error) {
         return { success: false, error };
