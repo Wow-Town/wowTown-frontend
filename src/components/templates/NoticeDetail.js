@@ -174,7 +174,7 @@ export default function NoticeDetail(){
                         ></NoticeInput>
                         <NoticePassWordBtn className="material-icons"
                             onClick={onClickPassWordInputBtn}
-                        >search</NoticePassWordBtn>
+                        >lock</NoticePassWordBtn>
                     </NoticeInputDiv> :<NoticeInputDiv/>
                     }
                     </NoticeDetailWrapper>

@@ -160,25 +160,22 @@ export default function ConnectMetaverse(){
                             <Button fontSize="13px" color="#C4C4C4" height ='27px' onClick={() => {onClick()}}  buttonText="상세 보기"/>
                         </DivCharacterName>
                         <Menu>
-                            <Ul onClick={onClickFriend}>친구 목록</Ul>
-                            <Ul>접속 유저</Ul>
-                            <Ul onClick={onClickChat}>채팅 목록</Ul>
-                            <Ul onClick={onClickNotice}>공고 보기</Ul>
-                            <Ul onClick={onClickTest}>[아바타 채팅방 생성 및 입장 테스트]</Ul>
-                            <Ul onClick={onClickGetAllNotice}>[공고보기-공고검색p]</Ul>
-                            <Ul onClick={onClickGetNoticeDetail}>[공고 상세 조회]</Ul>
-                            <Ul onClick={onClickJoinNotice}>[아바타 공고 채팅방 입장 테스트]</Ul>
+                            <Ul onClick={onClickFriend}>
+                                <UlIcon className="material-icons">people_alt</UlIcon>
+                                친구</Ul>
+                            <Ul onClick={onClickChat}>
+                                <UlIcon className="material-icons">chat</UlIcon>
+                                채팅</Ul>
+                            <Ul onClick={onClickNotice}>
+                                <UlIcon className="material-icons">find_in_page</UlIcon>
+                                공고 </Ul>
                         </Menu>
                     </Div3>                
                 </Div2> 
                 <Routes>
                     <Route path="/" element={<Empty/>} />
                     <Route path="/avatar/*" element={<Avatar/>} />
-<<<<<<< HEAD
-                    <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
-=======
                     <Route path="/notices/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
->>>>>>> 0885b01 (getNoticeDatail api connect)
                     <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
                 </Routes>
             </ContentsFrame>
@@ -215,7 +212,7 @@ const DivCharacterName=styled.div`
     display:flex;
     flex-direction: row;
     align-items:center;
-    margin:15px 20px 15px 20px;
+    margin:15px 20px 25px 20px;
     font-size:20px;
     font-weight: 600;
 `
@@ -231,12 +228,16 @@ const Menu= styled.ul`
     margin-right:20px;
     padding-left:0px;
     list-style: none;
+    
+    
 `
 
 const Ul= styled.li`
     float:left;
-    padding:2px 10px 2px 0px;
+    padding:2px 18px 2px 0px;
     font-size:16px;
+    display:flex;
+    align-items:center;
 `
 
 const Empty = styled.div`
@@ -245,4 +246,9 @@ margin: 30px 40px 30px 30px;
 border: 1px solid #A4A4A4;
 width: 30%;
 height: 700px;
+`
+const UlIcon =styled.span`
+    margin-right:6px;
+    color:#7A7676;
+
 `
