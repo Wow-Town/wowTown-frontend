@@ -9,8 +9,9 @@ import InterestList from '../components/templates/InterestList';
 import {useState} from 'react';
 import {useMutation} from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { createAvatar } from '../apis/avatar.api';
+import { getAvatar, createAvatar } from '../apis/avatar.api';
 import { useRecoilState } from 'recoil';
+import { AvatarState } from "../utils/AvatarState";
 
 export default function  AvatarSettings(){
     const[nickname,setNickname]=useState("");
@@ -19,6 +20,7 @@ export default function  AvatarSettings(){
     const[introductionError,setIntroductionError]=useState(false);
     const[interestList,setInterestList]=useState([]);
     const[openModal,setOpenModal] =  useState(false);
+    const[avatar, setAvatar] = useRecoilState(AvatarState);
     const navigate=useNavigate();
 
     
@@ -30,9 +32,9 @@ export default function  AvatarSettings(){
     })
 
     const{ mutateAsync: handleCreateAvater } = useMutation(createAvatar,{
-        onSuccess: ({response, success, error }) => {
+        onSuccess: ({success, error }) => {
             if(success){
-                console.log(response);
+                handleGetAvatar();
                 setOpenModal(true);
                 setModalMessage({
                     "titleText": "캐릭터 설정 성공",
@@ -48,6 +50,18 @@ export default function  AvatarSettings(){
                     "titleText": "다시 시도해주세요",
                     "contentsText" : "",
                 });
+            }
+        }
+        });
+
+    const{ mutateAsync: handleGetAvatar } = useMutation(getAvatar,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                setAvatar(response);                        
+            }else{
+                //error 발생한 이유는 해당 채널에 아바타가 없기 때문이다. -> 아바타 생성 페이지로 이동
+                console.log('getAvatar failed: ', error);
+                navigate('/avatars');   
             }
         }
         });
