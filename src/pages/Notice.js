@@ -6,7 +6,7 @@ import NoticeList from "../components/templates/NoticeList";
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import PostNotice from '../components/templates/PostNotice';
-
+import NoticeDetail from '../components/templates/NoticeDetail';
 export default function Notice(){
 
     return(
@@ -15,6 +15,7 @@ export default function Notice(){
                 <Route path="" element={<SelectNotice/>} />
                 <Route path="/search/*" element={<NoticeList />} />
                 <Route path="/post/*" element={<PostNotice />} />
+                <Route path="/:noticeId" element={<NoticeDetail />} />
             </Routes>
         </NoticeFrame>
     );

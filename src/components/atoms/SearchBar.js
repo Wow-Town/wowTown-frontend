@@ -1,8 +1,23 @@
 import { useState } from "react";
+import { useMutation} from 'react-query';
 import styled from "styled-components";
+import { getSearchByNoticeTitle } from "../../apis/notice.api";
 
-export default function searchBar(){
+export default function SearchBar({setNoticeData}){
     const[enteredTitle,setEnteredTitle]=useState("");
+    const{ mutateAsync: handleSearchByTitleNoticeList } = useMutation( getSearchByNoticeTitle,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                
+                setNoticeData(response);
+              
+            }else{
+                console.log('title enter failed: ', error);
+            }
+        }
+        });
+
+
     function onCheckEnter(e) {
         if(e.key === 'Enter') {
           onSearch();
@@ -11,11 +26,12 @@ export default function searchBar(){
     function onSearch(e){
         e.preventDefault(); 
         if(enteredTitle.length >0){
-            console.log({enteredTitle});
-            console.log("검색");
+            handleSearchByTitleNoticeList(enteredTitle);
         }
-        
     }
+    
+    
+
     return(
         <SearchForm onSubmit = {onSearch} onKeyPress={onCheckEnter}>
             <SearchInput 

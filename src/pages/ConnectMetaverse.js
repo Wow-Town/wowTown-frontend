@@ -19,7 +19,7 @@ import Avatar from "./Avatar";
 
 
 
-export default function connectMetaverse(){
+export default function ConnectMetaverse(){
     const navigate=useNavigate();
     const [clearNotice,setClearNotice] = useState(false);
     const [clearChat,setClearChat] = useState(false);
@@ -33,7 +33,7 @@ export default function connectMetaverse(){
     }
     function onClickNotice(){
         setClearNotice(true);
-        navigate('/connectMetaverse/notice')
+        navigate('/connectMetaverse/notices')
     }
     function onClickChat(){
         setClearNotice(true);
@@ -75,7 +75,7 @@ export default function connectMetaverse(){
             if(success){
                 console.log('공고 리스트');
                 console.log(response);
-                setNoticeId(response[0].noticeId);
+                setNoticeId(response[0].noticeId); //수정해야함 그냥 0번 index로 임의로 설정
                 //navigate('/connectMetaverse/chat/room/1a6946f1-ded8-41be-947d-97c9a836ec94',{ state : {chatRoomId : "1a6946f1-ded8-41be-947d-97c9a836ec94", roomName : "알고리즘"}});
                 //handleEnterChatRoom(response.chatRoomUUID);
 
@@ -114,11 +114,13 @@ export default function connectMetaverse(){
         }
         });
 
+        //%
     function onClickGetNoticeDetail(){      
         console.log(noticeId);
         handleGetNoticeDetail(noticeId);
         
     }
+    //%
 
     //공고 채팅방 입장버튼 누를시 비밀번호 같이 입력후 비밀번호 확인 api호출
     //성공시 채팅방 목록에 채팅방 추가됨
@@ -155,21 +157,22 @@ export default function connectMetaverse(){
                             <Button fontSize="13px" color="#C4C4C4" height ='27px' onClick={() => {onClick()}}  buttonText="상세 보기"/>
                         </DivCharacterName>
                         <Menu>
-                            <Ul onClick={onClickFriend}>친구 목록</Ul>
-                            <Ul>접속 유저</Ul>
-                            <Ul onClick={onClickChat}>채팅 목록</Ul>
-                            <Ul onClick={onClickNotice}>공고 보기</Ul>
-                            <Ul onClick={onClickTest}>[아바타 채팅방 생성 및 입장 테스트]</Ul>
-                            <Ul onClick={onClickGetAllNotice}>[전체 공고 목록]</Ul>
-                            <Ul onClick={onClickGetNoticeDetail}>[공고 상세 조회]</Ul>
-                            <Ul onClick={onClickJoinNotice}>[아바타 공고 채팅방 입장 테스트]</Ul>
+                            <Ul onClick={onClickFriend}>
+                                <UlIcon className="material-icons">people_alt</UlIcon>
+                                친구</Ul>
+                            <Ul onClick={onClickChat}>
+                                <UlIcon className="material-icons">chat</UlIcon>
+                                채팅</Ul>
+                            <Ul onClick={onClickNotice}>
+                                <UlIcon className="material-icons">find_in_page</UlIcon>
+                                공고 </Ul>
                         </Menu>
                     </Div3>                
                 </Div2> 
                 <Routes>
                     <Route path="/" element={<Empty/>} />
                     <Route path="/avatar/*" element={<Avatar/>} />
-                    <Route path="/notice/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
+                    <Route path="/notices/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
                     <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
                 </Routes>
             </ContentsFrame>
@@ -206,7 +209,7 @@ const DivCharacterName=styled.div`
     display:flex;
     flex-direction: row;
     align-items:center;
-    margin:15px 20px 15px 20px;
+    margin:15px 20px 25px 20px;
     font-size:20px;
     font-weight: 600;
 `
@@ -222,12 +225,16 @@ const Menu= styled.ul`
     margin-right:20px;
     padding-left:0px;
     list-style: none;
+    
+    
 `
 
 const Ul= styled.li`
     float:left;
-    padding:2px 10px 2px 0px;
+    padding:2px 18px 2px 0px;
     font-size:16px;
+    display:flex;
+    align-items:center;
 `
 
 const Empty = styled.div`
@@ -236,4 +243,9 @@ margin: 30px 40px 30px 30px;
 border: 1px solid #A4A4A4;
 width: 30%;
 height: 700px;
+`
+const UlIcon =styled.span`
+    margin-right:6px;
+    color:#7A7676;
+
 `
