@@ -3,6 +3,7 @@
 import styled from "styled-components";
 import Button from '../components/atoms/Button';
 import Navbar from "../components/templates/Navbar";
+import Metaverse from "../components/templates/Metaverse";
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState } from 'react';
@@ -194,14 +195,6 @@ const ContentsFrame = styled.div`
 const Div2 =styled.div`
     width: 70%;
     margin: 30px 0px 30px 40px;
-`
-
-const Metaverse = styled.div`
-    top: 0;
-    border: 1px solid  #bcbcbc;
-    width:100%;
-    min-width:500px;
-    height:662px;
 `
 
 const Div3 =styled.div`
