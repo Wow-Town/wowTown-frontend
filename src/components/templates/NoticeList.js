@@ -19,7 +19,7 @@ export default function NoticeList(){
             tabTitle:"내 관심사로 검색"
             ,
             tabCont:(
-                <SelectedInterestList setMyInterestNoticeData={setMyInterestNoticeData} />
+                <SelectedInterestList  setMyInterestNoticeData={setMyInterestNoticeData}  />
             )
         },
         {
@@ -39,21 +39,21 @@ export default function NoticeList(){
         setActiveIndex(index);
     }
 
-    const [searchedNotice,setSearchredNotice] =useState([]); 
+    const [searchedNotice,setSearchedNotice] =useState([]); 
     
     //보여줄 공고(페이지별 다름)
    
     
     //page 0 api 
     function setMyInterestNoticeData(searchByInterestNotice){
-        setSearchredNotice(searchByInterestNotice);
+        setSearchedNotice(searchByInterestNotice);
         console.log('관심사로 거른 공고',searchByInterestNotice);
     }
     
 
     //page 1 제목 별 검색
     function setNoticeData(searchByTitleNotice){
-        setSearchredNotice(searchByTitleNotice);
+        setSearchedNotice(searchByTitleNotice);
         
         
     }
@@ -63,7 +63,7 @@ export default function NoticeList(){
     const{ mutateAsync: handleNoticeList } = useMutation(getNoticeList,{
         onSuccess: ({response, success, error }) => {
             if(success){
-                setSearchredNotice(response);
+                setSearchedNotice(response);
         
                
             }else{
