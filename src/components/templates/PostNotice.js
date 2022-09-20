@@ -22,7 +22,7 @@ export default function PostNotice(){
         onSuccess: ({ success, error }) => {
             if(success){
                 console.log('공고 생성');
-                navigate('/connectMetaverse/notice/search');
+                navigate('/connectMetaverse/notices/search');
                 //handleEnterChatRoom(response.chatRoomUUID);
 
 
