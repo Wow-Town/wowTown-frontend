@@ -65,3 +65,12 @@ export async function rejectFriendRequest(RequestProps){
         return { success: false, error };
       }
 }
+
+export async function getSendEmail(){
+    try {
+        await axios.post(`/avatars/sendEmail`);  
+        return { success: true, error: undefined };
+      } catch (error) {
+        return { success: false, error };
+      }
+}
