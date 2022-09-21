@@ -31,15 +31,18 @@ export default function Modal({closeModal, modalMessage}) {
 }
 
 const ModalBackgroud =styled.div`
-  // width: 30vw;
-  // height: 100vh;
+// width: 30vw;
+  height: auto;
   // background-color: rgba(200, 200, 200);
   position: fixed;
-  margin-top : 200px;
-  padding-left: 89px;
-   display: flex;
-  //justify-content: center;
-  align-items: center;
+  top: 400px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+//   margin-top : 200px;
+//   padding-left: 89px;
+//    display: flex;
+//   //justify-content: center;
+//   align-items: center;
 `
 const ModalContainer =styled.div`
   width: 440px;

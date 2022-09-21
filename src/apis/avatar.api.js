@@ -36,6 +36,24 @@ export async function createAvatar(AvatarProps){
       }
 }
 
+export async function updateAvatar(AvatarProps){
+    try {
+        await axios.put(`/avatars`,AvatarProps);  
+        return {success: true, error: undefined };
+      } catch (error) {
+        return {success: false, error };
+      }
+}
+
+export async function deleteAvatar(){
+    try {
+        await axios.delete(`/avatars`);  
+        return {success: true, error: undefined };
+      } catch (error) {
+        return {success: false, error };
+      }
+}
+
 export async function addFriend(RequestProps){
     const {friendAvatarId} =RequestProps;
     try {

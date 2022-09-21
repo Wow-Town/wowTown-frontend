@@ -2,10 +2,10 @@
 import styled from 'styled-components';
 
 
-export default function InputInfo({maxLength, label, inputType,value,onChange}){
+export default function InputInfo({maxLength, label, inputType,value,onChange,width}){
    //label="이메일 주소"inputType="email" value onChange
     return(
-        <InputInfoDiv>
+        <InputInfoDiv width={width}>
             <InputLabel>{label}</InputLabel>
             <InputFrame
             type={inputType} 
@@ -13,16 +13,19 @@ export default function InputInfo({maxLength, label, inputType,value,onChange}){
             onChange={onChange} 
             maxLength={maxLength}
             autoComplete="on"
+            width={width}
             ></InputFrame>
         </InputInfoDiv>
     );
 }
 
 const InputInfoDiv = styled.div`
-    display:flex;
+    display:contents;
     flex-direction: column;
     padding:0px 0px 5px 0px;
-    width: 502px;
+    width: ${(props) =>props.width ||'502px'};
+    position: absolute;
+    top: 30px;
 
 `
 
@@ -37,7 +40,7 @@ const InputLabel = styled.label`
 `
 
 const InputFrame = styled.input`
-    width:502px;
+    width: ${(props) =>props.width ||'502px'};
     height:50px; 
     background: #FFFFFF;
     border: 2px solid #A4A4A4;

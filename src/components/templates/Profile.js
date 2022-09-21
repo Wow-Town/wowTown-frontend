@@ -3,28 +3,46 @@
 import styled from 'styled-components';
 import FrameHeader from "./FrameHeader";
 import Button from "../atoms/Button";
-import SelectedInterestList from './SelectedInterestList';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { AvatarState } from '../../utils/AvatarState';
 import { useState, useEffect } from 'react';
 import {useMutation} from 'react-query';
 import { useNavigate, useLocation } from "react-router-dom";
-import { addFriend, approveFriendRequest, rejectFriendRequest, getAvatarById } from '../../apis/avatar.api';
+import { addFriend, approveFriendRequest, rejectFriendRequest, getAvatar, getAvatarById, deleteAvatar } from '../../apis/avatar.api';
 import { createChatRoom } from "../../apis/chatRoom.api";
+import AvatarUpdateModal from './AvatarUpdateModal';
 
 
 export default function Profile(){
     const navigate=useNavigate();
     const location = useLocation();
     const{avatarId} = location.state;
-    const loginAvatar = useRecoilValue(AvatarState);
+    const [loginAvatar, setLoginAvatar] = useRecoilState(AvatarState);
     const [avatar, setAvatar] =useState();
     const [title, setTitle] = useState("");
     const [nickName, setNickName] = useState("");
     const [interest, setInterest] = useState([]);
     const [description, setDescription] = useState("");
     const [buttonComponent, setButtonComponent] =useState(<></>);
+    const [openAvatarUpdateModal,setOpenAvatarUpdateModal] =  useState(false);
+    const [isAvatarUpdate, setIsAvatarUpdate] = useState(false);
 
+    //본인 아바타 정보 조회
+    const{ mutateAsync: handleGetAvatar } = useMutation(getAvatar,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                console.log(response);
+                setLoginAvatar(response);
+                setAvatar(response); 
+                setIsAvatarUpdate(false);                         
+            }else{
+                //error 발생한 이유는 해당 채널에 아바타가 없기 때문이다. -> 아바타 생성 페이지로 이동
+                console.log('getAvatar update failed: ', error);
+            }
+        }
+        });
+
+    //상대방 아바타 정보 조회
     const{ mutateAsync: handleGetAvatarById } = useMutation(getAvatarById,{
         onSuccess: ({response, success, error }) => {
             if(success){
@@ -33,6 +51,17 @@ export default function Profile(){
                 setAvatar(response);
             }else{
                 console.log('아바타 조회 실패: ', error);
+            }
+        }
+        });
+
+    const{ mutateAsync: handleDeleteAvatar } = useMutation(deleteAvatar,{
+        onSuccess: ({ success, error }) => {
+            if(success){
+                console.log('아바타 삭제'); 
+                navigate('/channels');
+            }else{
+                console.log('아바타 삭제 실패: ', error);
             }
         }
         });
@@ -98,6 +127,14 @@ export default function Profile(){
         handleCreateChatRoom({"avatarId": avatar.avatarId , "nickName" : avatar.nickName});
     }
 
+    function onClickAvatarUpdate(){
+        setOpenAvatarUpdateModal(true);
+    }
+
+    function onClickAvatarDelete(){
+        handleDeleteAvatar();
+    }
+
     //avatarId를 navigation state {avatarId, friendStatus}를 통해 받아 업데이트 될때마다 다시 랜더링한다.
     //friendStatus를 통해 본인 프로필인지 친구 프로필인지 판단하여 본인 프로필일경우 조회를 하지 않고 localStorage에서 가져온다.
     useEffect(()=>{
@@ -107,9 +144,9 @@ export default function Profile(){
             handleGetAvatarById(avatarId);
         }
         else{
-            setAvatar(loginAvatar);
+            handleGetAvatar();
         }
-    },[avatarId])
+    },[avatarId,isAvatarUpdate])
 
     useEffect(()=>{
         if(avatar !== undefined){
@@ -142,8 +179,8 @@ export default function Profile(){
                 setTitle("내 프로필");
                 setButtonComponent(
                     <ButtonContents>
-                        <Button fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="프로필 수정"/>
-                        <Button fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 삭제"/>
+                        <Button  onClick={onClickAvatarUpdate} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 수정"/>
+                        <Button onClick={onClickAvatarDelete} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 삭제"/>
                     </ButtonContents>
                     );
             }
@@ -157,6 +194,7 @@ export default function Profile(){
 
         return(
             <ProfileFrame>
+                {openAvatarUpdateModal && <AvatarUpdateModal closeModal={setOpenAvatarUpdateModal} avatar={avatar} setIsAvatarUpdate={setIsAvatarUpdate}/>}
                 <FrameHeader frameTitle={title}/>
                 <SimpleProfile>
                     <ProfileImg className="material-icons">account_circle</ProfileImg>
@@ -222,6 +260,7 @@ const Name= styled.h1`
 
 
 const IntroductionDiv = styled.div`
+    white-space: pre;
     height:300px;
     word-break:break-all;
     font-size:20px;
@@ -230,14 +269,26 @@ const IntroductionDiv = styled.div`
     border: 0.5px solid;
     border-radius:10px;
     //스크롤 추가와 스크롤 모양 변경
-    overflow-y: auto;
+    overflow-y: scroll;
+    
+
     &::-webkit-scrollbar {
-        width: 4px;
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: 2px;
+        
+        width: 6px;
+        
+        
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb {
         background: #BCBCBC;
-      }
+        border-radius: 10px;
+        
+    }
 
 `
 

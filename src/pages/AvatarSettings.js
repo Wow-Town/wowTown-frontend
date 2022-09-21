@@ -174,7 +174,9 @@ const ErrorMessage =styled.div`
 `
 
 const IntroductionFrame =styled.div`
-    
+    display: contents;
+    position: absolute;
+    top:500px;
 `
 
 const Label =styled.label`
@@ -202,6 +204,7 @@ const Textarea =styled.textarea`
 `
 
 const AllAreaFrame =styled.div`
+display: contents;
 width:100%;
 
 `
