@@ -53,6 +53,7 @@ font-weight: 400;
 font-size: 16px;
 line-height: 19px;
 cursor: pointer;
+display:inline-table;
 `
 
 const ClickedArea = styled.li`
@@ -72,7 +73,10 @@ font-weight: 400;
 font-size: 16px;
 line-height: 19px;
 cursor: pointer;
+display:inline-table;
 `
 const Span = styled.span`
 line-height: 40px;
+display:table-cell;
+vertical-align:middle;
 `

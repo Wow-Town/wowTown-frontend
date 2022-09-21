@@ -6,7 +6,7 @@ import Navbar from "../components/templates/Navbar";
 import Metaverse from "../components/templates/Metaverse";
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useRecoilValue } from 'recoil';
 import { AvatarState } from "../utils/AvatarState";
 
