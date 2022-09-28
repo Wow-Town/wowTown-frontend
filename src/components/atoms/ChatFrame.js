@@ -7,7 +7,6 @@ import {Routes, Route, useNavigate } from "react-router-dom";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 
-let sockJS;
 let stompClient;
 
 export default function ChatFrame({chatRoom}){
@@ -17,8 +16,8 @@ export default function ChatFrame({chatRoom}){
     const [receiveMessageNum, setReceiveMessageNum] = useState(parseInt(chatRoom.receiveMessageNum));
 
     useEffect(() =>{         
-        sockJS = new SockJS("http://api.wowTown.co.kr:81/ws-stomp");
-        stompClient= Stomp.over(sockJS);
+        var ws = new WebSocket('ws://localhost:8080/ws-stomp');
+        stompClient= Stomp.over(ws);
         stompClient.connect({}, function(frame) {
             setTimeout(function() {
                 stompClient.subscribe("/sub/chatRooms/"+chatRoom.chatRoomUUID,function(message){
@@ -44,9 +43,27 @@ export default function ChatFrame({chatRoom}){
     useEffect(() =>{
         if(receive!==undefined && receive.type !== "ENTER"){
             console.log(receive);
-            setReceiveMessage(receive.message);
-            setReceiveMessageNum(receiveMessageNum + receive.count);
+            if(receive.type === "IMAGE"){
+                setReceiveMessage("사진");
+                setReceiveMessageNum(receiveMessageNum + receive.count);
             }
+             else if(receive.type === "VIDEO"){
+                setReceiveMessage("동영상");
+                setReceiveMessageNum(receiveMessageNum + receive.count);
+            }
+             else if(receive.type === "APPLICATION"){
+                setReceiveMessage("파일");
+                setReceiveMessageNum(receiveMessageNum + receive.count);
+            }
+             else if(receive.type === "TEXT"){
+                setReceiveMessage("파일");
+                setReceiveMessageNum(receiveMessageNum + receive.count);
+            }
+            else{
+                setReceiveMessage(receive.message);
+                setReceiveMessageNum(receiveMessageNum + receive.count);
+            }
+        }
     },[receive])    
 
     function onClickChatRoom(){
