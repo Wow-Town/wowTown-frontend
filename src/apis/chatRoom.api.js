@@ -28,4 +28,13 @@ export async function getChatRoom(chatRoomUUID){
       }
 }
 
-getChatRoom
+export async function uploadFile(UploadFileProps){
+    const {chatRoomId,formData} =UploadFileProps;
+    console.log(formData);
+    try {
+        const response = await axios.post('/chatRooms/'+chatRoomId+'/upload',formData,{headers:{"content-type":"multipart/form-data"}});  
+        return {response: response.data, success: true, error: undefined };
+      } catch (error) {
+        return {response: null, success: false, error };
+      }
+}

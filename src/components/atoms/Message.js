@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { useState, useEffect ,useRef } from "react";
 import { useCallback } from "react";
 import { useNavigate } from 'react-router-dom';
+import {useMutation} from 'react-query';
 
 export default function Message({recv}){
     const navigate=useNavigate();
@@ -13,6 +14,7 @@ export default function Message({recv}){
     const [time, setTime] = useState();
     const [textFrameWidth, setTextFrameWidth] = useState();
     const [avatarImageWidth, setavatarImageWidth] = useState();
+    const [frame, setFrame] = useState(<></>)
     const [avatar] = useRecoilState(AvatarState);
 
     //useCallback은 각각 textFrameWidth, avatarImageWidht를 계산하기 위한 callback 함수로 <AvatarImg ref={avatarImgRef}> 여기에 들어긴다.
@@ -22,14 +24,50 @@ export default function Message({recv}){
             setavatarImageWidth(avatarImg.getBoundingClientRect().width);
         }
     },[]);
-    const textFrameRef = useCallback(textFrame =>{
-        if(textFrame !== null){
-            console.log(textFrame.getBoundingClientRect().width)
-            setTextFrameWidth(textFrame.getBoundingClientRect().width);
+    const frameRef = useCallback(frame =>{
+        if(frame !== null){
+            console.log(frame.getBoundingClientRect().width)
+            setTextFrameWidth(frame.getBoundingClientRect().width);
         }
     },[]);
 
     useEffect(() =>{
+        if(recv.type === "IMAGE"){
+            setFrame(
+                <ImageFrame  src={recv.message} ref={frameRef}>
+                    {/* todo: 이미지 눌렀을때 모달 띄워주어 크게 보여주기 */}
+                </ImageFrame>
+            )
+        }else if(recv.type === "VIDEO"){
+            setFrame(
+                <VideoFrame src={recv.message} controls width="200" ref={frameRef}>
+                </VideoFrame>
+            )
+        }else if(recv.type === "TEXT"){
+            setFrame(
+                <FileFrame width="200" ref={frameRef}>
+                    <Text>
+                        <a href={recv.message}>{recv.message}</a>
+                    </Text>
+                </FileFrame>
+            )
+        }else if(recv.type === "APPLICATION"){
+            setFrame(
+                <FileFrame width="200" ref={frameRef}>
+                    <Text>
+                        <a href={recv.message}>{recv.message}</a>
+                    </Text>
+                </FileFrame>
+            )
+        }else{
+            setFrame(
+                <TextFrame ref={frameRef}>
+                    <Text>{recv.message}</Text>
+                </TextFrame>
+            )
+        }
+        
+        console.log(recv);
         if(recv.sender === avatar.nickName){
             setIsSender(true);
         } 
@@ -48,6 +86,9 @@ export default function Message({recv}){
     }
 
   
+    function onClick(e){
+        
+    }
     
     return(
         <MessageBlock isSender={isSender}> 
@@ -61,9 +102,7 @@ export default function Message({recv}){
                             <Count align={"right"}>{recv.count !== 0 ? recv.count : ""}</Count>                                       
                             <Time>{time}</Time>
                         </TimeFrame>
-                        <TextFrame ref={textFrameRef}>
-                            <Text>{recv.message}</Text>
-                        </TextFrame>
+                        {frame}
                         <AvatarImg onClick={onClickAvatarImg} ref={avatarImgRef}></AvatarImg>
                     </Content>
                 </>
@@ -72,9 +111,7 @@ export default function Message({recv}){
                     <NickName align={"left"}>{recv.sender}</NickName>
                     <Content float={"left"}>
                         <AvatarImg onClick={onClickAvatarImg} ref={avatarImgRef}></AvatarImg>
-                        <TextFrame ref={textFrameRef}>
-                            <Text>{recv.message}</Text>
-                        </TextFrame>
+                        {frame}
                         <TimeFrame isSender={isSender} avatarImageWidth={avatarImageWidth} textFrameWidth={textFrameWidth}>
                             <Count align={"left"}>{recv.count !== 0 ? recv.count : ""}</Count>                                       
                             <Time>{time}</Time>
@@ -120,6 +157,40 @@ float: ${props => props.float};
 `
 
 const TextFrame = styled.div`
+background-color:#A4A4A4;
+max-width: 200px;
+width: fit-content;
+border-radius:20px;
+padding: 3px 15px 3px 15px;
+display:inline-flex;
+align-items: center;
+position: relative;
+margin 3px;
+`
+
+const ImageFrame = styled.img`
+background-color:#A4A4A4;
+max-width: 200px;
+width: fit-content;
+border-radius:20px;
+display:inline-flex;
+align-items: center;
+position: relative;
+margin 3px;
+`
+
+const VideoFrame = styled.video`
+background-color:#A4A4A4;
+max-width: 240px;
+width: fit-content;
+border-radius:20px;
+display:inline-flex;
+align-items: center;
+position: relative;
+margin 3px;
+`
+
+const FileFrame = styled.div`
 background-color:#A4A4A4;
 max-width: 200px;
 width: fit-content;
