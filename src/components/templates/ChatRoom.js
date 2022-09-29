@@ -5,24 +5,26 @@ import FrameHeader from "./FrameHeader";
 import { AvatarState } from "../../utils/AvatarState";
 import { useRecoilState } from 'recoil';
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {useMutation} from 'react-query';
 import {useDropzone} from 'react-dropzone';
-import { getChatRoom, uploadFile } from "../../apis/chatRoom.api";
+import { getChatRoomMessage, uploadFile } from "../../apis/chatRoom.api";
 import {Buffer} from 'buffer';
 
 import { Stomp } from "@stomp/stompjs";
 import Message from "../atoms/Message";
+import ChatRoomAvatarList from "./ChatRoomAvatarList";
 
 let stompClient;
 
 export default function ChatRoom({setReceiveMessage}){
+    const navigate=useNavigate();
     const location = useLocation();
     const{chatRoomId, roomName} = location.state;
     const [recvMessage, setRecvMessage] = useState({});
     const [sendMessage, setSendMessage] = useState("");
-    const [participantAvatar, setParticipantAvatar] = useState([]);
     const [messageList, setMessageList] = useState([]);
+    const [clickDehaze, setClickDehaze] = useState(false);
     const messageFrameRef = useRef();
     const [avatar] = useRecoilState(AvatarState);
 
@@ -31,7 +33,7 @@ export default function ChatRoom({setReceiveMessage}){
         stompClient= Stomp.over(ws);
         stompClient.connect({}, function(frame) {
             //연결 성공시 api호출
-            handleGetChatRoom(chatRoomId);
+            handleGetChatRoomMessage(chatRoomId);
             stompClient.subscribe("/sub/chatRooms/"+chatRoomId,function(message){
                 console.log("메시지 수신"); 
                 let recv = JSON.parse(message.body);
@@ -40,7 +42,7 @@ export default function ChatRoom({setReceiveMessage}){
                         setRecvMessage(recv);
                     }
                     else{
-                        handleGetChatRoom(chatRoomId);
+                        handleGetChatRoomMessage(chatRoomId);
                     }
                 });
 
@@ -67,12 +69,11 @@ export default function ChatRoom({setReceiveMessage}){
         setMessageList([...messageList,recvMessage]);
     },[recvMessage])
 
-    const{ mutateAsync: handleGetChatRoom } = useMutation(getChatRoom,{
+    const{ mutateAsync: handleGetChatRoomMessage } = useMutation(getChatRoomMessage,{
         onSuccess: ({response, success, error }) => {
             if(success){
-                console.log('채팅방 상세');
-                setMessageList(response.chatMessageList);
-                setParticipantAvatar([...participantAvatar, ...response.avatarList]);
+                console.log('채팅방 메시지');
+                setMessageList(response);
                 const {scrollHeight, clientHeight} = messageFrameRef.current;
                 messageFrameRef.current.scrollTop = scrollHeight - clientHeight;
             }else{
@@ -133,11 +134,13 @@ export default function ChatRoom({setReceiveMessage}){
         setSendMessage(e.target.value);
     }
 
-    function parseDropDownFile(binaryStr){
-        var arr = binaryStr.split(',');
-        var mime = arr[0].match(/:(.*?);/)[1];
-        console.log(mime);
-        return mime;
+    function onClickAvatarList(){
+        setClickDehaze(true);
+        console.log("아바타 리스트 클릭")
+    }
+
+    function onClickClose(){
+        navigate(-1);
     }
 
     //DropZone Code
@@ -167,26 +170,36 @@ export default function ChatRoom({setReceiveMessage}){
 
     return(
         <ChatRoomFrame>
-            <FrameHeader frameTitle={roomName}></FrameHeader>    
-            <MessageFrame {...getRootProps()} ref={messageFrameRef}>
-                {
-                    messageList.map((recv,index) =>{  
-                        //console.log(recv);
-                        if(messageList.length !== 0 && Object.keys(recv).length !== 0){
-                            return (
-                                    <Message key={index} recv={recv}/>
-                            );
-                        }
-                    })
-                }
-            </MessageFrame>
-            
-            <MessageInputFrame>
-                <MessageInput type="text" placeholder={"메시지를 입력하세요."} value={sendMessage} onChange={onMessageHandler}/>
-                <SendButton buttonText="전송"onClick={() => sendMassage()}></SendButton>
-            </MessageInputFrame>  
+            <ChatRoomAvatarList chatRoomId={chatRoomId} clickDehaze={clickDehaze} setClickDehaze={setClickDehaze}/>
+            <ChatRoomBody clickDehaze={clickDehaze}>
+                <ChatRoomFrameWrapper clickDehaze={clickDehaze}>
+                    <AvatarList>
+                        <Icon 
+                        className="material-icons"
+                        font-size="30px"
+                        onClick={onClickAvatarList}>
+                        dehaze 
+                        </Icon>
+                    </AvatarList>
+                    <FrameHeader frameTitle={roomName} width={"90%"} position={"absolute"} rigth={"0px"} icon={"highlight_off"} onClickClose={onClickClose}></FrameHeader>
+                </ChatRoomFrameWrapper>    
+                <MessageFrame {...getRootProps()} ref={messageFrameRef}>
+                    {
+                        messageList.map((recv,index) =>{  
+                            if(messageList.length !== 0 && Object.keys(recv).length !== 0){
+                                return (
+                                        <Message key={index} recv={recv}/>
+                                );
+                            }
+                        })
+                    }
+                </MessageFrame>
                 
-            
+                <MessageInputFrame clickDehaze={clickDehaze}>
+                    <MessageInput type="text" placeholder={"메시지를 입력하세요."} value={sendMessage} onChange={onMessageHandler}/>
+                    <SendButton buttonText="전송"onClick={() => sendMassage()}></SendButton>
+                </MessageInputFrame>  
+            </ChatRoomBody>  
         </ChatRoomFrame>
     )
 }
@@ -194,11 +207,38 @@ export default function ChatRoom({setReceiveMessage}){
 const ChatRoomFrame = styled.div`
 width:100%;
 height:100%;
+position relative;
 `
 
-const DropZone = styled.div`
+const ChatRoomBody = styled.div`
+background-color: ${(props)=>props.clickDehaze?'#9AA0A6':'#ffffff'};
+opacity: ${(props)=>props.clickDehaze?'0.5':'1'};
+width: 100%;
+height: 100%;
+position: absolute;
+z-index: 0;
+`
+
+const ChatRoomFrameWrapper = styled.div`
+height:100px;
 width:100%;
-height:75%;
+position: relative;
+opacity: ${(props)=>props.clickDehaze?'0.5':'1'};
+`
+
+const AvatarList= styled.div`
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+padding : 20px 0px 50px 0px;
+position:absolute;
+left:0px;
+width:10%;
+`
+
+const Icon=styled.span`
+cursor: pointer;
+
 `
 
 const MessageFrame = styled.div`
@@ -206,6 +246,26 @@ width:100%;
 height:75%;
 overflow-y: auto;
 flex-direction:column_reverse;
+overflow-y: scroll;
+    
+
+&::-webkit-scrollbar {
+    
+    width: 10px;
+    
+    
+}
+&::-webkit-scrollbar-thumb:hover {
+    background: #A4A4A4;
+}
+&::-webkit-scrollbar-thumb:active {
+    background: #A4A4A4;
+}
+&::-webkit-scrollbar-thumb {
+    background: #BCBCBC;
+    border-radius: 10px;
+    
+}
 `
 
 const MessageInputFrame = styled.div`
@@ -215,6 +275,7 @@ background: #F5F6F8;
 box-sizing: border-box;
 border-radius: 30px;
 display: flex;
+opacity: ${(props)=>props.clickDehaze?'0.5':'1'};
 `
 
 const MessageInput = styled.input`

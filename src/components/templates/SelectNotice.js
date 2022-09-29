@@ -13,11 +13,14 @@ export default function SelectNotice(){
     function onClickPostNotice(){
         navigate('/connectMetaverse/notices/post');
     }
+    function onClickClose(){
+        navigate('/connectMetaverse');
+    }
     
 
     return(
         <SelectNoticeFrame>
-            <FrameHeader frameTitle='공고 유형 선택'/>
+            <FrameHeader frameTitle='공고 유형 선택' icon={"highlight_off"} onClickClose={onClickClose} />
             <SelectNoticetype>
             <Div onClick={()=> onClickNoticeList()}>
                 <Icon className="material-icons" >find_in_page</Icon>

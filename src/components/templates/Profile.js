@@ -134,6 +134,10 @@ export default function Profile(){
     function onClickAvatarDelete(){
         handleDeleteAvatar();
     }
+    function onClickClose(){
+        navigate(-1);
+    }
+    
 
     //avatarId를 navigation state {avatarId, friendStatus}를 통해 받아 업데이트 될때마다 다시 랜더링한다.
     //friendStatus를 통해 본인 프로필인지 친구 프로필인지 판단하여 본인 프로필일경우 조회를 하지 않고 localStorage에서 가져온다.
@@ -195,7 +199,7 @@ export default function Profile(){
         return(
             <ProfileFrame>
                 {openAvatarUpdateModal && <AvatarUpdateModal closeModal={setOpenAvatarUpdateModal} avatar={avatar} setIsAvatarUpdate={setIsAvatarUpdate}/>}
-                <FrameHeader frameTitle={title}/>
+                <FrameHeader frameTitle={title} icon={"highlight_off"} onClickClose={onClickClose}/>
                 <SimpleProfile>
                     <ProfileImg className="material-icons">account_circle</ProfileImg>
                     <Name>{nickName}</Name>

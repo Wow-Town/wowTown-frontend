@@ -1,21 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
-export default function Frame({frameTitle}){
-    const navigate = useNavigate();
-    function closeFrame(){
-        navigate('/connectMetaverse');
-    }
+export default function Frame({frameTitle, onClickClose, width, position, rigth, icon}){
     return(
         
-        <Header>
+        <Header width={width} position={position} rigth={rigth}>
             <Title>{frameTitle}</Title>
             <Icon 
                 className="material-icons"
-                onClick={closeFrame}>
-                highlight_off 
+                onClick={onClickClose}>
+                {icon} 
             </Icon>
         </Header>
         
@@ -24,13 +19,13 @@ export default function Frame({frameTitle}){
 
 
 const Header=styled.div`
-background-color:#FEFFFF;
-//margin-bottom:50px;
 display:flex;
 flex-direction:row;
 justify-content:space-between;
 padding : 20px 0px 50px 0px;
-
+width: ${(props) =>props.width ||'100%'};
+position: ${(props) =>props.position || 'relative'};
+right: ${(props) =>props.rigth};
 `
 const Title = styled.div`
 font-size:20px;

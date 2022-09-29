@@ -66,9 +66,13 @@ export default function PostNotice(){
         }
 
     }
+    function onClickClose(){
+        console.log(1)
+        navigate(-1);
+    }
     return(
         <PostNoticeFrame>
-            <FrameHeader frameTitle='공고 등록'/>
+            <FrameHeader frameTitle='공고 등록' icon={"highlight_off"} onClickClose={onClickClose}/>
             <NoticeForm onSubmit={onSubmitNotice}>
                 <TitleDiv>
                 <Label>공고 제목</Label>

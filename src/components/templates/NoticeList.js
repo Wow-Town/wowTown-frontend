@@ -8,10 +8,11 @@ import SearchBar from '../atoms/SearchBar';
 import SelectedInterestList from "./SelectedInterestList";
 import { getNoticeList } from "../../apis/notice.api";
 import {useMutation, useQuery} from 'react-query';
-import { getAvatar } from "../../apis/avatar.api";
+import { useNavigate } from "react-router-dom";
+// import { getAvatar } from "../../apis/avatar.api";
 
 export default function NoticeList(){
-    
+    const navigate = useNavigate();
 
     const [activeIndex, setActiveIndex] = useState(2);
     const tabContArr=[
@@ -54,8 +55,10 @@ export default function NoticeList(){
     //page 1 제목 별 검색
     function setNoticeData(searchByTitleNotice){
         setSearchedNotice(searchByTitleNotice);
-        
-        
+    }
+
+    function onClickClose(){
+        navigate(-1);
     }
 
     //page 2 : 전체공고 api
@@ -94,7 +97,7 @@ export default function NoticeList(){
     return(
             <NoticeListPage>
                 
-                    <FrameHeader frameTitle='공고 검색'/>
+                    <FrameHeader frameTitle='공고 검색' icon={"highlight_off"} onClickClose={onClickClose}/>
                     <TabFrame>
                         <Tab1 onClick={()=> tabClickHandler(0)} >{tabContArr[0].tabTitle}</Tab1>
                         <Tab2 onClick={()=> tabClickHandler(1)}>{tabContArr[1].tabTitle}</Tab2>
