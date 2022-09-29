@@ -4,8 +4,6 @@ import { getNoticeDetail } from "../../apis/notice.api";
 import styled from "styled-components";
 import FrameHeader from "./FrameHeader";
 import Button from "../atoms/Button";
-import InterestList from "./InterestList";
-import SelectedInterestList from "./SelectedInterestList";
 import {useMutation} from 'react-query';
 import { useState } from "react";
 import { useEffect } from "react";
@@ -44,8 +42,6 @@ export default function NoticeDetail(){
             }
         }
 
-
-
         });
         const{ mutateAsync: handleCreateChatRoom } = useMutation(createChatRoom,{
             onSuccess: ({response, success, error }) => {
@@ -53,9 +49,6 @@ export default function NoticeDetail(){
                     console.log('아바타 채팅 목록');
                     console.log(response); 
                     navigate('/connectMetaverse/chat/room/'+response.chatRoomUUID, { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName}})
-                    //handleEnterChatRoom(response.chatRoomUUID);
-    
-    
                 }else{
                     console.log('handleCreateChatRoom failed: ', error);
                 }
@@ -112,6 +105,10 @@ export default function NoticeDetail(){
             }
             });
 
+    function onClickClose(){
+        navigate(-1);
+    }
+
     useEffect( ()=>{
         const noticeId = location.state.noticeId;
         const ownerName = location.state.ownerName;
@@ -125,7 +122,7 @@ export default function NoticeDetail(){
 
     return(
         <NoticeDetailPage>
-                <FrameHeader frameTitle='공고 상세'/>
+                <FrameHeader frameTitle='공고 상세' icon={"highlight_off"} onClickClose={onClickClose}/>
                 <NoticeDetailWrapper>
                     <NoticeDetailTitleDiv>
                         {subject}

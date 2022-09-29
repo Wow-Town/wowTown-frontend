@@ -19,9 +19,18 @@ export async function getChatRoomList(){
       }
 }
 
-export async function getChatRoom(chatRoomUUID){
+export async function getChatRoomMessage(chatRoomUUID){
     try {
-        const response = await axios.get(`/chatRooms/`+chatRoomUUID);  
+        const response = await axios.get(`/chatRooms/`+chatRoomUUID +`/message`);  
+        return {response: response.data, success: true, error: undefined };
+      } catch (error) {
+        return {response: null, success: false, error };
+      }
+}
+
+export async function getChatRoomAvatar(chatRoomUUID){
+    try {
+        const response = await axios.get(`/chatRooms/`+chatRoomUUID + `/avatar`);  
         return {response: response.data, success: true, error: undefined };
       } catch (error) {
         return {response: null, success: false, error };
