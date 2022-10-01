@@ -7,16 +7,23 @@ import { useState , useEffect} from 'react';
 import {useMutation} from 'react-query';
 import { getAvatar, updateAvatar } from '../../apis/avatar.api';
 import styled from 'styled-components';
+import AvatarCostumeModal from './AvatarCostumeModal';
 
 export default function AvatarUpdateModal({closeModal, avatar, setIsAvatarUpdate}) {
     const [nickname,setNickname]=useState(avatar.nickName);
     const [introduction,setIntroduction]=useState(avatar.description);
+    const [costumeIdx, setCostumeIdx]=useState(avatar.costumeIdx);
     const [nicknameError,setNicknameError]=useState(false);
     const [introductionError,setIntroductionError]=useState(false);
     const [interestList,setInterestList]=useState([]);
+    const [openCostumeModal,setOpenCostumeModal] =  useState(false);
 
     const handleClose = () => {
       closeModal(false);
+    }
+
+    const onClickCostumeChange = () => {
+        setOpenCostumeModal(true);
     }
 
     const{ mutateAsync: handleUpdateAvatar } = useMutation(updateAvatar,{
@@ -48,14 +55,17 @@ export default function AvatarUpdateModal({closeModal, avatar, setIsAvatarUpdate
         handleUpdateAvatar({
             "nickName" : nickname,
             "description" : introduction,
-            "interestList" : interestList,  
+            "interestList" : interestList,
+            "costumeIdx" : costumeIdx 
         });       
     }
 
     return (
+        <>
+        {openCostumeModal && <AvatarCostumeModal closeModal={setOpenCostumeModal} costumeIdx={avatar.costumeIdx} setCostumeIdx={setCostumeIdx}/>}
         <ModalBackgroud>
             <ModalContainer>
-                <AvaterForm onSubmit={onSubmit} >
+                <AvaterForm>
                     <InputInfo label="닉네임"
                     inputType="text" 
                     placeholder="10자 이내"
@@ -79,15 +89,17 @@ export default function AvatarUpdateModal({closeModal, avatar, setIsAvatarUpdate
                         <InterestList setInterestList={setInterestList}/>
                     </AllAreaFrame>
                     {
-                    interestList.length !==3 && interestList.length >0 ? <ErrorMessage>관심사 3개를 선택해주세요.</ErrorMessage> : <ErrorMessage/>    
+                    interestList.length !==3 && interestList.length >= 0 ? <ErrorMessage>관심사 3개를 선택해주세요.</ErrorMessage> : <ErrorMessage/>    
                     }
                     <ButtonLogin>
-                        <Button  marginRight={"10px"} buttonText="수정"/>
+                        <Button  onClick={onClickCostumeChange} marginRight={"10px"} buttonText="의상 변경"/>
+                        <Button  onClick={onSubmit} marginRight={"10px"} buttonText="적용"/>
                         <Button  onClick={handleClose} buttonText="닫기"/>
                     </ButtonLogin>
                 </AvaterForm>
             </ModalContainer>
       </ModalBackgroud>
+      </>
     );
 }
 
@@ -116,7 +128,7 @@ const ModalContainer =styled.div`
   padding: 25px;
 `
 
-const AvaterForm=styled.form`
+const AvaterForm=styled.div`
     display:flex;
     width:100%;
     height: 100%;

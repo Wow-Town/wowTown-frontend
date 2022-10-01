@@ -24,15 +24,10 @@ instance.interceptors.response.use(
             localStorage.setItem('accessToken',  accessToken );
             instance.defaults.headers.common["Authorization"] =accessToken;
         }
-        const newAccessToken = response.headers.authorization;
-        if(newAccessToken !== undefined){
-            instance.defaults.headers.common["Authorization"] =newAccessToken;
-            localStorage.setItem('accessToken',  newAccessToken );
-        }
     return response
 },
 async function (error) {
-  if (error.response && error.response.status === 401) {
+  if (error.response && error.response.status === 403) {
         try {
             console.log("토큰 만료 로그아웃");
             localStorage.clear();
@@ -43,6 +38,14 @@ async function (error) {
       }
       return Promise.reject(error)
   }
+  else{
+    const newAccessToken = error.response.headers.authorization;
+        if(newAccessToken !== undefined){
+            instance.defaults.headers.common["Authorization"] =newAccessToken;
+            localStorage.setItem('accessToken',  newAccessToken );
+            return instance.request(error.config);
+        }
+    }
   return Promise.reject(error)
 })
 
