@@ -24,14 +24,75 @@ export default function MeetingRoom(){
     const [videoList, setVideoList] = useState([]);
     const chatRoomId = "23c007fd-e3e9-4062-be3e-d536ea9fadc7";
     const [avatar] = useRecoilState(AvatarState);
-
-    const myStream = navigator.mediaDevices.getUserMedia({
-        video:true,
-        audio:true
-    });
+    const myStream = useRef();
+    const sharingScreenStream = useRef();
+    const[nowSharing,setNowSharing]=useState(false);
     
+    function handleVideoSetting(){
+        console.log('mystream보면',myStream.current.getVideoTracks()[0].enabled);
+        if( myStream.current.getVideoTracks()[0].enabled === true){
+            myStream.current.getVideoTracks()[0].enabled = false;
+            console.log('mystream바꾼후',myStream.current.getVideoTracks()[0]);
+        }
+        else if( myStream.current.getVideoTracks()[0].enabled === false){
+            myStream.current.getVideoTracks()[0].enabled = true }
+    }
+    function handleAudioSetting(){
+        console.log('mystream보면',myStream.current.getAudioTracks()[0].enabled);
+        if( myStream.current.getAudioTracks()[0].enabled === true){
+            myStream.current.getAudioTracks()[0].enabled = false;
+            console.log('mystream바꾼후',myStream.current.getAudioTracks()[0]);
+        }
+        else if( myStream.current.getAudioTracks()[0].enabled === false){
+            myStream.current.getAudioTracks()[0].enabled = true }
+    }
+    function isMyCam(sender){
+        if(sender.id === avatar.avatarId) {
+            console.log(sender.stream);
+            return true;}
+
+    }
+    function handleSharingScreen(){
+        // if(nowSharing === true){ setNowSharing(false)}
+        // else{ setNowSharing(true)}
+        //////////////////
+        navigator.mediaDevices.getDisplayMedia({ cursor: true }).then(stream => {
+            setNowSharing(true);
+            const screenTrack = stream.getTracks()[0];
+            console.log('ms',myStream);
+            console.log('st',screenTrack);
+            sharingScreenStream.currrent =stream;
+            //console.log('sss',sharingScreenStream);
+            console.log('바꿔야하는거',videoList.find(isMyCam));
+            // 내 아이디로 된 비디오 찾아서 -> 그것의 stream을 mediaStream에서 screenTrack으로 바꾼다
+            //setVideoList(videoList.find(isMyCam).replaceTrack(screenTrack));
+            //videoList.find(isMyCam).replaceTrack(screenTrack);
+            console.log(videoList);
+            
+            //setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
+            //setGridStyled("1fr");
+            // screenTrack.onended = function(){
+            //     setVideo({"id": sharingScreenStream.id, "stream": null, "option": "REMOVE"});
+        
+            // }
+        })
+        //////////////////여기 아래는 아님
+        //     console.log('sss',sharingScreenStream);
+            // senders.current.find(sender => sender.track.kind === 'video').replaceTrack(screenTrack);
+            // screenTrack.onended = function() {
+            //     senders.current.find(sender => sender.track.kind === "video").replaceTrack(userStream.current.getTracks()[1]);
+            // }
+        //})
+        
+          //  
+
+    }
     useEffect(()=>{
-        myStream.then(stream =>{
+        navigator.mediaDevices.getUserMedia({
+            video:true,
+            audio:true
+        }).then(stream =>{
+            myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
             var ws = new WebSocket('ws://localhost:8080/ws-stomp');

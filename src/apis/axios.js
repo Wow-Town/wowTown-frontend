@@ -39,7 +39,7 @@ async function (error) {
       return Promise.reject(error)
   }
   else{
-    const newAccessToken = error.response.headers.authorization;
+    const newAccessToken = error.response.headers.Authorization;
         if(newAccessToken !== undefined){
             instance.defaults.headers.common["Authorization"] =newAccessToken;
             localStorage.setItem('accessToken',  newAccessToken );

@@ -9,13 +9,12 @@ import { Routes, Route } from "react-router-dom";
 import ChatFrame from "../atoms/ChatFrame";
 
 
-export default function ChatList(){
+export default function StudyRoomList(){
     const [chatList, setChatList] = useState([]);
     const [selectChatRoomId, setSelectChatRoomId] = useState("");
 
     useEffect(() =>{
         handleGetChatRoomList();
-        console.log(chatList);
     },[])   
 
     const{ mutateAsync: handleGetChatRoomList } = useMutation(getChatRoomList,{
@@ -31,10 +30,11 @@ export default function ChatList(){
         });
 
     return (
-        <ChatListFrame>
-            <FrameHeader frameTitle='채팅 리스트'/>
+        <StudyRoomListFrame>
+            <FrameHeader frameTitle='스터디룸'/>
                 {
                     chatList.map((chatRoom,index) =>{
+                
                         return (
                             <ChatFrame 
                                 key={index} 
@@ -43,11 +43,14 @@ export default function ChatList(){
                         )
                     })
                 }
-            </ChatListFrame>
+            </StudyRoomListFrame>
     )
 }
 
-const ChatListFrame = styled.div`
-width:100%;
-height:100%; 
+const StudyRoomListFrame = styled.div`
+padding: 20px 30px 20px 30px;
+margin: 30px 40px 30px 30px;
+border: 1px solid #A4A4A4;
+width: 30%;
+height: 700px;
 `
