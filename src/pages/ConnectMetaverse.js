@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button from '../components/atoms/Button';
 import Navbar from "../components/templates/Navbar";
 import Metaverse from "../components/templates/Metaverse";
+import StudyRoomList from "../components/templates/StudyRoomList";
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState ,useEffect} from 'react';
@@ -33,6 +34,10 @@ export default function ConnectMetaverse(){
     function onClickChat(){
         setClearNotice(true);
         navigate('/connectMetaverse/chat')
+    }
+
+    function onClickStudyroom(){
+        navigate('/connectMetaverse/studyroom')
     }
 
     const{ mutateAsync: handleGetSendEmail } = useMutation(getSendEmail,{
@@ -70,6 +75,9 @@ export default function ConnectMetaverse(){
                             <Ul onClick={onClickNotice}>
                                 <UlIcon className="material-icons">find_in_page</UlIcon>
                                 공고 </Ul>
+                            <Ul onClick={onClickStudyroom}>
+                                <UlIcon className="material-icons">find_in_page</UlIcon>
+                                스터디룸 </Ul>
                         </Menu>
                     </Div3>                
                 </Div2> 
@@ -78,6 +86,7 @@ export default function ConnectMetaverse(){
                     <Route path="/avatar/*" element={<Avatar/>} />
                     <Route path="/notices/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
                     <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
+                    <Route path="/studyroom/*" element={<StudyRoomList/>} />
                 </Routes>
             </ContentsFrame>
         </Div>
