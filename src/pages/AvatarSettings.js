@@ -12,14 +12,17 @@ import { useNavigate } from 'react-router-dom';
 import { getAvatar, createAvatar } from '../apis/avatar.api';
 import { useRecoilState } from 'recoil';
 import { AvatarState } from "../utils/AvatarState";
+import AvatarCostumeModal from '../components/templates/AvatarCostumeModal';
 
 export default function  AvatarSettings(){
     const[nickname,setNickname]=useState("");
     const[introduction,setIntroduction]=useState("");
+    const[costumeIdx, setCostumeIdx]=useState(0);
     const[nicknameError,setNicknameError]=useState(false);
     const[introductionError,setIntroductionError]=useState(false);
     const[interestList,setInterestList]=useState([]);
     const[openModal,setOpenModal] =  useState(false);
+    const[openCostumeModal,setOpenCostumeModal] =  useState(true);
     const[avatar, setAvatar] = useRecoilState(AvatarState);
     const navigate=useNavigate();
 
@@ -94,10 +97,12 @@ export default function  AvatarSettings(){
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
+            console.log(costumeIdx);
             handleCreateAvater({
                 "nickName" : nickname,
                 "description" : introduction,
-                "interestList" : interestList,  
+                "interestList" : interestList, 
+                "costumeIdx" : costumeIdx 
         });
         }else{
             setOpenModal(true);
@@ -114,7 +119,7 @@ export default function  AvatarSettings(){
     return (
         <ContentsFrame>
              {openModal && <Modal closeModal={setOpenModal} modalMessage={modalMessage}/>}
-         
+             {openCostumeModal && <AvatarCostumeModal closeModal={setOpenCostumeModal} costumeIdx={costumeIdx} setCostumeIdx={setCostumeIdx}/>}
             <Header text="캐릭터 설정"/>
             <AvaterForm onSubmit={onSubmit} >
                 <InputInfo label="닉네임"
