@@ -15,6 +15,7 @@ export default function ChatList(){
 
     useEffect(() =>{
         handleGetChatRoomList();
+        console.log("채팅방 목록 보여주기");
         console.log(chatList);
     },[])   
 

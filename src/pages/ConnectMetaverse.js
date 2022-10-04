@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Button from '../components/atoms/Button';
 import Navbar from "../components/templates/Navbar";
 import Metaverse from "../components/templates/Metaverse";
-import StudyRoomList from "../components/templates/StudyRoomList";
 import Notice from './Notice';
 import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState ,useEffect} from 'react';
@@ -14,6 +13,8 @@ import { getSendEmail } from "../apis/avatar.api";
 import Chat from "./Chat";
 import {useMutation} from 'react-query';
 import Avatar from "./Avatar";
+
+
 
 export default function ConnectMetaverse(){
     const navigate=useNavigate();
@@ -29,15 +30,15 @@ export default function ConnectMetaverse(){
     }
     function onClickNotice(){
         setClearNotice(true);
-        navigate('/connectMetaverse/notices')
+        navigate('/connectMetaverse/notices');
     }
     function onClickChat(){
         setClearNotice(true);
-        navigate('/connectMetaverse/chat')
+        navigate('/connectMetaverse/chat');
     }
 
     function onClickStudyroom(){
-        navigate('/connectMetaverse/studyroom')
+        navigate('/connectMetaverse/studyroomlist');
     }
 
     const{ mutateAsync: handleGetSendEmail } = useMutation(getSendEmail,{
@@ -76,7 +77,7 @@ export default function ConnectMetaverse(){
                                 <UlIcon className="material-icons">find_in_page</UlIcon>
                                 공고 </Ul>
                             <Ul onClick={onClickStudyroom}>
-                                <UlIcon className="material-icons">find_in_page</UlIcon>
+                                <UlIcon className="material-icons">meeting_room</UlIcon>
                                 스터디룸 </Ul>
                         </Menu>
                     </Div3>                
@@ -86,7 +87,7 @@ export default function ConnectMetaverse(){
                     <Route path="/avatar/*" element={<Avatar/>} />
                     <Route path="/notices/*" element={<Notice clearNotice={clearNotice} setClearNotice={setClearNotice}/>} />
                     <Route path="/chat/*" element={<Chat clearChat={clearChat} setClearChat={setClearChat}/>} />
-                    <Route path="/studyroom/*" element={<StudyRoomList/>} />
+                    <Route path="/studyroomlist/*" element={<StudyRoomList/>} />
                 </Routes>
             </ContentsFrame>
         </Div>

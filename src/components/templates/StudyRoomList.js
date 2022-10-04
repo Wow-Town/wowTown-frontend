@@ -6,7 +6,7 @@ import {useMutation} from 'react-query';
 import { useState, useEffect } from "react";
 import { getChatRoomList } from "../../apis/chatRoom.api";
 import { Routes, Route } from "react-router-dom";
-import ChatFrame from "../atoms/ChatFrame";
+import StudyRoomFrame from "../atoms/StudyRoomFrame";
 
 
 export default function StudyRoomList(){
@@ -19,12 +19,10 @@ export default function StudyRoomList(){
 
     const{ mutateAsync: handleGetChatRoomList } = useMutation(getChatRoomList,{
         onSuccess: ({response, success, error }) => {
-            if(success){
-                console.log('아바타 채팅 목록');
-                console.log(response);   
+            if(success){  
                 setChatList(response);
             }else{
-                console.log('login failed: ', error);
+                console.log('스터디그룹 목록 불러오기 failed: ', error);
             }
         }
         });
@@ -33,10 +31,10 @@ export default function StudyRoomList(){
         <StudyRoomListFrame>
             <FrameHeader frameTitle='스터디룸'/>
                 {
-                    chatList.map((chatRoom,index) =>{
+                    chatList.filter( chatRoom => chatRoom.chatRoomType === "MULTI" ).map((chatRoom,index) =>{
                 
                         return (
-                            <ChatFrame 
+                            <StudyRoomFrame 
                                 key={index} 
                                 chatRoom={chatRoom}
                             />
