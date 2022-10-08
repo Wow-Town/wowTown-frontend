@@ -32,12 +32,15 @@ export default function NoticeDetail(){
     const avatar =useRecoilValue(AvatarState);
     const navigate=useNavigate();
     const location = useLocation();
-   
+    const[isOwner,setIsOwner]=useState(false);
+    const avatar= useRecoilValue(AvatarState);
 
     const{ mutateAsync: handleGetNoticeDetail} = useMutation(getNoticeDetail,{
         onSuccess: ({response, success, error }) => {
             if(success){
-                console.log("굥고 조회 성공", response);   
+                console.log("hhhhhhhhhhh");
+                console.log("굥고 조회 성공", response);
+                
                 setSubject(response.subject);
                 setOwnerId(response.ownerId);
                 setInterests(response.interests);
@@ -45,6 +48,8 @@ export default function NoticeDetail(){
                 setChatRoomUUID(response.chatRoomUUID);
                 setPassword(response.randomPW);
                 setRoomName(response.subject);
+                
+
 
             }else{
                 console.log('아바타 조회 실패: ', error);
@@ -155,11 +160,13 @@ export default function NoticeDetail(){
     useEffect( ()=>{
         const noticeId = location.state.noticeId;
         const ownerName = location.state.ownerName;
+
         setNoticeId(noticeId);
         setOwnerNickname(ownerName);
         //console.log('쥔 이름',ownerName);
         //console.log(noticeId);
         handleGetNoticeDetail(noticeId);
+        
         
     },[]);
 
@@ -251,7 +258,34 @@ export default function NoticeDetail(){
                             {description} 
                         </NoticeDetailContents>
                     </ContentsWrapper>
-                    {buttonComponent}
+                    {
+                    isOwner === false?
+                    <ButtonWrapper>
+                        <Button buttonText="문의"  onClick={onClickTest} marginLeft="80px" marginRight="10px" height="31px" />
+                        <Button buttonText="입장"  onClick={onClickRenderingInput} height="31px" color="#FFBC45"marginLeft="auto"/>
+                    </ButtonWrapper>
+                    :
+                    <ShowPassWordWrapper>
+                        <PassWordDiv>
+                            {password}
+                        </PassWordDiv>
+                    </ShowPassWordWrapper>
+                    }
+                    { showInput ===true ?
+                        <NoticeInputDiv>
+                        <NoticeInput
+                            type="text"
+                            value={enteredNoticePassword}
+                            onChange= {(e)=>setEnteredNoticePassword(e.target.value)}
+                            maxLength= "120"
+                            autoComplete="on"
+                            placeholder="공고 비밀번호를 입력하세요"
+                        ></NoticeInput>
+                        <NoticePassWordBtn className="material-icons"
+                            onClick={onClickPassWordInputBtn}
+                        >lock</NoticePassWordBtn>
+                    </NoticeInputDiv> :<NoticeInputDiv/>
+                    }
                     </NoticeDetailWrapper>
         </NoticeDetailPage>
 )
@@ -319,6 +353,13 @@ const ButtonWrapper =styled.div`
     
 `
 
+const ShowPassWordWrapper=styled.div`
+
+`
+const PassWordDiv=styled.div`
+font-size:14px;
+font-weight: 500;
+`
 const Interest =styled.li`
     margin: 5px;
     padding: 5px 10px;
