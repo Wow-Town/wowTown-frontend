@@ -7,6 +7,7 @@ import AvatarSettings from './pages/AvatarSettings';
 import ConnectMetaverse from './pages/ConnectMetaverse';
 import {unstable_HistoryRouter as HistoryRouter, Routes, Route} from 'react-router-dom';
 import {history} from './utils/History';
+import MeetingRoom from './components/templates/MeetingRoom';
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/channels" element={<Channels/>} />
         <Route path="/avatars" element={< AvatarSettings/>} />
         <Route path="/connectMetaverse/*" element={<ConnectMetaverse/>} />
+        <Route path="/privateSpace/*" element={<MeetingRoom/>} />
       
       </Routes>
       
