@@ -8,7 +8,7 @@ import ConnectMetaverse from './pages/ConnectMetaverse';
 import {unstable_HistoryRouter as HistoryRouter, Routes, Route} from 'react-router-dom';
 import {history} from './utils/History';
 import MeetingRoom from './components/templates/MeetingRoom';
-import PrivateSpace from './components/templates/PrivateSpace';
+import PrivateSpace from './pages/PrivateSpace';
 
 
 function App() {

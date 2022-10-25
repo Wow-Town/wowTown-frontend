@@ -13,16 +13,30 @@ export default function Video({id,stream}) {
   }, [stream]);
 
   return (
-        <VideoFrame id={id}>
-            <VideoContent ref={viewRef} autoPlay controls></VideoContent>
-        </VideoFrame>
+        //<VideoFrame >
+        <VideoContent  id ={id} ref={viewRef} autoPlay > 
+            
+        </VideoContent>
+       //  </VideoFrame>
     )
 }
 
 const VideoFrame = styled.div`
+    //display: flex;
+    //align-items: center;
+    //justify-content: center;
+    //min-height: 100%;
+    //border: 1px solid green;
 
 `
 
 const VideoContent = styled.video`
+//width:100%;
+height:50%;
+//object-fit: cover;
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 230px;
 
 `
