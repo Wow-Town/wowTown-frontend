@@ -4,14 +4,23 @@ import Navbar from '../components/templates/Navbar';
 import styled from "styled-components";
 import { useEffect,useRef,useState } from 'react';
 import axios from 'axios';
+import { AvatarState } from "../utils/AvatarState";
+import { useRecoilState } from 'recoil';
+import Peer from 'simple-peer';
+import Video from '../components/templates/Video';
 
 let myStream;
 
 export default function PrivateSpace(){
     let videoRef =useRef(null);
-    const [videoState,setVideoState]=useState({
-        
-    });
+    let otherVideoRef=useRef(null);
+    const socketRef = useRef();
+    const [avatar] = useRecoilState(AvatarState);
+    const [video, setVideo] = useState({});
+    const[videoList,setVideoList]=useState({});
+    const roomId = 'd8fb37c1-7194-4786-a90d-558c39929155'
+    
+   
     function handleVideoSetting(){
         console.log( myStream.getVideoTracks());
         //myStream.getVideoTracks().foreack( (track) =>{ track.enabled = false});
@@ -20,35 +29,67 @@ export default function PrivateSpace(){
         console.log( 'after',myStream.getVideoTracks()[0].enabled);
     }
     function handleAudioSetting(){
-        console.log( myStream.getAudioTracks()[0].enabled);
-        if (myStream.getAudioTracks()[0].enabled ===true){ myStream.getAudioTracks()[0].enabled = false}
-        else{ myStream.getAudioTracks()[0].enabled= true}
-        console.log( myStream.getAudioTracks()[0].enabled);
+        // console.log( myStream.getAudioTracks()[0].enabled);
+        // if (myStream.getAudioTracks()[0].enabled ===true){ myStream.getAudioTracks()[0].enabled = false}
+        // else{ myStream.getAudioTracks()[0].enabled= true}
+        // console.log( myStream.getAudioTracks()[0].enabled);
+    }
+    function handleSharingScreen(){
+        console.log("sharing");
     }
 
     async function getMedia(){
         try{
-            myStream = await navigator.mediaDevices.getUserMedia({
-                video:true,
-                audio : true, //울릴수도..
-            })
-            //https://www.youtube.com/watch?v=4sLUfUGLEp0 참고 영상 (+노마드 코더 3.0강)
-            console.log('마이스트림',myStream);
-            let video = videoRef.current;
-            video.srcObject = myStream;
-            video.play();
+            console.log('getMedia함수 try');
 
         }catch(error){
             console.log('getMedia함수에서 발생한 에러',error);
         }
     }
 
+    function addVideoStream(video, stream) {
+        
+    }
 
     useEffect( () => {
-       //카메라화면과 오디어 얻기
-       getMedia();
-       console.log('비디오레프',videoRef);
-    },[videoRef]);
+        
+    //    //open
+    //    getMedia();
+    //    //내 미디어 불러옴
+    //    peer.on('open', (avatarId) => {
+    //     console.log('내캠 연결');
+    //     console.log('내아바타 아이디',avatar.avatarId);
+    //   });
+      
+    //     //connection
+    //   //새 피어와의 연결이 성공적으로 이뤄질때 호출
+    //   peer.on('connection', (conn)=>{
+    //     console.log('connection',conn);
+    //     conn.on('data',(data)=>{
+    //         console.log('내가 받은 data',data);
+    //     });
+    //     conn.on('open',()=>{
+    //         conn.send('보냈어');
+    //     })
+    //   })
+    //   peer.on('call', (call) => {
+    //     call.answer(videoRef);
+    //     //상대화면 othervideoref에
+    //     call.on('stream', function(remoteStream) {
+    //         otherVideoRef.current.srcObject = remoteStream
+    //         otherVideoRef.current.play();
+    //       });
+        
+    //     video.current = peer;
+    //         console.log('비디오커런트',video.current)
+    //         call.on('stream', (remoteStream)=>{
+    //             addVideoStream(video, remoteStream)
+    //         });
+      
+    //     })  
+    },[]);
+
+    
     
     return(
         <PrivateSpacePage>
@@ -58,6 +99,11 @@ export default function PrivateSpace(){
                     <UsersVideoWrapper>
                         <UserVideo 
                         ref={videoRef}
+                         autoPlay
+                         muted
+                         />
+                         <UserVideo 
+                        ref={otherVideoRef}
                          autoPlay
                          muted
                          />
@@ -75,7 +121,8 @@ export default function PrivateSpace(){
                             onClick={handleAudioSetting}>
                                 <ButtonIcon className="material-icons">mic</ButtonIcon>
                                 마이크</Button>
-                            <Button>
+                            <Button
+                            onClick={handleSharingScreen}>
                             <ButtonIcon className="material-icons">present_to_all</ButtonIcon>
                                 화면공유</Button>
                         </PrivateSpaceSettings>
@@ -88,7 +135,10 @@ export default function PrivateSpace(){
         </PrivateSpacePage>
 
     );
-}
+
+
+    }
+
 
 const PrivateSpacePage= styled.div`
     padding: 0px 0px 0px 0px;
