@@ -14,7 +14,7 @@ export default function Video({id,stream}) {
 
   return (
         //<VideoFrame >
-        <VideoContent  id ={id} ref={viewRef} autoPlay > 
+        <VideoContent   ref={viewRef} autoPlay > 
             
         </VideoContent>
        //  </VideoFrame>
@@ -31,12 +31,13 @@ const VideoFrame = styled.div`
 `
 
 const VideoContent = styled.video`
-//width:100%;
-height:50%;
+width:100%;
+height:100%;
 //object-fit: cover;
 display: flex;
 align-items: center;
 justify-content: center;
 min-height: 230px;
+
 
 `
