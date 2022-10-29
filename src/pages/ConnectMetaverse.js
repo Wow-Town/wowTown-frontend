@@ -9,15 +9,10 @@ import { useNavigate, Routes, Route  } from 'react-router-dom';
 import { useState ,useEffect} from 'react';
 import { useRecoilValue } from 'recoil';
 import { AvatarState } from "../utils/AvatarState";
-
+import { getSendEmail } from "../apis/avatar.api";
 import Chat from "./Chat";
-///////////////////////////////////////나중에 지울부분
 import {useMutation} from 'react-query';
-import { createChatRoom } from "../apis/chatRoom.api";
-import {getNoticeDetail, getNoticeList, checkChatRoomPassword} from "../apis/notice.api";
 import Avatar from "./Avatar";
-
-
 
 export default function ConnectMetaverse(){
     const navigate=useNavigate();
@@ -39,111 +34,20 @@ export default function ConnectMetaverse(){
         setClearNotice(true);
         navigate('/connectMetaverse/chat')
     }
-/////////////////////////////아래 지울 부분
 
-////채팅하기 버튼을 누르면 빈 채팅방이 하나 만들어지고 해당 채팅방 UUID를 이용하여 채팅방 페이지로 이동한다.
-////채팅방 페이지에 props로 아바타ID또는 공고ID를 넘겨준다.(아마도 채팅방 페이지를 1:1, n:n 따로 만들어야할듯...)
-////채팅방 페이지에서 제일 먼저 ID로 상대방 닉네임을 조회하여 채팅방 이름을 표시해준다.
-////오픈채팅방일겨우 공고ID 를 가지고 공고 제목,
-    const{ mutateAsync: handleCreateChatRoom } = useMutation(createChatRoom,{
-        onSuccess: ({response, success, error }) => {
-            if(success){
-                console.log('아바타 채팅 목록');
-                console.log(response); 
-                navigate('/connectMetaverse/chat/room/'+response.chatRoomUUID, { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName}})
-                //handleEnterChatRoom(response.chatRoomUUID);
-
-
-            }else{
-                console.log('login failed: ', error);
-            }
-        }
-        });
-
-    function onClickTest(){
-        console.log('테스트 시작');
-        
-        handleCreateChatRoom({"avatarId": 2 , "nickName" : "와사비망고"});
-        
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    //공고 리스트 조회
-    const [noticeId,setNoticeId] = useState();
-    const{ mutateAsync: handleGetNoticeList} = useMutation(getNoticeList,{
-        onSuccess: ({response, success, error }) => {
-            if(success){
-                console.log('공고 리스트');
-                console.log(response);
-                setNoticeId(response[0].noticeId); //수정해야함 그냥 0번 index로 임의로 설정
-                //navigate('/connectMetaverse/chat/room/1a6946f1-ded8-41be-947d-97c9a836ec94',{ state : {chatRoomId : "1a6946f1-ded8-41be-947d-97c9a836ec94", roomName : "알고리즘"}});
-                //handleEnterChatRoom(response.chatRoomUUID);
-
-
-            }else{
-                console.log('login failed: ', error);
-            }
-        }
-        });
-
-    function onClickGetAllNotice(){      
-        handleGetNoticeList();
-        
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    //공고 상세조회
-    const [chatRoomID,setChatRoomID] = useState();
-    const [password,setPassword] = useState();
-    const [roomName,setRoomName] = useState();
-    const{ mutateAsync: handleGetNoticeDetail} = useMutation(getNoticeDetail,{
-        onSuccess: ({response, success, error }) => {
-            if(success){
-                console.log('공고 상세');
-                console.log(response);
-                setChatRoomID(response.chatRoomUUID);
-                setPassword(response.randomPW);
-                setRoomName(response.subject);
-                //navigate('/connectMetaverse/chat/room/1a6946f1-ded8-41be-947d-97c9a836ec94',{ state : {chatRoomId : "1a6946f1-ded8-41be-947d-97c9a836ec94", roomName : "알고리즘"}});
-                //handleEnterChatRoom(response.chatRoomUUID);
-
-
-            }else{
-                console.log('login failed: ', error);
-            }
-        }
-        });
-
-        //%
-    function onClickGetNoticeDetail(){      
-        console.log(noticeId);
-        handleGetNoticeDetail(noticeId);
-        
-    }
-    //%
-
-    //공고 채팅방 입장버튼 누를시 비밀번호 같이 입력후 비밀번호 확인 api호출
-    //성공시 채팅방 목록에 채팅방 추가됨
-    const{ mutateAsync: handleCheckChatRoomPassword} = useMutation(checkChatRoomPassword,{
+    const{ mutateAsync: handleGetSendEmail } = useMutation(getSendEmail,{
         onSuccess: ({success, error }) => {
             if(success){
-                console.log('공고 채팅방 비밀번호 일치');
-                navigate('/connectMetaverse/chat/room/'+chatRoomID,{ state : {chatRoomId : chatRoomID, roomName : roomName}});
-                //handleEnterChatRoom(response.chatRoomUUID);
-
-
+                console.log('이메일 전송 완료');
             }else{
-                console.log('login failed: ', error);
+                console.log('이메일 전송 실패: ', error);
             }
         }
         });
 
-    function onClickJoinNotice(){
-        console.log('공고 입장');     
-        handleCheckChatRoomPassword({"noticeId":noticeId, "password" :password});
-        
-    }
-
+    useEffect(()=>{
+        handleGetSendEmail();
+    },[])
 
     return(
         <Div>
