@@ -45,23 +45,23 @@ export default function ChatFrame({chatRoom}){
             console.log(receive);
             if(receive.type === "IMAGE"){
                 setReceiveMessage("사진");
-                setReceiveMessageNum(receiveMessageNum + receive.count);
+                setReceiveMessageNum(receiveMessageNum + 1);
             }
              else if(receive.type === "VIDEO"){
                 setReceiveMessage("동영상");
-                setReceiveMessageNum(receiveMessageNum + receive.count);
+                setReceiveMessageNum(receiveMessageNum + 1);
             }
              else if(receive.type === "APPLICATION"){
                 setReceiveMessage("파일");
-                setReceiveMessageNum(receiveMessageNum + receive.count);
+                setReceiveMessageNum(receiveMessageNum + 1);
             }
              else if(receive.type === "TEXT"){
                 setReceiveMessage("파일");
-                setReceiveMessageNum(receiveMessageNum + receive.count);
+                setReceiveMessageNum(receiveMessageNum + 1);
             }
             else{
                 setReceiveMessage(receive.message);
-                setReceiveMessageNum(receiveMessageNum + receive.count);
+                setReceiveMessageNum(receiveMessageNum + 1);
             }
         }
     },[receive])    
