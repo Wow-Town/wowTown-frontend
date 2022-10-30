@@ -8,7 +8,7 @@ export default function Metaverse(){
         name="프레임 이름"
         width="100%"
         height="100%"
-        sandbox="allow-same-origin">
+        sandbox="allow-same-origin allow-scripts">
         </Div>
     )
 
