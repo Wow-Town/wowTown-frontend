@@ -23,7 +23,7 @@ export default function MeetingRoom(){
     const [receiveMessage, setReceiveMessage] = useState();
     const [video, setVideo] = useState({});
     const [videoList, setVideoList] = useState([]);
-    const chatRoomId = "672ac926-b637-46de-b350-6d343121e91c";
+    const chatRoomId = "d56d052f-926f-44ec-99c0-918adf6d8f73";
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
