@@ -29,7 +29,7 @@ export default function ChatRoom({setReceiveMessage}){
     const [avatar] = useRecoilState(AvatarState);
 
     useEffect(() =>{    
-        var ws = new WebSocket('wss://localhost/ws-stomp');
+        var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
         stompClient= Stomp.over(ws);
         stompClient.connect({}, function(frame) {
             //연결 성공시 api호출

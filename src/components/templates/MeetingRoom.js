@@ -23,7 +23,7 @@ export default function MeetingRoom(){
     //const [receiveMessage, setReceiveMessage] = useState();
     const [video, setVideo] = useState({});
     const [videoList, setVideoList] = useState([]);
-    const chatRoomId = useRef();
+    const privateSpaceId = useRef();
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
@@ -96,8 +96,8 @@ export default function MeetingRoom(){
 
     }
     useEffect(()=>{
-        chatRoomId.current = params.privateSpaceUUID;
-        console.log( chatRoomId.current);
+        privateSpaceId.current = params.privateSpaceUUID;
+        console.log( privateSpaceId.current);
         navigator.mediaDevices.getUserMedia({
             video:true,
             audio:true
@@ -105,12 +105,12 @@ export default function MeetingRoom(){
             myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
-            var ws = new WebSocket('wss://localhost/ws-stomp');
+            var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 stompClient.send("/pub/privateSpace/message",
                 {},
-                JSON.stringify({"type" : "ENTER", "privateSpaceUUID" : chatRoomId.current, "senderId" : avatar.avatarId}));
+                JSON.stringify({"type" : "ENTER", "privateSpaceUUID" : privateSpaceId.current, "senderId" : avatar.avatarId}));
                 console.log("미팅룸 입장");
                 
                 const myPeer = new Peer(avatar.avatarId.toString(),{debug: 3});
@@ -126,7 +126,7 @@ export default function MeetingRoom(){
                 })
                 
                 //메시지를 수신 받아 상대방 아이디를 받아온다.(본인인경우 따로 처리한다.)
-                stompClient.subscribe("/sub/privateSpace/"+chatRoomId.current,function(message){
+                stompClient.subscribe("/sub/privateSpace/"+privateSpaceId.current,function(message){
                     console.log("메시지 수신"); 
                     let recv = JSON.parse(message.body);
                     if(recv.type === "ENTER"){
