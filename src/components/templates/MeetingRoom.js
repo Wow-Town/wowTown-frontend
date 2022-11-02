@@ -23,11 +23,12 @@ export default function MeetingRoom(){
     const [receiveMessage, setReceiveMessage] = useState();
     const [video, setVideo] = useState({});
     const [videoList, setVideoList] = useState([]);
-    const chatRoomId = "d56d052f-926f-44ec-99c0-918adf6d8f73";
+    const chatRoomId = "7d37401c-e807-4d3f-998e-e4d2ef5184bd";
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
     const[nowSharing,setNowSharing]=useState(false);
+    
     
     function handleVideoSetting(){
         console.log('mystream보면',myStream.current.getVideoTracks()[0].enabled);
@@ -47,12 +48,7 @@ export default function MeetingRoom(){
         else if( myStream.current.getAudioTracks()[0].enabled === false){
             myStream.current.getAudioTracks()[0].enabled = true }
     }
-    function isMyCam(sender){
-        if(sender.id === avatar.avatarId) {
-            console.log(sender.stream);
-            return true;}
-
-    }
+    
     function handleSharingScreen(){
         // if(nowSharing === true){ setNowSharing(false)}
         // else{ setNowSharing(true)}
@@ -60,22 +56,25 @@ export default function MeetingRoom(){
         navigator.mediaDevices.getDisplayMedia({ cursor: true }).then(stream => {
             setNowSharing(true);
             const screenTrack = stream.getTracks()[0];
-            console.log('ms',myStream);
+            console.log('video',myStream);
             console.log('st',screenTrack);
             sharingScreenStream.currrent =stream;
             //console.log('sss',sharingScreenStream);
-            console.log('바꿔야하는거',videoList.find(isMyCam));
+            const changeCamToScreen = video.find((element) => element.track.kind === "video").replaceTrack(screenTrack);
+            console.log('ccts',changeCamToScreen);
+            
             // 내 아이디로 된 비디오 찾아서 -> 그것의 stream을 mediaStream에서 screenTrack으로 바꾼다
+
             //setVideoList(videoList.find(isMyCam).replaceTrack(screenTrack));
             //videoList.find(isMyCam).replaceTrack(screenTrack);
             console.log(videoList);
             
-            //setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
+            setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
             //setGridStyled("1fr");
-            // screenTrack.onended = function(){
-            //     setVideo({"id": sharingScreenStream.id, "stream": null, "option": "REMOVE"});
+            screenTrack.onended = function(){
+                setVideo({"id": sharingScreenStream.id, "stream": null, "option": "REMOVE"});
         
-            // }
+            }
         })
         //////////////////여기 아래는 아님
         //     console.log('sss',sharingScreenStream);
@@ -96,7 +95,7 @@ export default function MeetingRoom(){
             myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
-            var ws = new WebSocket('ws://localhost:8080/ws-stomp');
+            var ws = new WebSocket('wss://localhost/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 stompClient.send("/pub/privateSpace/message",
