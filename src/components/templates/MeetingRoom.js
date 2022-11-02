@@ -108,12 +108,16 @@ export default function MeetingRoom(){
             var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
-                stompClient.send("/pub/privateSpace/message",
-                {},
-                JSON.stringify({"type" : "ENTER", "privateSpaceUUID" : privateSpaceId.current, "senderId" : avatar.avatarId}));
-                console.log("미팅룸 입장");
+                const myPeer = new Peer({debug: 3});
+
+                myPeer.on('open', function(id) {
+                    console.log(id);
+                    stompClient.send("/pub/privateSpace/message",
+                    {},
+                    JSON.stringify({"type" : "ENTER", "privateSpaceUUID" : privateSpaceId.current, "senderId" : avatar.avatarId, "peerUUID": id}));
+                    console.log("미팅룸 입장");
+                  });
                 
-                const myPeer = new Peer(avatar.avatarId.toString(),{debug: 3});
                 console.log('mypeer 도 선언해쥼',myPeer)
                 myPeer.on('call',call=>{ //peer에 연결되면 제일먼저 상대방 call을 받을준비 해야함 -> 비동기 함수로 바로 다음줄 실행함
                     call.answer(stream); //answer를 하면 상대방 MediaConnection(const call)의 stream에 본인 스트림(myStream)을 넣어줌
@@ -130,9 +134,9 @@ export default function MeetingRoom(){
                     console.log("메시지 수신"); 
                     let recv = JSON.parse(message.body);
                     if(recv.type === "ENTER"){
-                        console.log(recv.senderId.toString());
+                        console.log(recv.peerUUID);
                         if(recv.senderId !== avatar.avatarId){
-                            const call = myPeer.call(recv.senderId.toString(), stream);
+                            const call = myPeer.call(recv.peerUUID, stream);
                             console.log("call.peer= "+call.peer);
                             //console.log("(31)방인원: " + Object.keys(peers).length);
                             call.on('stream',stream =>{//여기서 avatarVideoStream은 상대방 비디오 스트림임
@@ -144,7 +148,7 @@ export default function MeetingRoom(){
                     }
                     else if(recv.type === "LEAVE"){
                         console.log(recv.senderId);
-                        setVideo({"id": recv.senderId.toString(), "stream": null, "option": "REMOVE"});
+                        setVideo({"id": recv.peerUUID, "stream": null, "option": "REMOVE"});
                     }
                 });
   
