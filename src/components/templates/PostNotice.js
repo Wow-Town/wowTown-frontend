@@ -7,6 +7,7 @@ import InterestList from "./InterestList";
 import {useMutation} from 'react-query';
 import { createNotice } from "../../apis/notice.api";
 import { useNavigate } from 'react-router-dom';
+import { DoubleSubmitCheck } from '../../utils/DoubleSubmmitCheck';
 
 export default function PostNotice(){
     const navigate=useNavigate();
@@ -15,6 +16,7 @@ export default function PostNotice(){
     const[interestList,setInterestList]=useState([]);
     const[noticetTitleError,setNoticeTitleError] =useState(false);
     const[noticeContentsError,setNoticeContentsError]=useState(false);
+    const[doubleSubmitFlag, setDoubleSubmitFlag] = useState(false);
    
     
 
@@ -28,6 +30,7 @@ export default function PostNotice(){
 
             }else{
                 console.log('login failed: ', error);
+                setDoubleSubmitFlag(false);
             }
         }
         });
@@ -60,7 +63,9 @@ export default function PostNotice(){
         if(checkNoticeFormValidation()){
             console.log("맞");
             console.log(noticeTitle, noticeContents, interestList);
-            handleCreateNotice({"subject": noticeTitle, "description": noticeContents, "interests": interestList});
+            if(!DoubleSubmitCheck(doubleSubmitFlag,setDoubleSubmitFlag)){
+                handleCreateNotice({"subject": noticeTitle, "description": noticeContents, "interests": interestList});
+            }
         }else{
             console.log("틀");
         }

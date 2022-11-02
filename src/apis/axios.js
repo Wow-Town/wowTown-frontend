@@ -2,7 +2,7 @@ import axios from 'axios';
 import {history} from '../utils/History';
 
 const instance = axios.create({
-  baseURL: 'https://api.wowtown.co.kr',
+  baseURL: 'https://localhost',
   withCredentials: true,
   headers: {
     Authorization : `${localStorage.getItem('accessToken')}`

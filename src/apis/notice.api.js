@@ -9,6 +9,16 @@ export async function createNotice(CreateNoticeProps){
       }
 }
 
+export async function deleteNotice(DeleteNoticeProps){
+    const {noticeId} =DeleteNoticeProps;
+    try {
+        await axios.delete(`/notices/`+noticeId);  
+        return {success: true, error: undefined };
+      } catch (error) {
+        return {success: false, error };
+      }
+}
+
 export async function checkChatRoomPassword(ChatRoomPasswordProps){
     
     const {noticeId,password} =ChatRoomPasswordProps;
