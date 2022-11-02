@@ -5,7 +5,7 @@ import FrameHeader from "./FrameHeader";
 import { AvatarState } from "../../utils/AvatarState";
 import { useRecoilState } from 'recoil';
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {useMutation} from 'react-query';
 import { getChatRoomMessage  } from "../../apis/chatRoom.api";
 import {Buffer} from 'buffer';
@@ -65,24 +65,24 @@ export default function MeetingRoom(){
             console.log('video',myStream.current.getVideoTracks()[0]);
             console.log('st',screenTrack);
             sharingScreenStream.currrent =stream;
-            //console.log('sss',sharingScreenStream);
-            console.log('videolist',videoList);
-            console.log('video',video);
-            const changeCamToScreen = videoList.find(isMyVideo);
+            ////console.log('sss',sharingScreenStream);
+            //console.log('videolist',videoList);
+            //console.log('video',video);
+            //const changeCamToScreen = videoList.find(isMyVideo);
             
-            console.log('ccts',changeCamToScreen);
+           // console.log('ccts',changeCamToScreen);
             
             // 내 아이디로 된 비디오 찾아서 -> 그것의 stream을 mediaStream에서 screenTrack으로 바꾼다
 
             //setVideoList(videoList.find(isMyCam).replaceTrack(screenTrack));
             //videoList.find(isMyCam).replaceTrack(screenTrack);
             
-            setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
+            //setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
             //setGridStyled("1fr");
-            screenTrack.onended = function(){
-                setVideo({"id": sharingScreenStream.id, "stream": null, "option": "REMOVE"});
+            //screenTrack.onended = function(){
+            //    setVideo({"id": sharingScreenStream.id, "stream": null, "option": "REMOVE"});
         
-            }
+            //}
         })
         //////////////////여기 아래는 아님
         //     console.log('sss',sharingScreenStream);
