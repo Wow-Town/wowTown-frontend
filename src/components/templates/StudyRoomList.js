@@ -4,23 +4,30 @@ import styled from "styled-components";
 import FrameHeader from "../templates/FrameHeader";
 import {useMutation} from 'react-query';
 import { useState, useEffect } from "react";
-import { getChatRoomList } from "../../apis/chatRoom.api";
+import { getPrivateSpaceList } from "../../apis/PrivateSpace.api";
 import { Routes, Route } from "react-router-dom";
 import StudyRoomFrame from "../atoms/StudyRoomFrame";
 
 
 export default function StudyRoomList(){
-    const [chatList, setChatList] = useState([]);
-    const [selectChatRoomId, setSelectChatRoomId] = useState("");
+    const [privateSpaceList, setPrivateSpaceList] = useState([]);
+    
 
     useEffect(() =>{
-        handleGetChatRoomList();
+        
+        handleGetPrivateSpaceList();
     },[])   
 
-    const{ mutateAsync: handleGetChatRoomList } = useMutation(getChatRoomList,{
+    useEffect(()=>{
+        console.log('privatespace list  결과',privateSpaceList);
+    },[]);
+    
+    const{ mutateAsync: handleGetPrivateSpaceList } = useMutation(getPrivateSpaceList,{
         onSuccess: ({response, success, error }) => {
             if(success){  
-                setChatList(response);
+                setPrivateSpaceList(response);
+                console.log('api 호출 결과',response);
+                
             }else{
                 console.log('스터디그룹 목록 불러오기 failed: ', error);
             }
@@ -31,12 +38,16 @@ export default function StudyRoomList(){
         <StudyRoomListFrame>
             <FrameHeader frameTitle='스터디룸'/>
                 {
-                    chatList.filter( chatRoom => chatRoom.chatRoomType === "MULTI" ).map((chatRoom,index) =>{
+                    privateSpaceList.map((privateSpace) =>{
                 
                         return (
                             <StudyRoomFrame 
-                                key={index} 
-                                chatRoom={chatRoom}
+                                key={privateSpace.privateSpaceUUID} 
+                                privateSpaceUUID={privateSpace.privateSpaceUUID}
+                                chatRoomUUID = {privateSpace.chatRoomUUID}
+                                roomName={privateSpace.roomName}
+                                participantsNum={privateSpace.participantsNum}
+                                
                             />
                         )
                     })

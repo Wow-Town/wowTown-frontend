@@ -1,84 +1,26 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
-//import ChatRoom from "../templates/ChatRoom";
+
 import { useState, useEffect } from "react";
 import {Routes, Route, useNavigate } from "react-router-dom";
 import Button from "./Button";
-// import SockJS from "sockjs-client";
-// import { Stomp } from "@stomp/stompjs";
-// let stompClient;
 
-export default function StudyRoomFrame ({chatRoom}){
+export default function StudyRoomFrame ({privateSpaceUUID, chatRoomUUID, participantsNum, roomName}){
     const navigate = useNavigate();
-
-    // const [receive, setReceive] = useState();
-    // const [receiveMessage, setReceiveMessage] = useState(chatRoom.latestMessage);
-    // const [receiveMessageNum, setReceiveMessageNum] = useState(parseInt(chatRoom.receiveMessageNum));
-
-    // useEffect(() =>{         
-    //     var ws = new WebSocket('ws://localhost:8080/ws-stomp');
-    //     stompClient= Stomp.over(ws);
-    //     stompClient.connect({}, function(frame) {
-    //         setTimeout(function() {
-    //             stompClient.subscribe("/sub/chatRooms/"+chatRoom.chatRoomUUID,function(message){
-    //                 console.log("메시지 수신");
-    //                 if(message.body !== ""){
-    //                     let recv = JSON.parse(message.body);
-    //                     setReceive(recv);
-    //                     //setReceiveMessage(recv.message);
-    //                 }
-                    
-    //             });
-    //          }, 500);        
-    //         console.log("채팅방 구독완료");
-    //     }, function(error){});
-        
-    //     return function cleanup() {
-    //         stompClient.disconnect();
-    //         console.log("채팅방 구독해제");
-    //     }
-    // },[])
-
-
-    // useEffect(() =>{
-    //     if(receive!==undefined && receive.type !== "ENTER"){
-    //         console.log(receive);
-    //         if(receive.type === "IMAGE"){
-    //             setReceiveMessage("사진");
-    //             setReceiveMessageNum(receiveMessageNum + receive.count);
-    //         }
-    //          else if(receive.type === "VIDEO"){
-    //             setReceiveMessage("동영상");
-    //             setReceiveMessageNum(receiveMessageNum + receive.count);
-    //         }
-    //          else if(receive.type === "APPLICATION"){
-    //             setReceiveMessage("파일");
-    //             setReceiveMessageNum(receiveMessageNum + receive.count);
-    //         }
-    //          else if(receive.type === "TEXT"){
-    //             setReceiveMessage("파일");
-    //             setReceiveMessageNum(receiveMessageNum + receive.count);
-    //         }
-    //         else{
-    //             setReceiveMessage(receive.message);
-    //             setReceiveMessageNum(receiveMessageNum + receive.count);
-    //         }
-    //     }
-    // },[receive])    
+    
 
     function onClickChatRoom(){
-        console.log("스터디룸 클릭했슴");
-        window.open('/studyroom/id', '_blank');
+    
+        window.open('/privatespace/'+privateSpaceUUID, '_blank');
        
 } 
-
     return(
         <Div >
-            {/* <ChatRoomImg className="material-icons">meeting_room </ChatRoomImg> */} 
+            {/* <ChatRoomImg className="material-icons">meeting_room </ChatRoomImg>  */}
             <ContentHeader>
-                <ChatRoomName>{chatRoom.roomName}</ChatRoomName>
-                {chatRoom.chatRoomType == "MULTI" ? <Particepant>{chatRoom.participantsNum}</Particepant> :<Particepant></Particepant>}
+                <ChatRoomName>{roomName}</ChatRoomName>
+                <Particepant>{participantsNum}</Particepant> 
             </ContentHeader>
             <Button 
             buttonText="입장"
