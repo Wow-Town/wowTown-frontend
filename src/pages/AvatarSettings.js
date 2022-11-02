@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAvatar, createAvatar } from '../apis/avatar.api';
 import { useRecoilState } from 'recoil';
 import { AvatarState } from "../utils/AvatarState";
+import { DoubleSubmitCheck } from '../utils/DoubleSubmmitCheck';
 import AvatarCostumeModal from '../components/templates/AvatarCostumeModal';
 
 export default function  AvatarSettings(){
@@ -25,7 +26,7 @@ export default function  AvatarSettings(){
     const[openCostumeModal,setOpenCostumeModal] =  useState(true);
     const[avatar, setAvatar] = useRecoilState(AvatarState);
     const navigate=useNavigate();
-
+    const[doubleSubmitFlag, setDoubleSubmitFlag] = useState(false);
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
@@ -50,9 +51,10 @@ export default function  AvatarSettings(){
                 console.log(error);
                 setOpenModal(true);
                 setModalMessage({
-                    "titleText": "다시 시도해주세요",
-                    "contentsText" : "",
+                    "titleText": "오류 발생",
+                    "contentsText" : error.response.data.error.message,
                 });
+                setDoubleSubmitFlag(false);
             }
         }
         });
@@ -98,12 +100,14 @@ export default function  AvatarSettings(){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
             console.log(costumeIdx);
-            handleCreateAvater({
-                "nickName" : nickname,
-                "description" : introduction,
-                "interestList" : interestList, 
-                "costumeIdx" : costumeIdx 
-        });
+            if(!DoubleSubmitCheck(doubleSubmitFlag,setDoubleSubmitFlag)){
+                    handleCreateAvater({
+                        "nickName" : nickname,
+                        "description" : introduction,
+                        "interestList" : interestList, 
+                        "costumeIdx" : costumeIdx 
+                });
+            }
         }else{
             setOpenModal(true);
             setModalMessage({

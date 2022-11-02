@@ -5,10 +5,12 @@ import Header from '../components/templates/Header';
 import InputInfo from '../components/atoms/InputInfo';
 import Button from '../components/atoms/Button';
 import Modal from '../components/templates/Modal';
+import { DoubleSubmitCheck } from '../utils/DoubleSubmmitCheck';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
 import {useNavigate, Link} from 'react-router-dom';
 import { signUp } from '../apis/user.api';
+import { PeerErrorType } from 'peerjs';
 
 export default function Join(){
     const[email,setEmail]=useState("");
@@ -28,6 +30,7 @@ export default function Join(){
         callback: function(){
         }
     })
+    const[doubleSubmitFlag, setDoubleSubmitFlag] = useState(false);
 
     const{ mutateAsync: handleSignUp } = useMutation(signUp,{
         onSuccess: ({success, error }) => {
@@ -45,8 +48,9 @@ export default function Join(){
                 setOpenModal(true);
                 setModalMessage({
                     "titleText": "오류 발생",
-                    "contentsText" : "다시 시도해주세요",
+                    "contentsText" : error.response.data.error.message,
                 })
+                setDoubleSubmitFlag(false);
             }
         }
         });
@@ -96,8 +100,6 @@ export default function Join(){
         }
     }
 
-
-
     function onSubmit(e){
         e.preventDefault(); 
         if(checkJoinFormValidation()){
@@ -105,12 +107,13 @@ export default function Join(){
         // 이메일 조건에 맞으면 
         // 유저정보 저장
             console.log("제출조건 맞음");
-
-            handleSignUp({
-                "email": email,
-                "userName": name,
-                "password": password,
-            })
+            if(!DoubleSubmitCheck(doubleSubmitFlag,setDoubleSubmitFlag)){
+                handleSignUp({
+                    "email": email,
+                    "userName": name,
+                    "password": password,
+                })
+            }
         }else{
             setOpenModal(true);
             setModalMessage({

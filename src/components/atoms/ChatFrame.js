@@ -16,7 +16,7 @@ export default function ChatFrame({chatRoom}){
     const [receiveMessageNum, setReceiveMessageNum] = useState(parseInt(chatRoom.receiveMessageNum));
 
     useEffect(() =>{         
-        var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+        var ws = new WebSocket('wss://localhost/ws-stomp');
         stompClient= Stomp.over(ws);
         stompClient.connect({}, function(frame) {
             setTimeout(function() {

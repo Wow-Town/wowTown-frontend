@@ -2,10 +2,10 @@
 // eslint-disable-next-line react/prop-types 
 import styled from "styled-components";
 
-export default function Button({color,height,fontSize,marginLeft,marginRight,buttonText, onClick}){
+export default function Button({color,height,width,fontSize,marginLeft,marginRight,buttonText, onClick}){
     return(
         <Wrapper>
-            <StyledButton fontSize={fontSize} color={color} height={height} marginLeft={marginLeft} marginRight={marginRight} onClick={onClick} className="button">{buttonText}</StyledButton>
+            <StyledButton fontSize={fontSize} color={color} height={height} width={width} marginLeft={marginLeft} marginRight={marginRight} onClick={onClick} className="button">{buttonText}</StyledButton>
         </Wrapper>
     );
 }
@@ -18,7 +18,7 @@ const StyledButton = styled.button`
 background-color: ${(props) =>props.color ||"#F98B00"};
 border: #F98B00;
 border-radius: 10px;
-width: 95px;
+width: ${(props) =>props.width ||"95px"};
 height: ${(props) =>props.height ||"51px"};
 align-items: center;
 padding: 16px 25px;

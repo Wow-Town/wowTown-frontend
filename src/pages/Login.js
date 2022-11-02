@@ -8,6 +8,7 @@ import Modal from '../components/templates/Modal';
 import { useRecoilState } from 'recoil';
 import { LoginState } from '../utils/LoginState';
 import { LoginEmail } from '../utils/LoginState';
+import { DoubleSubmitCheck } from '../utils/DoubleSubmmitCheck';
 import {useNavigate, Link} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useMutation} from 'react-query';
@@ -22,7 +23,7 @@ export default function Login(){
     const navigate=useNavigate();
     const[ ,setIsLoggedIn] = useRecoilState(LoginState);
     const[,setLoggedEmail] = useRecoilState(LoginEmail);
-    
+    const[doubleSubmitFlag, setDoubleSubmitFlag] = useState(false);
     
     const[modalMessage, setModalMessage]=useState({
         titleText: "",
@@ -45,9 +46,10 @@ export default function Login(){
                 console.log('login failed: ', error);
                 setOpenModal(true);
                 setModalMessage({
-                    "titleText": "해당 이메일,비밀번호가 존재하지 않습니다",
-                    "contentsText" : "다시 시도해주세요",
+                    "titleText": "오류 발생",
+                    "contentsText" : error.response.data.error.message,
                 })
+                setDoubleSubmitFlag(false);
             }
         }
         });
@@ -81,10 +83,12 @@ export default function Login(){
         if(checkLoginFormValidation()){
         //해당 이메일 비번이 존재하면
         //다음 페이지로
-            handleLogin({
-                "email" : email,
-                "password" : password,
-            }) 
+            if(!DoubleSubmitCheck(doubleSubmitFlag,setDoubleSubmitFlag)){
+                handleLogin({
+                    "email" : email,
+                    "password" : password,
+                }) 
+            }
         }else{
             setOpenModal(true);
             setModalMessage({
