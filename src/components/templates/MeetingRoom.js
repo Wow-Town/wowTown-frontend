@@ -5,7 +5,7 @@ import FrameHeader from "./FrameHeader";
 import { AvatarState } from "../../utils/AvatarState";
 import { useRecoilState } from 'recoil';
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {useMutation} from 'react-query';
 import { getChatRoomMessage  } from "../../apis/chatRoom.api";
 import {Buffer} from 'buffer';
@@ -60,7 +60,7 @@ export default function MeetingRoom(){
         // else{ setNowSharing(true)}
         //////////////////
         navigator.mediaDevices.getDisplayMedia({ cursor: true }).then(stream => {
-            setNowSharing(true);
+            //setNowSharing(true);
             const screenTrack = stream.getTracks()[0];
             console.log('video',myStream.current.getVideoTracks()[0]);
             console.log('st',screenTrack);
