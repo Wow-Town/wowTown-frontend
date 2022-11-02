@@ -33,7 +33,7 @@ export default function NoticeDetail(){
     const navigate=useNavigate();
     const location = useLocation();
     const[isOwner,setIsOwner]=useState(false);
-    const avatar= useRecoilValue(AvatarState);
+    
 
     const{ mutateAsync: handleGetNoticeDetail} = useMutation(getNoticeDetail,{
         onSuccess: ({response, success, error }) => {
