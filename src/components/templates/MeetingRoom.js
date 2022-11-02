@@ -5,7 +5,7 @@ import FrameHeader from "./FrameHeader";
 import { AvatarState } from "../../utils/AvatarState";
 import { useRecoilState } from 'recoil';
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {useMutation} from 'react-query';
 import { getChatRoomMessage  } from "../../apis/chatRoom.api";
 import {Buffer} from 'buffer';
@@ -18,17 +18,18 @@ import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 let stompClient;
 //let myStream;
 export default function MeetingRoom(){
-    const navigate=useNavigate();
-    const location = useLocation();
-    const [receiveMessage, setReceiveMessage] = useState();
+   // const navigate=useNavigate();
+    //const location = useLocation();
+    //const [receiveMessage, setReceiveMessage] = useState();
     const [video, setVideo] = useState({});
     const [videoList, setVideoList] = useState([]);
-    const chatRoomId = "7d37401c-e807-4d3f-998e-e4d2ef5184bd";
+    const chatRoomId = useRef();
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
     const[nowSharing,setNowSharing]=useState(false);
-    
+    const params = useParams();
+
     
     function handleVideoSetting(){
         console.log('mystream보면',myStream.current.getVideoTracks()[0].enabled);
@@ -49,6 +50,11 @@ export default function MeetingRoom(){
             myStream.current.getAudioTracks()[0].enabled = true }
     }
     
+    function isMyVideo(element){
+        if(element.id === avatar.avatarId){
+            return element.stream
+        }
+    }
     function handleSharingScreen(){
         // if(nowSharing === true){ setNowSharing(false)}
         // else{ setNowSharing(true)}
@@ -56,18 +62,20 @@ export default function MeetingRoom(){
         navigator.mediaDevices.getDisplayMedia({ cursor: true }).then(stream => {
             setNowSharing(true);
             const screenTrack = stream.getTracks()[0];
-            console.log('video',myStream);
+            console.log('video',myStream.current.getVideoTracks()[0]);
             console.log('st',screenTrack);
             sharingScreenStream.currrent =stream;
             //console.log('sss',sharingScreenStream);
-            const changeCamToScreen = video.find((element) => element.track.kind === "video").replaceTrack(screenTrack);
+            console.log('videolist',videoList);
+            console.log('video',video);
+            const changeCamToScreen = videoList.find(isMyVideo);
+            
             console.log('ccts',changeCamToScreen);
             
             // 내 아이디로 된 비디오 찾아서 -> 그것의 stream을 mediaStream에서 screenTrack으로 바꾼다
 
             //setVideoList(videoList.find(isMyCam).replaceTrack(screenTrack));
             //videoList.find(isMyCam).replaceTrack(screenTrack);
-            console.log(videoList);
             
             setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
             //setGridStyled("1fr");
@@ -88,6 +96,8 @@ export default function MeetingRoom(){
 
     }
     useEffect(()=>{
+        chatRoomId.current = params.privateSpaceUUID;
+        console.log( chatRoomId.current);
         navigator.mediaDevices.getUserMedia({
             video:true,
             audio:true
@@ -100,7 +110,7 @@ export default function MeetingRoom(){
             stompClient.connect({}, function(frame) {
                 stompClient.send("/pub/privateSpace/message",
                 {},
-                JSON.stringify({"type" : "ENTER", "privateSpaceUUID" : chatRoomId, "senderId" : avatar.avatarId}));
+                JSON.stringify({"type" : "ENTER", "privateSpaceUUID" : chatRoomId.current, "senderId" : avatar.avatarId}));
                 console.log("미팅룸 입장");
                 
                 const myPeer = new Peer(avatar.avatarId.toString(),{debug: 3});
@@ -116,7 +126,7 @@ export default function MeetingRoom(){
                 })
                 
                 //메시지를 수신 받아 상대방 아이디를 받아온다.(본인인경우 따로 처리한다.)
-                stompClient.subscribe("/sub/privateSpace/"+chatRoomId,function(message){
+                stompClient.subscribe("/sub/privateSpace/"+chatRoomId.current,function(message){
                     console.log("메시지 수신"); 
                     let recv = JSON.parse(message.body);
                     if(recv.type === "ENTER"){
