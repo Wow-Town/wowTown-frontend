@@ -29,6 +29,8 @@ export default function MeetingRoom(){
     const sharingScreenStream = useRef();
     const[nowSharing,setNowSharing]=useState(false);
     const params = useParams();
+    const [peer,setPeer] = useState();
+    const [peerCall,setPeerCall] = useState();
 
     
     function handleVideoSetting(){
@@ -64,36 +66,14 @@ export default function MeetingRoom(){
             const screenTrack = stream.getTracks()[0];
             console.log('video',myStream.current.getVideoTracks()[0]);
             console.log('st',screenTrack);
-            sharingScreenStream.currrent =stream;
-            ////console.log('sss',sharingScreenStream);
-            //console.log('videolist',videoList);
-            //console.log('video',video);
-            //const changeCamToScreen = videoList.find(isMyVideo);
-            
-           // console.log('ccts',changeCamToScreen);
-            
-            // 내 아이디로 된 비디오 찾아서 -> 그것의 stream을 mediaStream에서 screenTrack으로 바꾼다
+            console.log(peerCall.peerConnection.getSenders());
+            peerCall.peerConnection.getSenders()[1].replaceTrack(screenTrack);
 
-            //setVideoList(videoList.find(isMyCam).replaceTrack(screenTrack));
-            //videoList.find(isMyCam).replaceTrack(screenTrack);
-            
-            //setVideo({"id": sharingScreenStream.id, "stream": stream, "option": "CREATE"});
-            //setGridStyled("1fr");
-            //screenTrack.onended = function(){
-            //    setVideo({"id": sharingScreenStream.id, "stream": null, "option": "REMOVE"});
-        
-            //}
+            screenTrack.onended = function () {
+                const orginalTrack = myStream.current.getVideoTracks()[0];
+                peerCall.peerConnection.getSenders()[1].replaceTrack(orginalTrack);
+              };
         })
-        //////////////////여기 아래는 아님
-        //     console.log('sss',sharingScreenStream);
-            // senders.current.find(sender => sender.track.kind === 'video').replaceTrack(screenTrack);
-            // screenTrack.onended = function() {
-            //     senders.current.find(sender => sender.track.kind === "video").replaceTrack(userStream.current.getTracks()[1]);
-            // }
-        //})
-        
-          //  
-
     }
     useEffect(()=>{
         privateSpaceId.current = params.privateSpaceUUID;
@@ -109,7 +89,7 @@ export default function MeetingRoom(){
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
-
+                setPeer(myPeer);
                 myPeer.on('open', function(id) {
                     console.log(id);
                     stompClient.send("/pub/privateSpace/message",
@@ -137,6 +117,8 @@ export default function MeetingRoom(){
                         console.log(recv.peerUUID);
                         if(recv.senderId !== avatar.avatarId){
                             const call = myPeer.call(recv.peerUUID, stream);
+                            console.log(call);
+                            setPeerCall(call);
                             console.log("call.peer= "+call.peer);
                             //console.log("(31)방인원: " + Object.keys(peers).length);
                             call.on('stream',stream =>{//여기서 avatarVideoStream은 상대방 비디오 스트림임
@@ -178,6 +160,12 @@ export default function MeetingRoom(){
             setGridStyled("1fr 1fr 1fr");
         }
     })
+
+    useEffect(()=>{
+       
+    },[peerCall])
+
+
     return(
         <PrivateSpacePage>
             <Navbar/>
