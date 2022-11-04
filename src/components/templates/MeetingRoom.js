@@ -100,7 +100,8 @@ export default function MeetingRoom(){
                 
                 console.log('mypeer 도 선언해쥼',myPeer)
                 myPeer.on('call',call=>{ //peer에 연결되면 제일먼저 상대방 call을 받을준비 해야함 -> 비동기 함수로 바로 다음줄 실행함
-                    call.answer(stream); //answer를 하면 상대방 MediaConnection(const call)의 stream에 본인 스트림(myStream)을 넣어줌
+                   setPeerCall(call); 
+                   call.answer(stream); //answer를 하면 상대방 MediaConnection(const call)의 stream에 본인 스트림(myStream)을 넣어줌
                     call.on('stream',stream =>{ //여기서 avatar
                         console.log(stream)
                         console.log('videolist',videoList)
