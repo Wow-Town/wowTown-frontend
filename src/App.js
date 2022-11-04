@@ -22,7 +22,7 @@ function App() {
         <Route path="/channels" element={<Channels/>} />
         <Route path="/avatars" element={< AvatarSettings/>} />
         <Route path="/connectMetaverse/*" element={<ConnectMetaverse/>} />
-        <Route path="/privateSpace/:privateSpaceUUID" element={<MeetingRoom/>} />
+        <Route path="/privateSpace/:privateSpaceUUID/*" element={<MeetingRoom/>} />
       
       </Routes>
       
