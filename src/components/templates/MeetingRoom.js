@@ -5,7 +5,7 @@ import FrameHeader from "./FrameHeader";
 import { AvatarState } from "../../utils/AvatarState";
 import { useRecoilState } from 'recoil';
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, Routes, Route} from "react-router-dom";
 import {useMutation} from 'react-query';
 import { getChatRoomMessage  } from "../../apis/chatRoom.api";
 import {Buffer} from 'buffer';
@@ -14,11 +14,13 @@ import { Stomp } from "@stomp/stompjs";
 import { Peer } from 'peerjs';
 import Video from "./Video";
 import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
+import ChatRoom from "./ChatRoom";
+import { getPrivateSpace } from "../../apis/PrivateSpace.api";
 
 let stompClient;
 //let myStream;
 export default function MeetingRoom(){
-   // const navigate=useNavigate();
+   const navigate=useNavigate();
     //const location = useLocation();
     //const [receiveMessage, setReceiveMessage] = useState();
     const [video, setVideo] = useState({});
@@ -32,7 +34,19 @@ export default function MeetingRoom(){
     const [peer,setPeer] = useState();
     const [peerCall,setPeerCall] = useState();
 
-    
+    const{ mutateAsync: handleGetPrivateSpace } = useMutation(getPrivateSpace,{
+        onSuccess: ({response, success, error }) => {
+            if(success){
+                console.log('프라이빗 스페이스 조회 성공');
+                console.log(response);
+                navigate('/privatespace/'+response.privateSpaceUUID+ '/chat', 
+                { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName, participantsNum : response.participantsNum}})
+            }else{
+                console.log('login failed: ', error);
+            }
+        }
+        });
+
     function handleVideoSetting(){
         console.log('mystream보면',myStream.current.getVideoTracks()[0].enabled);
         if( myStream.current.getVideoTracks()[0].enabled === true){
@@ -75,8 +89,10 @@ export default function MeetingRoom(){
               };
         })
     }
+
     useEffect(()=>{
         privateSpaceId.current = params.privateSpaceUUID;
+        handleGetPrivateSpace({"privateSpaceUUID": privateSpaceId.current});
         console.log( privateSpaceId.current);
         navigator.mediaDevices.getUserMedia({
             video:true,
@@ -100,8 +116,8 @@ export default function MeetingRoom(){
                 
                 console.log('mypeer 도 선언해쥼',myPeer)
                 myPeer.on('call',call=>{ //peer에 연결되면 제일먼저 상대방 call을 받을준비 해야함 -> 비동기 함수로 바로 다음줄 실행함
-                   setPeerCall(call); 
-                   call.answer(stream); //answer를 하면 상대방 MediaConnection(const call)의 stream에 본인 스트림(myStream)을 넣어줌
+                    setPeerCall(call);
+                    call.answer(stream); //answer를 하면 상대방 MediaConnection(const call)의 stream에 본인 스트림(myStream)을 넣어줌
                     call.on('stream',stream =>{ //여기서 avatar
                         console.log(stream)
                         console.log('videolist',videoList)
@@ -203,7 +219,9 @@ export default function MeetingRoom(){
                     </SettingForVideoWrapper>
                 </VideoWrapper>
                 <ChatWrapper>
-
+                    <Routes>
+                        <Route path="/chat" element={<ChatRoom />} />
+                    </Routes>
                 </ChatWrapper>
             </PrivateSpaceContentsWrapper>
         </PrivateSpacePage>
@@ -289,5 +307,9 @@ const ButtonIcon=styled.div`
 
 `
 const ChatWrapper=styled.div`
-
+    padding: 20px 30px 20px 30px;
+    margin: 30px 40px 30px 30px;
+    border: 1px solid #A4A4A4;
+    width: 30%;
+    height: 700px;
 `

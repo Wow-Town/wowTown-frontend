@@ -17,7 +17,7 @@ import ChatRoomAvatarList from "./ChatRoomAvatarList";
 
 let stompClient;
 
-export default function ChatRoom({setReceiveMessage}){
+export default function ChatRoom(){
     const navigate=useNavigate();
     const location = useLocation();
     const{chatRoomId, roomName} = location.state;
