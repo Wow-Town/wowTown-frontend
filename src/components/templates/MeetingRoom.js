@@ -28,8 +28,9 @@ export default function MeetingRoom(){
     const privateSpaceId = useRef();
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
-    //const sharingScreenStream = useRef();
-    //const[nowSharing,setNowSharing]=useState(false);
+    const sharingScreenStream = useRef();
+    const[nowSharing,setNowSharing]=useState(false);
+    const sharingScreenId = useRef('');
     const params = useParams();
     const [peer,setPeer] = useState();
     const [peerCall,setPeerCall] = useState();
@@ -93,10 +94,13 @@ export default function MeetingRoom(){
             console.log('st',screenTrack);
             console.log(peerCall.peerConnection.getSenders());
             peerCall.peerConnection.getSenders()[1].replaceTrack(screenTrack);
+            sharingScreenId.current = screenTrack.id;
+            console.log('공유화면의 id는',sharingScreenId.current);
 
             screenTrack.onended = function () {
                 const orginalTrack = myStream.current.getVideoTracks()[0];
                 peerCall.peerConnection.getSenders()[1].replaceTrack(orginalTrack);
+                sharingScreenId.current = '';
               };
         })
     }
@@ -112,8 +116,8 @@ export default function MeetingRoom(){
             myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
-            //var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
-            var ws = new WebSocket('wss://localhost/ws-stomp');
+            var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+            //var ws = new WebSocket('wss://localhost/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
@@ -183,6 +187,10 @@ export default function MeetingRoom(){
         }
     },[video]) 
 
+    useEffect( () => {
+
+        
+    },[sharingScreenId]);
     const[gridStyle,setGridStyled]=useState("1fr 1fr");
     useEffect(()=>{
         if(videoList.length >=5){
@@ -190,9 +198,11 @@ export default function MeetingRoom(){
         }
     })
 
-    useEffect(()=>{
-       
-    },[peerCall])
+    //useEffect(()=>{
+        //var ws = new WebSocket('wss://localhost/ws-stomp');
+        //stompClient= Stomp.over(ws);
+            
+   // },[peerCall]);
 
 
     return(
@@ -278,7 +288,7 @@ const PrivateSpaceContentsWrapper=styled.div`
     height:90%;
 `
 const VideoWrapper =styled.div`
-    border: 1px solid pink ;
+    //border: 1px solid pink ;
     width:70%;
     
 `
@@ -289,11 +299,14 @@ const UsersVideoWrapper =styled.div`
 
 `
 const UserVideo=styled.video`
-    border: 1px solid pink ;
+    //border: 1px solid pink ;
     width:50%;
     height:50%;
 `
-const SettingForVideoWrapper = styled.div``
+const SettingForVideoWrapper = styled.div`
+
+
+`
 
 const PrivateSpaceName=styled.div`
 display:flex;
