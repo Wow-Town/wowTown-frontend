@@ -28,17 +28,21 @@ export default function MeetingRoom(){
     const privateSpaceId = useRef();
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
-    const sharingScreenStream = useRef();
-    const[nowSharing,setNowSharing]=useState(false);
+    //const sharingScreenStream = useRef();
+    //const[nowSharing,setNowSharing]=useState(false);
     const params = useParams();
     const [peer,setPeer] = useState();
     const [peerCall,setPeerCall] = useState();
+    const[micOn,setMicOn]=useState(true);
+    const[videoOn,setVideoOn]=useState(true);
+    const privateSpaceRoomName = useRef('');
 
     const{ mutateAsync: handleGetPrivateSpace } = useMutation(getPrivateSpace,{
         onSuccess: ({response, success, error }) => {
             if(success){
                 console.log('프라이빗 스페이스 조회 성공');
                 console.log(response);
+                privateSpaceRoomName.current = response.roomName;
                 navigate('/privatespace/'+response.privateSpaceUUID+ '/chat', 
                 { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName, participantsNum : response.participantsNum}})
             }else{
@@ -52,25 +56,32 @@ export default function MeetingRoom(){
         if( myStream.current.getVideoTracks()[0].enabled === true){
             myStream.current.getVideoTracks()[0].enabled = false;
             console.log('mystream바꾼후',myStream.current.getVideoTracks()[0]);
+            setVideoOn(false);
         }
         else if( myStream.current.getVideoTracks()[0].enabled === false){
-            myStream.current.getVideoTracks()[0].enabled = true }
+            myStream.current.getVideoTracks()[0].enabled = true 
+            setVideoOn(true);
+        }
     }
     function handleAudioSetting(){
         console.log('mystream보면',myStream.current.getAudioTracks()[0].enabled);
         if( myStream.current.getAudioTracks()[0].enabled === true){
             myStream.current.getAudioTracks()[0].enabled = false;
             console.log('mystream바꾼후',myStream.current.getAudioTracks()[0]);
+            setMicOn(false);
+            console.log('마이크꺼ㅓㅓㅓㅓㅓ');
+            console.log(micOn);
         }
         else if( myStream.current.getAudioTracks()[0].enabled === false){
-            myStream.current.getAudioTracks()[0].enabled = true }
-    }
-    
-    function isMyVideo(element){
-        if(element.id === avatar.avatarId){
-            return element.stream
+            myStream.current.getAudioTracks()[0].enabled = true 
+            setMicOn(true);
+            console.log('마이크 킨다');
+            console.log(micOn);
         }
-    }
+        }
+
+    
+  
     function handleSharingScreen(){
         // if(nowSharing === true){ setNowSharing(false)}
         // else{ setNowSharing(true)}
@@ -101,7 +112,8 @@ export default function MeetingRoom(){
             myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
-            var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+            //var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+            var ws = new WebSocket('wss://localhost/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
@@ -201,15 +213,21 @@ export default function MeetingRoom(){
         </MeetingRoomFrame>
                     </UsersVideoWrapper>
                     <SettingForVideoWrapper>
-                        <PrivateSpaceName>프라이빗 스페이스 이름</PrivateSpaceName>
+                        <PrivateSpaceName>{privateSpaceRoomName.current}</PrivateSpaceName>
                         <PrivateSpaceSettings>
                             <Button
                             onClick={handleVideoSetting}>
-                                <ButtonIcon className="material-icons">videocam</ButtonIcon>
+                                { videoOn === true?
+                                    <ButtonIcon className="material-icons">videocam</ButtonIcon>
+                                    :  <ButtonIcon className="material-icons">videocam_off</ButtonIcon>
+                                }
                                 카메라</Button>
                             <Button
                             onClick={handleAudioSetting}>
+                                { micOn ===true?
                                 <ButtonIcon className="material-icons">mic</ButtonIcon>
+                                :  <ButtonIcon className="material-icons">mic_off</ButtonIcon>
+                                }
                                 마이크</Button>
                             <Button
                             onClick={handleSharingScreen}>
