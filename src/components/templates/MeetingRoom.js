@@ -125,8 +125,8 @@ export default function MeetingRoom(){
             myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
-            //var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
-            var ws = new WebSocket('wss://localhost/ws-stomp');
+            var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+            //var ws = new WebSocket('wss://localhost/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
