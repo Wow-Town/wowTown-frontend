@@ -29,13 +29,14 @@ export default function MeetingRoom(){
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
-    const[nowSharing,setNowSharing]=useState(false);
     const sharingScreenId = useRef('');
     const params = useParams();
     const [peer,setPeer] = useState();
     const [peerCall,setPeerCall] = useState();
     const[micOn,setMicOn]=useState(true);
     const[videoOn,setVideoOn]=useState(true);
+    const[openChatRoom,setOpenChatRoom] = useState(true);
+    const[nowSharing,setNowSharing]=useState(false);
     const privateSpaceRoomName = useRef('');
 
     const{ mutateAsync: handleGetPrivateSpace } = useMutation(getPrivateSpace,{
@@ -96,13 +97,21 @@ export default function MeetingRoom(){
             peerCall.peerConnection.getSenders()[1].replaceTrack(screenTrack);
             sharingScreenId.current = screenTrack.id;
             console.log('공유화면의 id는',sharingScreenId.current);
+            setNowSharing(true);
+            console.log('ㄴsss 버튼 바꾸기 켜진상태')
 
             screenTrack.onended = function () {
                 const orginalTrack = myStream.current.getVideoTracks()[0];
                 peerCall.peerConnection.getSenders()[1].replaceTrack(orginalTrack);
                 sharingScreenId.current = '';
+                setNowSharing(false);
+                console.log('ㄴsss 버튼 바꾸기 꺼진상태')
               };
         })
+    }
+
+    function handleChatRoom(){
+
     }
 
     useEffect(()=>{
@@ -116,8 +125,8 @@ export default function MeetingRoom(){
             myStream.current =stream;
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
-            var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
-            //var ws = new WebSocket('wss://localhost/ws-stomp');
+            //var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+            var ws = new WebSocket('wss://localhost/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
@@ -241,8 +250,19 @@ export default function MeetingRoom(){
                                 마이크</Button>
                             <Button
                             onClick={handleSharingScreen}>
+                                {nowSharing === true?
                             <ButtonIcon className="material-icons">present_to_all</ButtonIcon>
+                                : <ButtonIcon className="material-icons">stop_screen_share</ButtonIcon>
+                                }
                                 화면공유</Button>
+                                
+                            <Button
+                            onClick={handleChatRoom}>
+                                { openChatRoom ===true?
+                                <ButtonIcon className="material-icons">chat_bubble</ButtonIcon>
+                                :  <ButtonIcon className="material-icons">chat</ButtonIcon>
+                                }
+                                채팅</Button>
                         </PrivateSpaceSettings>
                     </SettingForVideoWrapper>
                 </VideoWrapper>
