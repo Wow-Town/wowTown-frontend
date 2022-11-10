@@ -29,16 +29,22 @@ export default function MeetingRoom(){
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
-    const[nowSharing,setNowSharing]=useState(false);
+    const sharingScreenId = useRef('');
     const params = useParams();
     const [peer,setPeer] = useState();
     const [peerCall,setPeerCall] = useState();
+    const[micOn,setMicOn]=useState(true);
+    const[videoOn,setVideoOn]=useState(true);
+    const[openChatRoom,setOpenChatRoom] = useState(true);
+    const[nowSharing,setNowSharing]=useState(false);
+    const privateSpaceRoomName = useRef('');
 
     const{ mutateAsync: handleGetPrivateSpace } = useMutation(getPrivateSpace,{
         onSuccess: ({response, success, error }) => {
             if(success){
                 console.log('프라이빗 스페이스 조회 성공');
                 console.log(response);
+                privateSpaceRoomName.current = response.roomName;
                 navigate('/privatespace/'+response.privateSpaceUUID+ '/chat', 
                 { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName, participantsNum : response.participantsNum}})
             }else{
@@ -52,25 +58,32 @@ export default function MeetingRoom(){
         if( myStream.current.getVideoTracks()[0].enabled === true){
             myStream.current.getVideoTracks()[0].enabled = false;
             console.log('mystream바꾼후',myStream.current.getVideoTracks()[0]);
+            setVideoOn(false);
         }
         else if( myStream.current.getVideoTracks()[0].enabled === false){
-            myStream.current.getVideoTracks()[0].enabled = true }
+            myStream.current.getVideoTracks()[0].enabled = true 
+            setVideoOn(true);
+        }
     }
     function handleAudioSetting(){
         console.log('mystream보면',myStream.current.getAudioTracks()[0].enabled);
         if( myStream.current.getAudioTracks()[0].enabled === true){
             myStream.current.getAudioTracks()[0].enabled = false;
             console.log('mystream바꾼후',myStream.current.getAudioTracks()[0]);
+            setMicOn(false);
+            console.log('마이크꺼ㅓㅓㅓㅓㅓ');
+            console.log(micOn);
         }
         else if( myStream.current.getAudioTracks()[0].enabled === false){
-            myStream.current.getAudioTracks()[0].enabled = true }
-    }
-    
-    function isMyVideo(element){
-        if(element.id === avatar.avatarId){
-            return element.stream
+            myStream.current.getAudioTracks()[0].enabled = true 
+            setMicOn(true);
+            console.log('마이크 킨다');
+            console.log(micOn);
         }
-    }
+        }
+
+    
+  
     function handleSharingScreen(){
         // if(nowSharing === true){ setNowSharing(false)}
         // else{ setNowSharing(true)}
@@ -82,12 +95,23 @@ export default function MeetingRoom(){
             console.log('st',screenTrack);
             console.log(peerCall.peerConnection.getSenders());
             peerCall.peerConnection.getSenders()[1].replaceTrack(screenTrack);
+            sharingScreenId.current = screenTrack.id;
+            console.log('공유화면의 id는',sharingScreenId.current);
+            setNowSharing(true);
+            console.log('ㄴsss 버튼 바꾸기 켜진상태')
 
             screenTrack.onended = function () {
                 const orginalTrack = myStream.current.getVideoTracks()[0];
                 peerCall.peerConnection.getSenders()[1].replaceTrack(orginalTrack);
+                sharingScreenId.current = '';
+                setNowSharing(false);
+                console.log('ㄴsss 버튼 바꾸기 꺼진상태')
               };
         })
+    }
+
+    function handleChatRoom(){
+
     }
 
     useEffect(()=>{
@@ -102,6 +126,7 @@ export default function MeetingRoom(){
             setVideo({"id": avatar.avatarId.toString(), "stream": stream, "option": "CREATE"});
 
             var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+            //var ws = new WebSocket('wss://localhost/ws-stomp');
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
@@ -171,6 +196,10 @@ export default function MeetingRoom(){
         }
     },[video]) 
 
+    useEffect( () => {
+
+        
+    },[sharingScreenId]);
     const[gridStyle,setGridStyled]=useState("1fr 1fr");
     useEffect(()=>{
         if(videoList.length >=5){
@@ -178,9 +207,11 @@ export default function MeetingRoom(){
         }
     })
 
-    useEffect(()=>{
-       
-    },[peerCall])
+    //useEffect(()=>{
+        //var ws = new WebSocket('wss://localhost/ws-stomp');
+        //stompClient= Stomp.over(ws);
+            
+   // },[peerCall]);
 
 
     return(
@@ -201,20 +232,37 @@ export default function MeetingRoom(){
         </MeetingRoomFrame>
                     </UsersVideoWrapper>
                     <SettingForVideoWrapper>
-                        <PrivateSpaceName>프라이빗 스페이스 이름</PrivateSpaceName>
+                        <PrivateSpaceName>{privateSpaceRoomName.current}</PrivateSpaceName>
                         <PrivateSpaceSettings>
                             <Button
                             onClick={handleVideoSetting}>
-                                <ButtonIcon className="material-icons">videocam</ButtonIcon>
+                                { videoOn === true?
+                                    <ButtonIcon className="material-icons">videocam</ButtonIcon>
+                                    :  <ButtonIcon className="material-icons">videocam_off</ButtonIcon>
+                                }
                                 카메라</Button>
                             <Button
                             onClick={handleAudioSetting}>
+                                { micOn ===true?
                                 <ButtonIcon className="material-icons">mic</ButtonIcon>
+                                :  <ButtonIcon className="material-icons">mic_off</ButtonIcon>
+                                }
                                 마이크</Button>
                             <Button
                             onClick={handleSharingScreen}>
+                                {nowSharing === true?
                             <ButtonIcon className="material-icons">present_to_all</ButtonIcon>
+                                : <ButtonIcon className="material-icons">stop_screen_share</ButtonIcon>
+                                }
                                 화면공유</Button>
+                                
+                            <Button
+                            onClick={handleChatRoom}>
+                                { openChatRoom ===true?
+                                <ButtonIcon className="material-icons">chat_bubble</ButtonIcon>
+                                :  <ButtonIcon className="material-icons">chat</ButtonIcon>
+                                }
+                                채팅</Button>
                         </PrivateSpaceSettings>
                     </SettingForVideoWrapper>
                 </VideoWrapper>
@@ -260,7 +308,7 @@ const PrivateSpaceContentsWrapper=styled.div`
     height:90%;
 `
 const VideoWrapper =styled.div`
-    border: 1px solid pink ;
+    //border: 1px solid pink ;
     width:70%;
     
 `
@@ -271,11 +319,14 @@ const UsersVideoWrapper =styled.div`
 
 `
 const UserVideo=styled.video`
-    border: 1px solid pink ;
+    //border: 1px solid pink ;
     width:50%;
     height:50%;
 `
-const SettingForVideoWrapper = styled.div``
+const SettingForVideoWrapper = styled.div`
+
+
+`
 
 const PrivateSpaceName=styled.div`
 display:flex;

@@ -30,6 +30,7 @@ export default function ChatRoom(){
 
     useEffect(() =>{    
         var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
+        //var ws = new WebSocket('wss://localhost/ws-stomp');
         stompClient= Stomp.over(ws);
         stompClient.connect({}, function(frame) {
             //연결 성공시 api호출
