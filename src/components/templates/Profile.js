@@ -154,44 +154,53 @@ export default function Profile(){
 
     useEffect(()=>{
         if(avatar !== undefined){
-            if(avatar.friendStatus === "APPROVED"){
-                setTitle("친구 프로필");
-                setButtonComponent(
-                    <ButtonContents>
-                        <Button onClick={onClickChat} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="채팅하기"/>
-                    </ButtonContents>
-                    );
-            }
-            else if(avatar.friendStatus === "REQUESTED"){
-                setTitle("친구 프로필");
-                setButtonComponent(
-                    <ButtonContents>
-                        <Button onClick={onClickApproveFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 수락"/>
-                        <Button onClick={onClickRejectFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 거절"/>
-                    </ButtonContents>
-                    );
-            }
-            else if(avatar.friendStatus === "BLANK"){
-                setTitle("친구 프로필");
-                setButtonComponent(
-                    <ButtonContents>
-                        <Button onClick={onClickAddFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 신청"/>
-                    </ButtonContents>
-                    );
+            if(location.pathname.split('/')[1] === "connectMetaverse"){
+                if(avatar.friendStatus === "APPROVED"){
+                    setTitle("친구 프로필");
+                    setButtonComponent(
+                        <ButtonContents>
+                            <Button onClick={onClickChat} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="채팅하기"/>
+                        </ButtonContents>
+                        );
+                }
+                else if(avatar.friendStatus === "REQUESTED"){
+                    setTitle("친구 프로필");
+                    setButtonComponent(
+                        <ButtonContents>
+                            <Button onClick={onClickApproveFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 수락"/>
+                            <Button onClick={onClickRejectFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 거절"/>
+                        </ButtonContents>
+                        );
+                }
+                else if(avatar.friendStatus === "BLANK"){
+                    setTitle("친구 프로필");
+                    setButtonComponent(
+                        <ButtonContents>
+                            <Button onClick={onClickAddFriend} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="친구 신청"/>
+                        </ButtonContents>
+                        );
+                }
+                else{
+                    setTitle("내 프로필");
+                    setButtonComponent(
+                        <ButtonContents>
+                            <Button  onClick={onClickAvatarUpdate} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 수정"/>
+                            <Button onClick={onClickAvatarDelete} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 삭제"/>
+                        </ButtonContents>
+                        );
+                }
+                setNickName(avatar.nickName);
+                setInterest(avatar.interests);
+                setDescription(avatar.description);
             }
             else{
-                setTitle("내 프로필");
-                setButtonComponent(
-                    <ButtonContents>
-                        <Button  onClick={onClickAvatarUpdate} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 수정"/>
-                        <Button onClick={onClickAvatarDelete} fontSize="13px" color="#C4C4C4" height ='27px' marginRight={"10px"}  buttonText="아바타 삭제"/>
-                    </ButtonContents>
-                    );
+                setTitle("프로필");
+                setNickName(avatar.nickName);
+                setInterest(avatar.interests);
+                setDescription(avatar.description);
             }
-            setNickName(avatar.nickName);
-            setInterest(avatar.interests);
-            setDescription(avatar.description);
         }
+        
    },[avatar])
 
     
@@ -266,6 +275,7 @@ const Name= styled.h1`
 const IntroductionDiv = styled.div`
     white-space: pre;
     height:300px;
+    width:370px;
     word-break:break-all;
     font-size:20px;
     margin-left:5px;
