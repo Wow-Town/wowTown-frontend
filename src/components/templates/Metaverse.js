@@ -15,8 +15,8 @@ export default function Metaverse(){
 }
 const Div = styled.iframe`
     top: 0;
-    border: 0px solid  #bcbcbc;
+    border: 1px solid  #bcbcbc;
     width:100%;
     min-width:500px;
-    height:662px;
+    height:621px;
 `
