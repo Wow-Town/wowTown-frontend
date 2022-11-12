@@ -2,13 +2,19 @@
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import {Routes, Route, useNavigate } from "react-router-dom";
+import {Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 export default function AvatarFrame({key, avatar}){
     const navigate = useNavigate();  
+    const location = useLocation();
 
     function onClickProfile(){
-        navigate('/connectMetaverse/avatar/profile?id='+avatar.avatarId,{ state : {avatarId : avatar.avatarId}});
+        if(location.pathname.split('/')[1] === "privatespace"){
+            navigate(location.pathname.replace("chat","avatar/profile?id=") +avatar.avatarId,{ state : {avatarId : avatar.avatarId}});
+        }
+        else{
+            navigate('/connectMetaverse/avatar/profile?id='+avatar.avatarId,{ state : {avatarId : avatar.avatarId}});
+        }
     } 
 
     return(

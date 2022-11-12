@@ -17,7 +17,7 @@ import ChatRoomAvatarList from "./ChatRoomAvatarList";
 
 let stompClient;
 
-export default function ChatRoom(){
+export default function ChatRoom({setOpenChatRoom}){
     const navigate=useNavigate();
     const location = useLocation();
     const{chatRoomId, roomName} = location.state;
@@ -141,7 +141,13 @@ export default function ChatRoom(){
     }
 
     function onClickClose(){
-        navigate(-1);
+        if(location.pathname.split('/')[1] === "privatespace"){
+            setOpenChatRoom(false);
+            navigate(-1);
+        }
+        else{
+            navigate(-1);
+        }
     }
 
     //DropZone Code

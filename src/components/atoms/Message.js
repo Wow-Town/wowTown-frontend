@@ -82,7 +82,12 @@ export default function Message({recv}){
 
     function onClickAvatarImg(){
         console.log(recv);
-        navigate('/connectMetaverse/avatar/profile?id='+recv.senderId,{ state : {avatarId : recv.senderId}});
+        if(location.pathname.split('/')[1] === "privatespace"){
+            navigate(location.pathname.replace("chat","avatar/profile?id=") +recv.senderId,{ state : {avatarId : recv.senderId}});
+        }
+        else{
+            navigate('/connectMetaverse/avatar/profile?id='+recv.senderId,{ state : {avatarId : recv.senderId}});
+        }     
     }
 
   

@@ -16,6 +16,9 @@ import Video from "./Video";
 import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 import ChatRoom from "./ChatRoom";
 import { getPrivateSpace } from "../../apis/PrivateSpace.api";
+import Avatar from "../../pages/Avatar";
+import AvatarFrame from "../atoms/AvatarFrame";
+import Profile from "./Profile";
 
 let stompClient;
 //let myStream;
@@ -26,6 +29,7 @@ export default function MeetingRoom(){
     const [video, setVideo] = useState({});
     const [videoList, setVideoList] = useState([]);
     const privateSpaceId = useRef();
+    const [chatRoomId,setChatRoomId] = useState();
     const [avatar] = useRecoilState(AvatarState);
     const myStream = useRef();
     const sharingScreenStream = useRef();
@@ -35,7 +39,7 @@ export default function MeetingRoom(){
     const [peerCall,setPeerCall] = useState();
     const[micOn,setMicOn]=useState(true);
     const[videoOn,setVideoOn]=useState(true);
-    const[openChatRoom,setOpenChatRoom] = useState(true);
+    const[openChatRoom,setOpenChatRoom] = useState(false);
     const[nowSharing,setNowSharing]=useState(false);
     const privateSpaceRoomName = useRef('');
 
@@ -45,8 +49,7 @@ export default function MeetingRoom(){
                 console.log('프라이빗 스페이스 조회 성공');
                 console.log(response);
                 privateSpaceRoomName.current = response.roomName;
-                navigate('/privatespace/'+response.privateSpaceUUID+ '/chat', 
-                { state : {chatRoomId : response.chatRoomUUID, roomName : response.roomName, participantsNum : response.participantsNum}})
+                setChatRoomId(response.chatRoomUUID);
             }else{
                 console.log('login failed: ', error);
             }
@@ -111,7 +114,9 @@ export default function MeetingRoom(){
     }
 
     function handleChatRoom(){
-
+        setOpenChatRoom(true);
+        navigate('/privatespace/'+privateSpaceId.current+ '/chat', 
+                { state : {chatRoomId : chatRoomId, roomName : privateSpaceRoomName.current}})
     }
 
     useEffect(()=>{
@@ -218,18 +223,18 @@ export default function MeetingRoom(){
         <PrivateSpacePage>
             <Navbar/>
             <PrivateSpaceContentsWrapper>
-                <VideoWrapper>
+                <VideoWrapper openChatRoom ={openChatRoom}>
                     <UsersVideoWrapper>
                     <MeetingRoomFrame>
-            {/* todo : 프라이빗 스페이스 화면 구성 */}
-            <VideoGrid numOfVideo={gridStyle}>
-                {
-                    videoList.map((video,idx)=>{
-                        return <Video key={idx} id={video.id} stream={video.stream}/>;
-                    })
-                }
-            </VideoGrid>
-        </MeetingRoomFrame>
+                        {/* todo : 프라이빗 스페이스 화면 구성 */}
+                        <VideoGrid numOfVideo={gridStyle}>
+                            {
+                                videoList.map((video,idx)=>{
+                                    return <Video key={idx} id={video.id} stream={video.stream}/>;
+                                })
+                            }
+                        </VideoGrid>
+                    </MeetingRoomFrame>
                     </UsersVideoWrapper>
                     <SettingForVideoWrapper>
                         <PrivateSpaceName>{privateSpaceRoomName.current}</PrivateSpaceName>
@@ -266,11 +271,17 @@ export default function MeetingRoom(){
                         </PrivateSpaceSettings>
                     </SettingForVideoWrapper>
                 </VideoWrapper>
-                <ChatWrapper>
-                    <Routes>
-                        <Route path="/chat" element={<ChatRoom />} />
-                    </Routes>
-                </ChatWrapper>
+                {
+                    openChatRoom ? <ChatWrapper>
+                                <Routes>
+                                    <Route path="/chat" element={<ChatRoom setOpenChatRoom={setOpenChatRoom}></ChatRoom>} />
+                                    <Route path="/avatar/*" element={<Profile/>} />
+                                </Routes>
+                            </ChatWrapper>
+                            :
+                            <></>
+                }
+                
             </PrivateSpaceContentsWrapper>
         </PrivateSpacePage>
         
@@ -309,7 +320,7 @@ const PrivateSpaceContentsWrapper=styled.div`
 `
 const VideoWrapper =styled.div`
     //border: 1px solid pink ;
-    width:70%;
+    width:${(props) => props.openChatRoom ? "70%" : "100%"};
     
 `
 
