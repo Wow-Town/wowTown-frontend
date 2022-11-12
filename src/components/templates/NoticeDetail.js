@@ -299,7 +299,7 @@ const Label = styled.label`
    
 `
 const NoticeDetailContents =styled.div`
-    
+    white-space: pre;
     max-height: 170px;
     min-height: 170px;
     height:50px; 
