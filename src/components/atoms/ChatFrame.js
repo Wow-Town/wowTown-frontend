@@ -4,40 +4,22 @@ import styled from "styled-components";
 import ChatRoom from "../templates/ChatRoom";
 import { useState, useEffect } from "react";
 import {Routes, Route, useNavigate } from "react-router-dom";
-import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
 
-let stompClient;
-
-export default function ChatFrame({chatRoom}){
+export default function ChatFrame({stompClient,chatRoom}){
     const navigate = useNavigate();
     const [receive, setReceive] = useState();
     const [receiveMessage, setReceiveMessage] = useState(chatRoom.latestMessage);
     const [receiveMessageNum, setReceiveMessageNum] = useState(parseInt(chatRoom.receiveMessageNum));
 
-    useEffect(() =>{         
-        //var ws = new WebSocket('wss://localhost/ws-stomp');
-        var ws = new WebSocket('wss://api.wowtown.co.kr/ws-stomp');
-        stompClient= Stomp.over(ws);
-        stompClient.connect({}, function(frame) {
-            setTimeout(function() {
-                stompClient.subscribe("/sub/chatRooms/"+chatRoom.chatRoomUUID,function(message){
-                    console.log("메시지 수신");
-                    if(message.body !== ""){
-                        let recv = JSON.parse(message.body);
-                        setReceive(recv);
-                        //setReceiveMessage(recv.message);
-                    }
-                    
-                });
-             }, 500);        
-            console.log("채팅방 구독완료");
-        }, function(error){});
-        
-        return function cleanup() {
-            stompClient.disconnect();
-            console.log("채팅방 구독해제");
-        }
+    useEffect(() =>{          
+        stompClient.subscribe("/sub/chatRooms/"+chatRoom.chatRoomUUID,function(message){
+            console.log("메시지 수신");
+            if(message.body !== ""){
+                let recv = JSON.parse(message.body);
+                setReceive(recv);
+                //setReceiveMessage(recv.message);
+            } 
+        });
     },[])
 
 
