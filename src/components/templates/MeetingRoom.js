@@ -35,8 +35,7 @@ export default function MeetingRoom(){
     const sharingScreenStream = useRef();
     const sharingScreenId = useRef('');
     const params = useParams();
-    const [peer,setPeer] = useState();
-    const [peerCall,setPeerCall] = useState();
+    const [peerCallList,setPeerCallList] = useState([]);
     const[micOn,setMicOn]=useState(true);
     const[videoOn,setVideoOn]=useState(true);
     const[openChatRoom,setOpenChatRoom] = useState(false);
@@ -96,8 +95,10 @@ export default function MeetingRoom(){
             const screenTrack = stream.getTracks()[0];
             console.log('video',myStream.current.getVideoTracks()[0]);
             console.log('st',screenTrack);
-            console.log(peerCall.peerConnection.getSenders());
-            peerCall.peerConnection.getSenders()[1].replaceTrack(screenTrack);
+            peerCallList.map((peerCall)=>{
+                peerCall.peerConnection.getSenders()[1].replaceTrack(screenTrack);
+            })
+            
             sharingScreenId.current = screenTrack.id;
             console.log('공유화면의 id는',sharingScreenId.current);
             setNowSharing(true);
@@ -105,7 +106,9 @@ export default function MeetingRoom(){
 
             screenTrack.onended = function () {
                 const orginalTrack = myStream.current.getVideoTracks()[0];
-                peerCall.peerConnection.getSenders()[1].replaceTrack(orginalTrack);
+                peerCallList.map((peerCall)=>{
+                    peerCall.peerConnection.getSenders()[1].replaceTrack(orginalTrack);
+                })
                 sharingScreenId.current = '';
                 setNowSharing(false);
                 console.log('ㄴsss 버튼 바꾸기 꺼진상태')
@@ -135,7 +138,6 @@ export default function MeetingRoom(){
             stompClient= Stomp.over(ws);
             stompClient.connect({}, function(frame) {
                 const myPeer = new Peer({debug: 3});
-                setPeer(myPeer);
                 myPeer.on('open', function(id) {
                     console.log(id);
                     stompClient.send("/pub/privateSpace/message",
@@ -146,7 +148,7 @@ export default function MeetingRoom(){
                 
                 console.log('mypeer 도 선언해쥼',myPeer)
                 myPeer.on('call',call=>{ //peer에 연결되면 제일먼저 상대방 call을 받을준비 해야함 -> 비동기 함수로 바로 다음줄 실행함
-                    setPeerCall(call);
+                    setPeerCallList(peerCallList => peerCallList.concat(call));
                     call.answer(stream); //answer를 하면 상대방 MediaConnection(const call)의 stream에 본인 스트림(myStream)을 넣어줌
                     call.on('stream',stream =>{ //여기서 avatar
                         console.log(stream)
@@ -165,7 +167,8 @@ export default function MeetingRoom(){
                         if(recv.senderId !== avatar.avatarId){
                             const call = myPeer.call(recv.peerUUID, stream);
                             console.log(call);
-                            setPeerCall(call);
+                            console.log(peerCallList);
+                            setPeerCallList(peerCallList => peerCallList.concat(call));
                             console.log("call.peer= "+call.peer);
                             //console.log("(31)방인원: " + Object.keys(peers).length);
                             call.on('stream',stream =>{//여기서 avatarVideoStream은 상대방 비디오 스트림임
@@ -203,7 +206,7 @@ export default function MeetingRoom(){
 
     useEffect( () => {
 
-        
+
     },[sharingScreenId]);
     const[gridStyle,setGridStyled]=useState("1fr 1fr");
     useEffect(()=>{
