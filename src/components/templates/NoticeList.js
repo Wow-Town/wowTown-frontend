@@ -175,7 +175,7 @@ const AllListFrame =styled.div`
 
     &::-webkit-scrollbar {
         
-        width: 10px;
+        width: 6px;
         
         
     }

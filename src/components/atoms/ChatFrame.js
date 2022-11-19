@@ -84,7 +84,7 @@ border-radius:10px;
 position:relative;
 height: 60px;
 display:flex;
-width:376px;
+width:340px;
 `
 
 const ChatRoomImg = styled.div`
@@ -114,11 +114,14 @@ height:50%;
 `
 
 const ChatRoomName=styled.div`
-display:flex;
-text-align: center;
 align-items : center;
 font-size: 17px;
 font-weight: 500;
+display: inline-block;
+width: auto ;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 `
 const Particepant = styled.div`
 display:flex;

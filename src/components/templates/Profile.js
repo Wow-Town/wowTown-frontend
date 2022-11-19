@@ -135,7 +135,7 @@ export default function Profile(){
         handleDeleteAvatar();
     }
     function onClickClose(){
-        navigate(-1);
+        navigate('/connectMetaverse');
     }
     
 
@@ -273,7 +273,6 @@ const Name= styled.h1`
 
 
 const IntroductionDiv = styled.div`
-    white-space: pre;
     height:300px;
     width:370px;
     word-break:break-all;
@@ -282,6 +281,7 @@ const IntroductionDiv = styled.div`
     padding: 10px 10px 10px 10px;
     border: 0.5px solid;
     border-radius:10px;
+    white-space: pre-wrap;
     //스크롤 추가와 스크롤 모양 변경
     overflow-y: scroll;
     
@@ -303,7 +303,6 @@ const IntroductionDiv = styled.div`
         border-radius: 10px;
         
     }
-
 `
 
 const H3= styled.h3`

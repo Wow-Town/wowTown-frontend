@@ -258,7 +258,7 @@ overflow-y: scroll;
 
 &::-webkit-scrollbar {
     
-    width: 10px;
+    width: 6px;
     
     
 }
