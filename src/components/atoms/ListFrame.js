@@ -38,10 +38,19 @@ padding:10px 15px 10px 15px;
 margin-bottom:10px;
 border: 1px solid #A4A4A4 ;
 border-radius:10px;
+word-break: break-all;
+position: relative;
 `
 const Name=styled.div`
+word-wrap: break-word;      /* IE 5.5-7 */
+white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+white-space: pre-wrap;
 margin-bottom:10px;
-
+display: inline-block;
+width: 270px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 `
 const Interests = styled.div`
 display:flex;

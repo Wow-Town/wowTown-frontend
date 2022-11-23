@@ -265,7 +265,7 @@ const NoticeDetailWrapper =styled.div`
 `
 
 const NoticeDetailTitleDiv = styled.div`
-
+word-break: break-all;
 padding-right:10px;
 padding-bottom:40px;
 font-size:25px;
@@ -299,7 +299,6 @@ const Label = styled.label`
    
 `
 const NoticeDetailContents =styled.div`
-    white-space: pre;
     max-height: 170px;
     min-height: 170px;
     height:50px; 
@@ -310,6 +309,28 @@ const NoticeDetailContents =styled.div`
     padding: 10px 15px 10px 15px;
     margin-top:10px;
     word-break:break-all;
+    white-space: pre-wrap;
+    //스크롤 추가와 스크롤 모양 변경
+    overflow-y: scroll;
+    
+
+    &::-webkit-scrollbar {
+        
+        width: 6px;
+        
+        
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #BCBCBC;
+        border-radius: 10px;
+        
+    }
 `
 
 const ButtonWrapper =styled.div`

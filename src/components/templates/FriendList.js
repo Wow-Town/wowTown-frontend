@@ -7,8 +7,11 @@ import { useState, useEffect  } from "react";
 import {useMutation, useQuery} from 'react-query';
 import { getAvatarFriendList } from "../../apis/avatar.api";
 import FriendFrame from "../atoms/FriendFrame";
+import { useNavigate } from "react-router-dom";
 
 export default function FriendList(){
+    const navigate = useNavigate();
+    
     const tabContArr=[
         {   
             index:0,
@@ -48,9 +51,15 @@ export default function FriendList(){
         handleGetAvatarFriendList();
     },[activeIndex]) 
         
+
+    function onClickClose(){
+        navigate('/connectMetaverse');
+    }
+
+
     return(
         <FriendListFrame>
-            <FrameHeader frameTitle='친구 목록'/>
+            <FrameHeader frameTitle='친구 목록' icon={"highlight_off"} onClickClose={onClickClose}/>
             <TabFrame>
                 {
                     tabContArr.map(

@@ -19,15 +19,18 @@ export default function StudyRoomFrame ({privateSpaceUUID, chatRoomUUID, partici
         <Div >
             {/* <ChatRoomImg className="material-icons">meeting_room </ChatRoomImg>  */}
             <ContentHeader>
-                <ChatRoomName>{roomName}</ChatRoomName>
+                <StudyRoomName>{roomName}</StudyRoomName>
                 <Particepant>{participantsNum}</Particepant> 
             </ContentHeader>
-            <Button 
-            buttonText="입장"
-            height="30px"
-            fontSize="14px"
-            color="#FFBC45"
-            onClick={()=>onClickChatRoom()} ></Button>
+            <EnterButton>
+                <Button 
+                buttonText="입장"
+                height="30px"
+                fontSize="14px"
+                color="#FFBC45"
+                onClick={()=>onClickChatRoom()} ></Button>
+            </EnterButton>
+            
             
         </Div>   
     );
@@ -35,6 +38,7 @@ export default function StudyRoomFrame ({privateSpaceUUID, chatRoomUUID, partici
 
 
 const Div = styled.div`
+position: relative;
 margin-top:10px;
 margin-bottom:10px;
 padding:10px 30px 10px 30px;
@@ -47,32 +51,22 @@ align-items:center;
 
 `
 
-const ChatRoomImg = styled.div`
-background-color:pink;
-width:60px;
-height:60px;
-line-height:60px;
-border-radius:100px;
-text-align: center;
-display:table-cell;
-vertical-align:middle;
-
-`
-
-
 
 const ContentHeader=styled.div`
 display:flex;
-width: 100%;
+width: 70%;
 height:50%;
 `
 
-const ChatRoomName=styled.div`
-display:flex;
-text-align: center;
+const StudyRoomName=styled.div`
 align-items : center;
 font-size: 17px;
 font-weight: 600;
+display: inline-block;
+width: 170px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 `
 const Particepant = styled.div`
 display:flex;
@@ -83,6 +77,11 @@ margin-left:5px;
 margin-top:5px;
 color:gray;
 
+`
+
+const EnterButton = styled.div`
+position:absolute;
+right:30px;
 `
 
 // const ContentBody=styled.div`
