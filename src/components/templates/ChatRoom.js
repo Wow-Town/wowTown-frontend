@@ -131,6 +131,20 @@ export default function ChatRoom({setOpenChatRoom}){
         }
     }
 
+    function enterkey() {
+        if (window.event.keyCode == 13) {
+            if(sendMessage !== ""){
+                console.log(sendMessage);
+                stompClient.send(
+                    "/pub/chatRooms/message",
+                    {},
+                    JSON.stringify({"type" : "TALK", "chatRoomUUID" : chatRoomId, "sender" : avatar.nickName, "senderId" : avatar.avatarId, "message" : Buffer.from(sendMessage).toString('base64')}));
+                console.log("메시지 전송 성공");
+                setSendMessage("");
+            }
+        }
+    }
+
     function onMessageHandler(e){
         setSendMessage(e.target.value);
     }
@@ -203,8 +217,8 @@ export default function ChatRoom({setOpenChatRoom}){
                 </MessageFrame>
                 
                 <MessageInputFrame clickDehaze={clickDehaze}>
-                    <MessageInput type="text" placeholder={"메시지를 입력하세요."} value={sendMessage} onChange={onMessageHandler}/>
-                    <SendButton buttonText="전송"onClick={() => sendMassage()}></SendButton>
+                    <MessageInput type="text" placeholder={"메시지를 입력하세요."} value={sendMessage} onChange={onMessageHandler}  onKeyUp={()=>enterkey()}/>
+                    <SendButton buttonText="전송" onClick={() => sendMassage()}></SendButton>
                 </MessageInputFrame>  
             </ChatRoomBody>  
         </ChatRoomFrame>

@@ -106,7 +106,7 @@ export default function NoticeList(){
                     <ContentsBySearchType>
                         {tabContArr[activeIndex].tabCont}
                     </ContentsBySearchType>
-                    <AllListFrame>
+                    <AllListFrame activeIndex={activeIndex}>
                         {searchedNotice.map(
                             (notice)=>{
                                 return (<ListFrame
@@ -129,7 +129,7 @@ export default function NoticeList(){
 const NoticeListPage = styled.div`
     width:100%;
     height:100%;
-    
+
 `
 
 const TabFrame =styled.div`
@@ -169,7 +169,7 @@ const AllListFrame =styled.div`
     align-items:center;
     padding: 20px 30px 20px 30px;
     border-top : 1px solid;
-    height: 70%;
+    height: ${(props) => props.activeIndex == 2 ? "72%" : props.activeIndex == 1 ? "65%" : "61%"};
     overflow-y: scroll;
     
 

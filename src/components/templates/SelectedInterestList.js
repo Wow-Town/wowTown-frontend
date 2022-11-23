@@ -64,7 +64,8 @@ const Label = styled.label`
 font-style:normal;
 font-size: 16px;
 font-weight: 700;
-width: 60px;
+width: 80px;
 line-height:20px;
 margin-right:15px;
+display:block;
 `

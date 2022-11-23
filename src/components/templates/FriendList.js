@@ -71,11 +71,13 @@ export default function FriendList(){
                     )
                 }
             </TabFrame>
+            <AllListFrame>
             {
                 friendList.map((friend, idx)=>{
                     return <FriendFrame  key={idx} friend={friend}></FriendFrame>
                 })
             } 
+            </AllListFrame>
         </FriendListFrame>
     );
 }
@@ -142,6 +144,27 @@ const AllListFrame =styled.div`
     align-items:center;
     padding: 20px 30px 20px 30px;
     border-top : 1px solid;
+    height: 77%;
+    overflow-y: scroll;
     
+
+    &::-webkit-scrollbar {
+        
+        width: 6px;
+        
+        
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        background: #A4A4A4;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #BCBCBC;
+        border-radius: 10px;
+        
+    }
+   
     
 `

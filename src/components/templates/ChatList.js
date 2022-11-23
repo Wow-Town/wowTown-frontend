@@ -30,8 +30,10 @@ export default function ChatList(){
         }, function(error){});
         
         return function cleanup() {
-            stompClient.disconnect();
-            console.log("웹소켓 연결해제");
+            stompClient.disconnect(function(){
+                console.log("웹소켓 연결해제");
+            });
+            
         }
     },[])   
 
@@ -75,11 +77,12 @@ const ChatListFrame = styled.div`
 width:100%;
 height:100%; 
 `
+
 const AllListFrame =styled.div`
 display:block;
 flex-direction: column; 
 padding: 0 15px 0 15px;
-height: 80%;
+height: 83%;
 overflow-y: scroll;
     
 
